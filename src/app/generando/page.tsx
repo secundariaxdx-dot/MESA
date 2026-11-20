@@ -26,7 +26,7 @@ export default function Generando() {
       router.replace("/semana");
       return;
     }
-    generateStaged({ profile: s.profile, pantry: s.pantry, previous: s.plan }, (st) => {
+    generateStaged({ profile: s.profile, pantry: s.pantry, previous: s.plan, myProducts: s.myProducts }, (st) => {
       setStage(st);
       setDetails((d) => {
         const n = [...d];

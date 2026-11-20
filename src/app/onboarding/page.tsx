@@ -24,6 +24,7 @@ import {
   type FieldProps,
 } from "@/components/profile/fields";
 import { RECIPES } from "@/data/recipes";
+import { selectedSlots } from "@/data/taxonomy";
 
 interface Step {
   title: string;
@@ -31,6 +32,8 @@ interface Step {
   render(p: FieldProps): React.ReactNode;
   valid?(p: Profile): boolean;
   hint?(p: Profile): string | null;
+  /** Botón de continuar alternativo (texto + cambios que aplica al pulsarlo). */
+  cta?(p: Profile): { label: string; patch: Partial<Profile> } | null;
 }
 
 const STEPS: Step[] = [
@@ -55,10 +58,10 @@ const STEPS: Step[] = [
   },
   {
     title: "¿Qué comidas quieres planificar?",
-    description: "Puedes elegir una o las dos.",
+    description: "Desayuno, comida, merienda y cena: elige las que quieras.",
     render: (p) => <MealsField {...p} />,
-    valid: (p) => p.meals.comida || p.meals.cena,
-    hint: () => "Elige comida, cena o ambas",
+    valid: (p) => selectedSlots(p.meals).length > 0,
+    hint: () => "Elige al menos una franja",
   },
   { title: "¿Cómo quieres organizar las sobras?", description: "Cocinar una vez y comer dos ahorra tiempo y dinero.", render: (p) => <LeftoversField {...p} /> },
   { title: "¿Cuánto quieres gastar a la semana?", description: "Contamos lo que pagas en caja, con envases completos.", render: (p) => <BudgetField {...p} /> },
@@ -70,8 +73,8 @@ const STEPS: Step[] = [
     title: "¿Alguna alergia en casa?",
     description: "Los 14 alérgenos de declaración obligatoria en la UE. Son restricciones, nunca preferencias.",
     render: (p) => <AllergensField {...p} />,
-    valid: (p) => p.noAllergies || p.allergens.length > 0,
-    hint: () => "Marca las alergias o «Ninguna alergia»",
+    // Sin marcar nada se puede seguir: el botón confirma explícitamente que no hay alergias.
+    cta: (p) => (!p.noAllergies && p.allergens.length === 0 ? { label: "No hay alergias · Continuar", patch: { noAllergies: true } } : null),
   },
   { title: "Toca lo que tienes en tu cocina", description: "Adaptaremos las recetas a tus aparatos. Los fuegos se dan por hechos.", render: (p) => <KitchenField {...p} /> },
 ];
@@ -101,8 +104,10 @@ export default function Onboarding() {
   const valid = isValue || !current.valid || current.valid(draft);
 
   const back = () => (step === 0 ? router.push(onboardingDone ? "/preferencias" : "/bienvenida") : setStep(step - 1));
+  const cta = !isValue ? current.cta?.(draft) ?? null : null;
   const next = () => {
     if (!valid) return;
+    if (cta) setDraft(cta.patch);
     window.scrollTo({ top: 0 });
     if (!isValue) return setStep(step + 1);
     commit();
@@ -151,7 +156,7 @@ export default function Onboarding() {
           <div className="mx-auto max-w-xl">
             {!valid && current.hint && <p className="mb-2 text-center text-xs font-medium text-tomato">{current.hint(draft)}</p>}
             <Button size="lg" block disabled={!valid} onClick={next}>
-              {isValue ? "Hacer mi semana" : "Continuar"} <ArrowRight className="size-5" />
+              {isValue ? "Hacer mi semana" : cta ? cta.label : "Continuar"} <ArrowRight className="size-5" />
             </Button>
           </div>
         </footer>

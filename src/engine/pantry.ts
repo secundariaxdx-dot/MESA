@@ -27,11 +27,14 @@ export function addPurchaseToPantry(pantry: PantryItem[], list: ShoppingList, da
   const added = list.toBuy
     .filter((i) => i.purchasedQty > 0)
     .map((i) =>
-      newPantryItem(i.ingredientId, i.name, i.purchasedQty, {
-        source: "compra",
-        addedAt: date,
-        expiresAt: addDays(date, getIngredient(i.ingredientId).shelfLifeDays),
-      }),
+      i.custom
+        ? // Producto propio (p. ej. guacamole): se guarda por nombre, sin caducidad conocida.
+          newPantryItem(null, i.name, i.purchasedQty, { source: "compra", addedAt: date })
+        : newPantryItem(i.ingredientId, i.name, i.purchasedQty, {
+            source: "compra",
+            addedAt: date,
+            expiresAt: addDays(date, getIngredient(i.ingredientId).shelfLifeDays),
+          }),
     );
   return [...pantry, ...added];
 }

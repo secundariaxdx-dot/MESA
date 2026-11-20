@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { CalendarDays, BookOpen, SlidersHorizontal, Settings, ShoppingBasket, Package } from "lucide-react";
+import { CalendarDays, BookOpen, SlidersHorizontal, Settings, ShoppingBasket, Package, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { useMesa } from "@/store/mesa";
 import { cn, Logo } from "@/components/ui/primitives";
@@ -18,6 +18,7 @@ export const TABS = [
 const EXTRA = [
   { href: "/lista", label: "Lista de la compra", icon: ShoppingBasket },
   { href: "/despensa", label: "Despensa", icon: Package },
+  { href: "/productos", label: "Mis productos", icon: Star },
 ];
 
 export function Splash() {
@@ -77,7 +78,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <nav className="hide-on-keyboard safe-bottom fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 backdrop-blur lg:hidden" aria-label="Navegación principal">
           <div className="mx-auto grid max-w-lg grid-cols-4">
             {TABS.map((t) => {
-              const active = isActive(t.href) || (t.href === "/semana" && (isActive("/lista") || isActive("/despensa")));
+              const active = isActive(t.href) || (t.href === "/semana" && (isActive("/lista") || isActive("/despensa") || isActive("/productos")));
               return (
                 <Link key={t.href} href={t.href} className="relative flex flex-col items-center gap-1 py-2.5 text-[11px] font-semibold">
                   {active && <motion.span layoutId="tab-pill" className="absolute top-1.5 h-8 w-14 rounded-full bg-cobalt-50" />}

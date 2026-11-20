@@ -103,7 +103,7 @@ export interface Ingredient {
   gramsPerUnit?: number;
 }
 
-export type MealSlot = "comida" | "cena";
+export type MealSlot = "desayuno" | "comida" | "merienda" | "cena";
 
 export type PreferenceId =
   | "rapidas"
@@ -231,7 +231,8 @@ export interface Profile {
   children: number;
   /** 0 = lunes ... 6 = domingo */
   days: number[];
-  meals: { comida: boolean; cena: boolean };
+  /** Franjas a planificar. desayuno y merienda son opcionales (perfiles antiguos no las tienen). */
+  meals: { desayuno?: boolean; comida: boolean; merienda?: boolean; cena: boolean };
   leftovers: "aprovechar" | "distintos";
   budget: number;
   cheapest: boolean;
@@ -327,6 +328,12 @@ export interface ShoppingItem {
   missingProduct?: boolean;
   /** Supermercado donde conviene comprarlo. */
   supermarketId: string;
+  /** Se compra en ese súper porque es un producto favorito del usuario. */
+  pinned?: boolean;
+  /** Producto guardado por el usuario que no es ingrediente de recetas. */
+  custom?: boolean;
+  /** Producto guardado sin precio indicado (no suma al total). */
+  priceUnknown?: boolean;
   /** Coste del mismo producto (envases completos) en los demás supermercados. */
   alternatives: { supermarketId: string; cost: number }[];
 }
@@ -387,4 +394,22 @@ export interface CookingProgress {
   startedAt: string;
   updatedAt: string;
   doneTasks: string[];
+}
+
+/** Producto que al usuario le gusta de un supermercado concreto. */
+export interface MyProduct {
+  id: string;
+  name: string;
+  supermarketId: string;
+  /** Si es un ingrediente del catálogo, se compra siempre en este súper. */
+  ingredientId: string | null;
+  /** Precio por unidad (opcional, para productos propios). */
+  price: number | null;
+  /** Unidades que se compran cada semana (productos propios). */
+  quantity: number;
+  aisle: AisleId;
+  /** Añadir a la lista de la compra cada semana (productos propios). */
+  inList: boolean;
+  note?: string;
+  createdAt: string;
 }

@@ -13,7 +13,7 @@ import { Button, Card, EmptyState, ProgressBar, cn } from "@/components/ui/primi
 import { Sheet } from "@/components/ui/Sheet";
 import { MealCard } from "@/components/week/MealCard";
 import { SwapSheet } from "@/components/week/SwapSheet";
-import { DAYS } from "@/data/taxonomy";
+import { DAYS, SLOTS, slotOrder } from "@/data/taxonomy";
 import { addDays, greeting, longDate, shortDate } from "@/engine/dates";
 import { formatMoney } from "@/engine/units";
 import { expiringSoon } from "@/engine/pantry";
@@ -76,7 +76,8 @@ export default function Semana() {
   const inCart = checked.filter((id) => toBuyIds.includes(id)).length;
   const purchased = Boolean(plan.purchaseId);
   const soon = expiringSoon(pantry);
-  const slots = [profile.meals.comida && "comidas", profile.meals.cena && "cenas"].filter(Boolean).join(" y ");
+  const slotsInPlan = SLOTS.filter((s) => activeMeals.some((m) => m.slot === s.id)).map((s) => s.plural);
+  const slots = slotsInPlan.length > 1 ? `${slotsInPlan.slice(0, -1).join(", ")} y ${slotsInPlan[slotsInPlan.length - 1]}` : slotsInPlan[0] ?? "";
 
   return (
     <>
@@ -84,7 +85,7 @@ export default function Semana() {
         title={`${greeting()}${profile.name ? `, ${profile.name}` : ""}`}
         subtitle={
           <>
-            {activeMeals.length} {slots || "platos"} · {plan.people} {plan.people === 1 ? "persona" : "personas"} ·{" "}
+            {slotsInPlan.length === 1 ? `${activeMeals.length} ${slots}` : `${activeMeals.length} platos (${slots})`} · {plan.people} {plan.people === 1 ? "persona" : "personas"} ·{" "}
             {storeNames(list.stores.filter((st) => st.itemCount > 0).map((st) => st.supermarketId)) || market.name}
           </>
         }
@@ -203,7 +204,7 @@ export default function Semana() {
                 </h3>
                 <div className="grid gap-3">
                   {meals
-                    .sort((a, b) => (a.slot === b.slot ? 0 : a.slot === "comida" ? -1 : 1))
+                    .sort((a, b) => slotOrder(a.slot) - slotOrder(b.slot))
                     .map((m) => (
                       <MealCard key={m.id} meal={m} onSwap={setSwapId} />
                     ))}

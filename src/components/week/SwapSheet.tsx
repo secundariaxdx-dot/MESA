@@ -17,13 +17,13 @@ export function SwapSheet({ mealId, onClose, onSwapped }: { mealId: string | nul
   const profile = useMesa((s) => s.profile);
   const pantry = useMesa((s) => s.pantry);
   const swapMeal = useMesa((s) => s.swapMeal);
-  const { catalog, extraCatalogs, minStoreSaving } = useCatalogs();
+  const { catalog, extraCatalogs, shopping } = useCatalogs();
   const { currency } = useMarket();
   const meal = plan?.meals.find((m) => m.id === mealId);
 
   const alts = useMemo(
-    () => (plan && mealId ? findAlternatives(plan, mealId, { profile, pantry, catalog, extraCatalogs, minStoreSaving }, 10) : []),
-    [plan, mealId, profile, pantry, catalog, extraCatalogs, minStoreSaving],
+    () => (plan && mealId ? findAlternatives(plan, mealId, { profile, pantry, catalog, extraCatalogs, shopping }, 10) : []),
+    [plan, mealId, profile, pantry, catalog, extraCatalogs, shopping],
   );
   const current = meal ? getRecipe(meal.recipeId) : undefined;
 

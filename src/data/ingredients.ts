@@ -108,6 +108,21 @@ const D: Def[] = [
   { id: "tortillas", name: "Tortillas de trigo", icon: "🫓", unit: "ud", aisle: "panaderia", shelf: 30, allergens: ["gluten"], gpu: 40, packs: [{ size: 8, price: 1.35, label: "paquete 8 ud" }] },
   { id: "pan-rallado", name: "Pan rallado", icon: "🍞", unit: "g", aisle: "panaderia", shelf: 180, allergens: ["gluten"], hh: [{ unit: "cda", amount: 8 }], packs: [{ size: 500, price: 0.85, label: "paquete" }] },
 
+  // ── Desayunos y meriendas ─────────────────────────────────────────
+  { id: "manzana", name: "Manzana", icon: "🍎", unit: "g", aisle: "fruta-verdura", shelf: 21, hh: [{ unit: "ud", amount: 180, note: "manzana mediana" }], packs: [{ size: 1000, price: 2.19, label: "malla" }] },
+  { id: "leche", name: "Leche semidesnatada", icon: "🥛", unit: "ml", aisle: "lacteos-huevos", shelf: 7, allergens: ["lacteos"], animal: ["lacteo"], hh: [{ unit: "vaso", amount: 200 }, { unit: "taza", amount: 240 }], packs: [{ size: 1000, price: 0.95, label: "brik 1 l" }, { size: 6000, price: 5.4, label: "pack 6 bricks" }] },
+  { id: "bebida-avena", name: "Bebida de avena", icon: "🥛", unit: "ml", aisle: "lacteos-huevos", shelf: 7, allergens: ["gluten"], hh: [{ unit: "vaso", amount: 200 }], packs: [{ size: 1000, price: 1.15, label: "brik 1 l" }] },
+  { id: "mantequilla", name: "Mantequilla", icon: "🧈", unit: "g", aisle: "lacteos-huevos", shelf: 60, allergens: ["lacteos"], animal: ["lacteo"], hh: [{ unit: "cdita", amount: 5 }, { unit: "cda", amount: 14 }], packs: [{ size: 250, price: 2.65, label: "pastilla" }] },
+  { id: "queso-fresco", name: "Queso fresco tipo Burgos", icon: "🧀", unit: "g", aisle: "lacteos-huevos", shelf: 10, allergens: ["lacteos"], animal: ["lacteo"], hh: [{ unit: "rebanada", amount: 30, note: "loncha gruesa" }], packs: [{ size: 250, price: 1.55, label: "tarrina" }] },
+  { id: "jamon-cocido", name: "Jamón cocido en lonchas", icon: "🥓", unit: "g", aisle: "carne", shelf: 10, meat: ["cerdo"], animal: ["carne"], hh: [{ unit: "ud", amount: 15, note: "loncha" }], packs: [{ size: 200, price: 2.1, label: "paquete lonchas" }] },
+  { id: "pan-molde", name: "Pan de molde", icon: "🍞", unit: "g", aisle: "panaderia", shelf: 10, allergens: ["gluten"], hh: [{ unit: "rebanada", amount: 25 }], packs: [{ size: 460, price: 1.35, label: "bolsa" }] },
+  { id: "avena", name: "Copos de avena", icon: "🌾", unit: "g", aisle: "pasta-arroz", shelf: 180, allergens: ["gluten"], hh: [{ unit: "cda", amount: 8 }, { unit: "taza", amount: 90 }], packs: [{ size: 500, price: 1.15, label: "paquete" }] },
+  { id: "nueces", name: "Nueces peladas", icon: "🌰", unit: "g", aisle: "especias-otros", shelf: 120, allergens: ["frutos-cascara"], hh: [{ unit: "puñado", amount: 20 }], packs: [{ size: 200, price: 2.4, label: "bolsa" }] },
+  { id: "miel", name: "Miel", icon: "🍯", unit: "g", aisle: "especias-otros", shelf: 365, animal: ["miel"], hh: [{ unit: "cdita", amount: 7 }, { unit: "cda", amount: 20 }], packs: [{ size: 500, price: 3.95, label: "tarro" }] },
+  { id: "cacao", name: "Cacao en polvo", icon: "🍫", unit: "g", aisle: "especias-otros", shelf: 365, hh: [{ unit: "cdita", amount: 5 }, { unit: "cda", amount: 12 }], packs: [{ size: 390, price: 1.85, label: "bote" }] },
+  { id: "chocolate", name: "Chocolate negro", icon: "🍫", unit: "g", aisle: "especias-otros", shelf: 365, allergens: ["soja"], hh: [{ unit: "ud", amount: 10, note: "onza" }], packs: [{ size: 100, price: 1.2, label: "tableta" }] },
+  { id: "canela", name: "Canela molida", icon: "🟫", unit: "g", aisle: "especias-otros", shelf: 365, hh: [{ unit: "pizca", amount: 0.3 }, { unit: "cdita", amount: 2.5 }], packs: [{ size: 45, price: 1.1, label: "bote" }] },
+
   // ── Especias y otros ─────────────────────────────────────────────
   { id: "aceite", name: "Aceite de oliva", icon: "🫒", unit: "ml", aisle: "especias-otros", shelf: 365, staple: true, hh: [{ unit: "cda", amount: 15 }, { unit: "cdita", amount: 5 }, { unit: "vaso", amount: 200 }], packs: [{ size: 1000, price: 4.95, label: "botella 1 l" }] },
   { id: "sal", name: "Sal", icon: "🧂", unit: "g", aisle: "especias-otros", shelf: 999, staple: true, hh: [{ unit: "cdita", amount: 6 }, { unit: "pizca", amount: 0.5 }], packs: [{ size: 1000, price: 0.39, label: "paquete" }] },

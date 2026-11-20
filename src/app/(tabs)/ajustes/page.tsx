@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Bell, ChevronRight, Download, History, Lock, Package, Receipt, RotateCcw, Store, Upload, User, Globe, Tag } from "lucide-react";
+import { Star, Bell, ChevronRight, Download, History, Lock, Package, Receipt, RotateCcw, Store, Upload, User, Globe, Tag } from "lucide-react";
 import { exportState, useMesa } from "@/store/mesa";
 import { PageHeader } from "@/components/layout/AppShell";
 import { Button, Card, Toggle } from "@/components/ui/primitives";
@@ -24,6 +24,7 @@ export default function Ajustes() {
   const purchases = useMesa((s) => s.purchases);
   const pantry = useMesa((s) => s.pantry);
   const cooked = useMesa((s) => s.cooked);
+  const myProducts = useMesa((s) => s.myProducts);
   const resetAll = useMesa((s) => s.resetAll);
   const importData = useMesa((s) => s.importData);
   const [confirmReset, setConfirmReset] = useState(false);
@@ -94,6 +95,7 @@ export default function Ajustes() {
         <Group title="Tus datos">
           <Row icon={<History className="size-5" />} title="Historial de semanas" value={`${history.length} anteriores`} href="/historial" />
           <Row icon={<Receipt className="size-5" />} title="Historial de compras" value={`${purchases.length} compras`} href="/historial#compras" />
+          <Row icon={<Star className="size-5" />} title="Mis productos" value={`${myProducts.length} guardados`} href="/productos" />
           <Row icon={<Package className="size-5" />} title="Inventario de despensa" value={`${pantry.filter((p) => p.status === "ok").length} productos`} href="/despensa" />
           <Row icon={<span>👩‍🍳</span>} title="Recetas cocinadas" value={`${cooked.length}`} href="/historial#cocinadas" />
         </Group>

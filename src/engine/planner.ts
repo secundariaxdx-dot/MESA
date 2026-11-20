@@ -2,14 +2,15 @@ import type { MealSlot, PantryItem, PlannedMeal, PriceCatalog, Profile, Recipe, 
 import { getIngredient } from "@/data/ingredients";
 import { getRecipe, RECIPES } from "@/data/recipes";
 import { checkRecipe, type Incompat, type IncompatType } from "./compat";
+import { SLOTS, slotName } from "@/data/taxonomy";
 import { addDays } from "./dates";
 import { uid, expiringSoon } from "./pantry";
-import { buildShoppingList, recipeCost } from "./shopping";
+import { buildShoppingList, recipeCost, type ShoppingOptions } from "./shopping";
 
 /** Total en caja considerando todos los supermercados del contexto. */
-function checkoutOf(plan: WeekPlan, ctx: Pick<PlanContext, "pantry" | "catalog" | "extraCatalogs" | "minStoreSaving">): number {
+function checkoutOf(plan: WeekPlan, ctx: Pick<PlanContext, "pantry" | "catalog" | "extraCatalogs" | "minStoreSaving" | "shopping">): number {
   const catalogs = [ctx.catalog, ...(ctx.extraCatalogs ?? [])];
-  return buildShoppingList(plan, ctx.pantry, catalogs, { minStoreSaving: ctx.minStoreSaving }).checkoutTotal;
+  return buildShoppingList(plan, ctx.pantry, catalogs, { ...ctx.shopping, minStoreSaving: ctx.minStoreSaving ?? ctx.shopping?.minStoreSaving }).checkoutTotal;
 }
 import { formatMoney } from "./units";
 
@@ -46,6 +47,8 @@ export interface PlanContext {
   /** Supermercados adicionales cuando la compra se reparte. */
   extraCatalogs?: PriceCatalog[];
   minStoreSaving?: number;
+  /** Favoritos y productos propios (ver engine/shoppingSetup.ts). */
+  shopping?: ShoppingOptions;
   seed: number;
   weekStart: string;
   /** Recetas a evitar (p. ej. las de la semana anterior). */
@@ -87,25 +90,28 @@ interface Slot {
   feeds?: boolean;
 }
 
-function buildSlots(profile: Profile, weekStart: string): Slot[] {
+/** Desayuno y merienda: franjas ligeras, donde repetir es normal. */
+export const isLightSlot = (slot: MealSlot) => slot === "desayuno" || slot === "merienda";
+
+function buildSlots(profile: Profile, weekStart: string, available: Set<MealSlot> = new Set(SLOTS.map((s) => s.id))): Slot[] {
   const days = [...profile.days].sort((a, b) => a - b);
   const slots: Slot[] = [];
   const useLeftovers = profile.leftovers === "aprovechar" && profile.meals.comida && profile.meals.cena;
   const dinnerIndexByDay = new Map<number, number>();
   for (const d of days) {
     const date = addDays(weekStart, d);
-    if (profile.meals.comida) {
-      const prevDinner = dinnerIndexByDay.get(d - 1);
-      if (useLeftovers && prevDinner !== undefined) {
-        slots[prevDinner].feeds = true;
-        slots.push({ dayIndex: d, date, slot: "comida", leftoverFrom: prevDinner });
-      } else {
-        slots.push({ dayIndex: d, date, slot: "comida" });
+    for (const { id } of SLOTS) {
+      if (!profile.meals[id] || !available.has(id)) continue;
+      if (id === "comida") {
+        const prevDinner = dinnerIndexByDay.get(d - 1);
+        if (useLeftovers && prevDinner !== undefined) {
+          slots[prevDinner].feeds = true;
+          slots.push({ dayIndex: d, date, slot: "comida", leftoverFrom: prevDinner });
+          continue;
+        }
       }
-    }
-    if (profile.meals.cena) {
-      dinnerIndexByDay.set(d, slots.length);
-      slots.push({ dayIndex: d, date, slot: "cena" });
+      if (id === "cena") dinnerIndexByDay.set(d, slots.length);
+      slots.push({ dayIndex: d, date, slot: id });
     }
   }
   return slots;
@@ -140,6 +146,7 @@ function scoreRecipe(
   s += r.categories.filter((c) => profile.preferences.includes(c)).length * 3.5;
   if (slot.slot === "cena" && r.totalTime <= 30) s += 1.5;
   if (slot.slot === "comida" && r.categories.includes("cuchara")) s += 1;
+  if (isLightSlot(slot.slot) && r.totalTime <= 10) s += 1;
 
   if (profile.cheapest) {
     s -= costPerServing * 6;
@@ -161,9 +168,12 @@ function scoreRecipe(
   s += Math.min(shared, 4) * 1.5;
 
   if (ctx.avoidRecipeIds?.includes(r.id)) s -= 10;
+  // Variedad: se compara con platos de la misma clase (desayunos/meriendas vs. comidas/cenas).
+  const sameKind = chosen.filter((c) => c.mealTypes.some(isLightSlot) === isLightSlot(slot.slot));
   const protein = mainProtein(r);
-  s -= chosen.filter((c) => mainProtein(c) === protein).length * 2.5;
-  if (prev && mainProtein(prev) === protein) s -= 1.5;
+  s -= sameKind.filter((c) => mainProtein(c) === protein).length * (isLightSlot(slot.slot) ? 1 : 2.5);
+  s -= sameKind.filter((c) => c.id === r.id).length * 6;
+  if (prev && mainProtein(prev) === protein && !isLightSlot(slot.slot)) s -= 1.5;
   if (slot.feeds && !r.leftoverFriendly) s -= 100;
   s += rng() * 6;
   return s;
@@ -221,14 +231,24 @@ export function generateWeek(ctx: PlanContext): GenerateResult {
   const report = compatibilityReport(profile);
   const plan = makePlanShell(ctx);
 
-  if (!profile.days.length || (!profile.meals.comida && !profile.meals.cena)) {
-    throw new PlanError("No hay días o comidas seleccionadas.", ["Marca al menos un día y una franja (comida o cena)."]);
+  const wanted = SLOTS.filter((s) => profile.meals[s.id]).map((s) => s.id);
+  if (!profile.days.length || !wanted.length) {
+    throw new PlanError("No hay días o comidas seleccionadas.", ["Marca al menos un día y una franja (desayuno, comida, merienda o cena)."]);
   }
   if (!report.compatible.length) {
     throw new PlanError("Ninguna receta del catálogo cumple todas tus restricciones.", suggestionsFor(report));
   }
+  // Franjas sin ninguna receta compatible: se omiten con aviso (nunca se rellenan con platos de otra franja).
+  const available = new Set(wanted.filter((slot) => report.compatible.some((r) => r.mealTypes.includes(slot))));
+  if (!available.size) {
+    throw new PlanError("Ninguna receta compatible encaja en las franjas elegidas.", suggestionsFor(report));
+  }
+  const missing = wanted.filter((w) => !available.has(w));
+  if (missing.length) {
+    plan.warnings.push(`No hay recetas de ${missing.map((m) => slotName(m).toLowerCase()).join(" ni ")} compatibles con tus restricciones, así que esa franja queda sin planificar.`);
+  }
 
-  const slots = buildSlots(profile, ctx.weekStart);
+  const slots = buildSlots(profile, ctx.weekStart, available);
   const { people, portionFactor } = peopleOf(profile);
   const totalServings = slots.reduce((s, sl) => s + (sl.leftoverFrom !== undefined ? 0 : sl.feeds ? people * 2 : people), 0);
   const targetCps = profile.budget / Math.max(1, totalServings) / 1.3;
@@ -252,9 +272,9 @@ export function generateWeek(ctx: PlanContext): GenerateResult {
     let pool = report.compatible.filter((r) => r.mealTypes.includes(slot.slot) && !chosenList.includes(r));
     if (!pool.length) {
       pool = report.compatible.filter((r) => r.mealTypes.includes(slot.slot));
-      repeats++;
+      // Repetir desayuno o merienda es lo normal: solo avisamos en comidas y cenas.
+      if (!isLightSlot(slot.slot)) repeats++;
     }
-    if (!pool.length) pool = report.compatible;
     const prev = chosenList[chosenList.length - 1];
     const ranked = pool
       .map((r) => ({ r, s: scoreRecipe(r, slot, ctx, chosenList, prev, cps(r), targetCps, pantryIds, expiringIds, rng) }))

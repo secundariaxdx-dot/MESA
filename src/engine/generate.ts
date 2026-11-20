@@ -1,5 +1,6 @@
-import type { PantryItem, Profile, WeekPlan } from "@/domain/types";
-import { minStoreSavingFor, providerFor, storeIdsFor } from "@/services/prices/provider";
+import type { MyProduct, PantryItem, Profile, WeekPlan } from "@/domain/types";
+import { providerFor } from "@/services/prices/provider";
+import { shoppingSetup } from "./shoppingSetup";
 import { getSupermarket } from "@/data/geo";
 import { nextWeekStart } from "./dates";
 import { compatibilityReport, generateWeek, PlanError } from "./planner";
@@ -29,7 +30,7 @@ const pause = (ms: number) => new Promise((r) => setTimeout(r, ms));
  * la pausa mínima solo existe para que el usuario pueda leer el progreso.
  */
 export async function generateStaged(
-  input: { profile: Profile; pantry: PantryItem[]; previous?: WeekPlan | null },
+  input: { profile: Profile; pantry: PantryItem[]; previous?: WeekPlan | null; myProducts?: MyProduct[] },
   onStage: (s: StageInfo) => void,
   minStageMs = 380,
 ): Promise<{ plan: WeekPlan; checkoutTotal: number }> {
@@ -48,21 +49,20 @@ export async function generateStaged(
   const people = profile.adults + profile.children;
   await step(2, `Raciones para ${people} ${people === 1 ? "persona" : "personas"}${profile.children ? ` (${profile.children} niños)` : ""}`);
   await step(3, `${new Set(report.compatible.flatMap((r) => r.ingredients.map((i) => i.ingredientId))).size} ingredientes revisados`);
-  const ids = storeIdsFor(profile);
+  const { ids, opts: shopping } = shoppingSetup(profile, profile.supermarketId, input.myProducts);
   const [catalog, ...extraCatalogs] = await Promise.all(ids.map((id) => providerFor(id).getCatalog(id)));
   const envases = [catalog, ...extraCatalogs].reduce((s, c) => s + c.products.length, 0);
   await step(
     4,
     `${envases} envases de referencia en ${ids.map((id) => getSupermarket(id).name).join(", ")}${catalog.isDemo ? " (demostración)" : ""}`,
   );
-  const minStoreSaving = minStoreSavingFor(profile.supermarketId);
   const usable = pantry.filter((p) => p.status === "ok").length;
   await step(5, usable ? `${usable} productos de tu despensa` : "Tu despensa está vacía");
 
   const seed = Math.floor(Math.random() * 1e9);
   const avoid = input.previous?.meals.map((m) => m.recipeId) ?? [];
-  const { plan, checkoutTotal } = generateWeek({ profile, pantry, catalog, extraCatalogs, minStoreSaving, seed, weekStart: nextWeekStart(), avoidRecipeIds: avoid });
-  const total = buildShoppingList(plan, pantry, [catalog, ...extraCatalogs], { minStoreSaving }).checkoutTotal;
+  const { plan, checkoutTotal } = generateWeek({ profile, pantry, catalog, extraCatalogs, shopping, seed, weekStart: nextWeekStart(), avoidRecipeIds: avoid });
+  const total = buildShoppingList(plan, pantry, [catalog, ...extraCatalogs], shopping).checkoutTotal;
   await step(6, `Envases completos: ${total.toFixed(2).replace(".", ",")}`);
   return { plan, checkoutTotal };
 }

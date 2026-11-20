@@ -25,7 +25,7 @@ import {
   type FieldProps,
 } from "@/components/profile/fields";
 import { getCountry, getSupermarket } from "@/data/geo";
-import { allergenName, applianceName, DAYS, DIETS, DISLIKES, MEATS, prefName } from "@/data/taxonomy";
+import { allergenName, applianceName, DAYS, DIETS, DISLIKES, MEATS, prefName, selectedSlots } from "@/data/taxonomy";
 import { compatibilityReport } from "@/engine/planner";
 import { formatMoney } from "@/engine/units";
 import { toast } from "@/components/ui/Toast";
@@ -44,16 +44,16 @@ const SECTIONS: Section[] = [
   { id: "days", title: "Días de planificación", icon: "🗓️", summary: (p) => p.days.map((d) => DAYS[d].short).join(" ") || "Ninguno", render: (f) => <DaysField {...f} />, valid: (p) => p.days.length > 0 },
   {
     id: "meals",
-    title: "Comidas y cenas",
+    title: "Franjas del día",
     icon: "🍽️",
-    summary: (p) => `${[p.meals.comida && "Comidas", p.meals.cena && "Cenas"].filter(Boolean).join(" y ")} · ${p.leftovers === "aprovechar" ? "aprovechando sobras" : "platos distintos"}`,
+    summary: (p) => `${selectedSlots(p.meals).map((s) => s.name).join(", ") || "Ninguna"} · ${p.leftovers === "aprovechar" ? "aprovechando sobras" : "platos distintos"}`,
     render: (f) => (
       <div className="space-y-6">
         <MealsField {...f} />
         <LeftoversField {...f} />
       </div>
     ),
-    valid: (p) => p.meals.comida || p.meals.cena,
+    valid: (p) => selectedSlots(p.meals).length > 0,
   },
   { id: "budget", title: "Presupuesto", icon: "💶", summary: (p) => `${formatMoney(p.budget, getCountry(p.countryId).currency)} / semana${p.cheapest ? " · lo más barato" : ""}`, render: (f) => <BudgetField {...f} /> },
   {

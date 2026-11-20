@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, CheckCircle2, ChevronDown, Home, PackageCheck, TriangleAlert } from "lucide-react";
+import { Check, CheckCircle2, ChevronDown, ChevronRight, Home, PackageCheck, Star, TriangleAlert } from "lucide-react";
+import { MyProductSheet } from "@/components/shopping/MyProductSheet";
+import type { MyProduct } from "@/domain/types";
 import { useMesa } from "@/store/mesa";
 import { storeNames, useMarket, useShoppingList } from "@/hooks/useMesaData";
 import { StoreModeCard, StoreHeader } from "@/components/shopping/StoreMode";
@@ -32,6 +34,8 @@ export default function Lista() {
   const { market, currency } = useMarket();
   const [confirm, setConfirm] = useState(false);
   const [showCovered, setShowCovered] = useState(true);
+  const [favorite, setFavorite] = useState<Partial<MyProduct> | null>(null);
+  const myProducts = useMesa((s) => s.myProducts);
 
   if (!plan || !list) {
     return (
@@ -51,7 +55,7 @@ export default function Lista() {
   const byAisle = (items: ShoppingItem[]) =>
     AISLES.map((a) => ({ aisle: a, items: items.filter((i) => i.aisle === (a.id as AisleId)) })).filter((g) => g.items.length);
   // Con la compra repartida, primero por supermercado y dentro por pasillos.
-  const splitByStore = list.multiStore && list.stores.length > 1;
+  const splitByStore = list.stores.length > 1;
   const sections = splitByStore
     ? list.stores.map((st) => ({ store: st, groups: byAisle(list.toBuy.filter((i) => i.supermarketId === st.supermarketId)) }))
     : [{ store: null, groups: byAisle(list.toBuy) }];
@@ -101,6 +105,11 @@ export default function Lista() {
               {list.pantrySavings > 0 && (
                 <p className="rounded-xl bg-leaf-50 px-3 py-2 text-xs font-semibold text-leaf">Tu despensa te ahorra {formatMoney(list.pantrySavings, currency)} esta semana.</p>
               )}
+              {list.toBuy.some((i) => i.priceUnknown) && (
+                <p className="rounded-xl bg-sun-50 px-3 py-2 text-xs text-ink-2">
+                  {list.toBuy.filter((i) => i.priceUnknown).length} de tus productos no tiene precio y no suma al total.
+                </p>
+              )}
               <p className="text-[11px] leading-relaxed text-faint">
                 El total suma envases completos, no la parte proporcional de cada ingrediente. Lo que no uses queda en tu despensa.
               </p>
@@ -121,6 +130,20 @@ export default function Lista() {
 
         <div className="lg:order-1">
           {!purchase && <StoreModeCard list={list} />}
+          <Link href="/productos" className="mb-6 flex items-center gap-3 rounded-[var(--radius-card)] bg-white p-4 shadow-soft transition hover:ring-2 hover:ring-cobalt-100" data-testid="mis-productos">
+            <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-sun-50 text-[#a77a00]">
+              <Star className="size-5" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block font-bold">Mis productos</span>
+              <span className="block text-xs text-muted">
+                {myProducts.length
+                  ? `${myProducts.length} guardados · ${list.toBuy.filter((i) => i.custom).length} en esta lista`
+                  : "Guarda lo que te gusta de cada súper (p. ej. el guacamole de Mercadona)"}
+              </span>
+            </span>
+            <ChevronRight className="size-5 text-faint" />
+          </Link>
           {list.toBuy.length === 0 ? (
             <EmptyState
               icon="✅"
@@ -156,6 +179,17 @@ export default function Lista() {
                             onToggle={() => toggleChecked(item.ingredientId)}
                             currency={currency}
                             showAlternatives={list.multiStore}
+                            onFavorite={() =>
+                              item.custom
+                                ? setFavorite(myProducts.find((p) => `fav:${p.id}` === item.ingredientId) ?? {})
+                                : setFavorite(
+                                    myProducts.find((p) => p.ingredientId === item.ingredientId) ?? {
+                                      ingredientId: item.ingredientId,
+                                      name: item.name,
+                                      supermarketId: item.supermarketId,
+                                    },
+                                  )
+                            }
                           />
                         ))}
                       </Card>
@@ -207,6 +241,7 @@ export default function Lista() {
         </div>
       </div>
 
+      <MyProductSheet open={favorite !== null} onClose={() => setFavorite(null)} initial={favorite ?? undefined} />
       <Sheet
         open={confirm}
         onClose={() => setConfirm(false)}
@@ -249,12 +284,14 @@ function ListRow({
   onToggle,
   currency,
   showAlternatives,
+  onFavorite,
 }: {
   item: ShoppingItem;
   checked: boolean;
   onToggle(): void;
   currency: "EUR" | "NOK" | "GBP" | "USD";
   showAlternatives?: boolean;
+  onFavorite(): void;
 }) {
   const nextBest = showAlternatives ? [...item.alternatives].sort((a, b) => a.cost - b.cost)[0] : undefined;
   const [open, setOpen] = useState(false);
@@ -276,11 +313,21 @@ function ListRow({
             <span className="text-xl">{item.icon}</span>
             {item.name}
           </span>
-          <span className="mt-0.5 block text-xs text-muted">
-            Necesitas {formatQty(item.needed, item.unit)}
-            {item.fromPantry > 0 && ` (tienes ${formatQty(item.fromPantry, item.unit)})`}
-          </span>
-          {item.missingProduct ? (
+          {item.custom ? (
+            <span className="mt-0.5 block text-xs text-muted">
+              {item.needed} ud · tu producto de {getSupermarket(item.supermarketId).name}
+              {item.priceUnknown && " · sin precio"}
+            </span>
+          ) : (
+            <span className="mt-0.5 block text-xs text-muted">
+              Necesitas {formatQty(item.needed, item.unit)}
+              {item.fromPantry > 0 && ` (tienes ${formatQty(item.fromPantry, item.unit)})`}
+            </span>
+          )}
+          {item.pinned && !item.custom && (
+            <span className="mt-0.5 block text-[11px] font-semibold text-[#9a6f00]">★ Tu favorito de {getSupermarket(item.supermarketId).name}</span>
+          )}
+          {item.custom ? null : item.missingProduct ? (
             <span className="mt-0.5 block text-xs font-semibold text-tomato">Sin producto en el catálogo de este supermercado</span>
           ) : (
             <span className="mt-0.5 block text-xs font-medium text-ink-2">Comprar {packText}</span>
@@ -293,15 +340,22 @@ function ListRow({
             </span>
           )}
         </button>
-        <span className={cn("shrink-0 pt-0.5 font-display text-[17px] font-bold tabular", checked && "text-faint")}>{formatMoney(item.cost, currency)}</span>
+        <span className="flex shrink-0 flex-col items-end gap-1">
+          <span className={cn("pt-0.5 font-display text-[17px] font-bold tabular", checked && "text-faint")}>{item.priceUnknown ? "—" : formatMoney(item.cost, currency)}</span>
+          <button
+            aria-label={item.pinned ? `Editar favorito ${item.name}` : `Guardar ${item.name} como favorito de ${getSupermarket(item.supermarketId).name}`}
+            onClick={onFavorite}
+            className="grid size-8 place-items-center rounded-full hover:bg-sun-50"
+          >
+            <Star className={cn("size-4", item.pinned ? "fill-sun text-[#d9a400]" : "text-faint")} />
+          </button>
+        </span>
       </div>
       <AnimatePresence>
         {open && (
           <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden">
             <div className="mx-4 mb-3 rounded-xl bg-mist px-3 py-2 text-xs text-muted">
-              <p>
-                Para: {item.recipeIds.map((r) => getRecipe(r)?.name).join(", ")}
-              </p>
+              <p>{item.custom ? "Producto guardado en «Mis productos»." : `Para: ${item.recipeIds.map((r) => getRecipe(r)?.name).join(", ")}`}</p>
               <p className="mt-1">
                 {item.packs.map((p) => `${p.count} × ${formatMoney(p.unitPrice, currency)}`).join(" + ")} · coste de lo que consumes ≈ {formatMoney(item.consumedCost, currency)}
               </p>

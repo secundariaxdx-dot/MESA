@@ -14,7 +14,7 @@ import { SwapSheet } from "@/components/week/SwapSheet";
 import { AllergyWarning } from "@/components/profile/fields";
 import { getRecipe } from "@/data/recipes";
 import { getIngredient } from "@/data/ingredients";
-import { allergenName, applianceName, DAYS, prefName } from "@/data/taxonomy";
+import { allergenName, applianceName, DAYS, prefName, slotName } from "@/data/taxonomy";
 import { useCatalog, useMarket } from "@/hooks/useMesaData";
 import { recipeCost, ingredientQty, pantryAvailable } from "@/engine/shopping";
 import { checkRecipe, recipeAllergens, recipeDiets } from "@/engine/compat";
@@ -104,7 +104,7 @@ function Receta() {
         <div className="flex flex-wrap gap-1.5">
           {meal && (
             <Pill className="bg-cobalt text-white">
-              {DAYS[meal.dayIndex].name} · {meal.slot === "cena" ? "Cena" : "Comida"}
+              {DAYS[meal.dayIndex].name} · {slotName(meal.slot)}
               {isLeftover ? " · Sobras" : ""}
             </Pill>
           )}

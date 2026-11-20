@@ -2,7 +2,8 @@
 
 import { useMemo } from "react";
 import { useMesa } from "@/store/mesa";
-import { catalogsFor, getCatalogSync, minStoreSavingFor, storeIdsFor } from "@/services/prices/provider";
+import { catalogsFor, getCatalogSync } from "@/services/prices/provider";
+import { shoppingSetup } from "@/engine/shoppingSetup";
 import { buildShoppingList } from "@/engine/shopping";
 import { getCountry, getSupermarket } from "@/data/geo";
 
@@ -11,30 +12,28 @@ export function useCatalog() {
   return useMemo(() => getCatalogSync(supermarketId), [supermarketId]);
 }
 
-/** Supermercados con los que se calcula la compra (principal primero). */
-export function useStoreIds() {
-  const profile = useMesa((s) => s.profile);
-  const mainId = useMesa((s) => s.plan?.supermarketId ?? s.profile.supermarketId);
-  const key = storeIdsFor(profile, mainId).join("|");
-  return useMemo(() => key.split("|"), [key]);
-}
-
-/** Catálogo principal + adicionales cuando la compra se reparte, y el umbral de ahorro. */
+/**
+ * Catálogos y opciones de compra: principal, adicionales si se reparte la
+ * compra y supermercados de tus productos favoritos.
+ */
 export function useCatalogs() {
-  const ids = useStoreIds();
+  const profile = useMesa((s) => s.profile);
+  const myProducts = useMesa((s) => s.myProducts);
+  const mainId = useMesa((s) => s.plan?.supermarketId ?? s.profile.supermarketId);
   return useMemo(() => {
+    const { ids, opts } = shoppingSetup(profile, mainId, myProducts);
     const [catalog, ...extraCatalogs] = catalogsFor(ids);
-    return { catalog, extraCatalogs, minStoreSaving: minStoreSavingFor(ids[0]) };
-  }, [ids]);
+    return { catalog, extraCatalogs, shopping: opts };
+  }, [profile, mainId, myProducts]);
 }
 
 export function useShoppingList() {
   const plan = useMesa((s) => s.plan);
   const pantry = useMesa((s) => s.pantry);
-  const { catalog, extraCatalogs, minStoreSaving } = useCatalogs();
+  const { catalog, extraCatalogs, shopping } = useCatalogs();
   return useMemo(
-    () => (plan ? buildShoppingList(plan, pantry, [catalog, ...extraCatalogs], { minStoreSaving }) : null),
-    [plan, pantry, catalog, extraCatalogs, minStoreSaving],
+    () => (plan ? buildShoppingList(plan, pantry, [catalog, ...extraCatalogs], shopping) : null),
+    [plan, pantry, catalog, extraCatalogs, shopping],
   );
 }
 

@@ -18,6 +18,16 @@ npm run e2e        # recorrido completo con Playwright contra http://localhost:3
 
 En el paso «¿Dónde haces la compra?», en Preferencias o desde la propia lista, marca otros supermercados con «También voy» y activa **Repartir la compra**. MESA calcula cada producto con envases completos en todos ellos, lo asigna al más barato y descarta cualquier súper adicional que no te ahorre al menos 1 € (no compensa la parada). La lista se agrupa por supermercado y después por pasillos, con el subtotal de cada uno y el ahorro frente a hacerlo todo en el principal.
 
+### Mis productos
+
+En **Lista de la compra → Mis productos** (o con la ★ de cada producto de la lista) guardas lo que te gusta de un súper concreto:
+- **Productos propios** (p. ej. «guacamole de Mercadona»): con precio y unidades opcionales y el interruptor «Añadir a mi lista cada semana», aparecen en la lista de ese súper y suman al total.
+- **Ingredientes de recetas** (p. ej. «atún de Eroski»): cuando el menú los necesite, se compran siempre en ese súper aunque en otro salgan más baratos. Ese súper nunca se descarta del reparto.
+
+### Franjas del día
+
+Desayuno, comida, merienda y cena. Desayunos y meriendas usan sus propias recetas (nunca se rellenan con platos de cena) y pueden repetirse durante la semana sin avisos.
+
 Desde la bienvenida puedes **empezar desde cero** (onboarding de 13 pantallas) o **ver la semana de ejemplo** (España · Mercadona · 3 personas · L-V · cenas · 53 € · 45,64 € en caja).
 
 ## Publicar en GitHub Pages (y usarla como app en el móvil)

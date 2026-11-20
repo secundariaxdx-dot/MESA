@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { AlertTriangle, Check, Plus, ShieldAlert, X } from "lucide-react";
 import type { AllergenId, ApplianceId, DietId, MeatType, PreferenceId, Profile } from "@/domain/types";
 import { COUNTRIES, getCountry, supermarketsOf } from "@/data/geo";
-import { ALLERGENS, ALLERGY_WARNING, DAYS, DIETS, DISLIKES, MEATS, PREFERENCES } from "@/data/taxonomy";
+import { ALLERGENS, ALLERGY_WARNING, DAYS, DIETS, DISLIKES, MEATS, PREFERENCES, SLOTS } from "@/data/taxonomy";
 import { cn, Counter, SelectCard } from "@/components/ui/primitives";
 import { formatMoney } from "@/engine/units";
 import { ApplianceChips, KitchenIllustration } from "./Kitchen";
@@ -184,20 +184,19 @@ export function DaysField({ value, onChange }: FieldProps) {
 }
 
 export function MealsField({ value, onChange }: FieldProps) {
-  const opts = [
-    { id: "comida" as const, icon: "☀️", title: "Comida", text: "Al mediodía" },
-    { id: "cena" as const, icon: "🌙", title: "Cena", text: "Por la noche" },
-  ];
   return (
     <div className="grid grid-cols-2 gap-3">
-      {opts.map((o) => (
-        <SelectCard key={o.id} selected={value.meals[o.id]} onClick={() => onChange({ meals: { ...value.meals, [o.id]: !value.meals[o.id] } })} className="p-5">
-          <span className="text-4xl">{o.icon}</span>
-          <p className="mt-3 text-lg font-bold">{o.title}</p>
-          <p className="text-sm text-muted">{o.text}</p>
-          {value.meals[o.id] && <Check className="absolute right-3 top-3 size-5 text-cobalt" />}
-        </SelectCard>
-      ))}
+      {SLOTS.map((o) => {
+        const on = Boolean(value.meals[o.id]);
+        return (
+          <SelectCard key={o.id} selected={on} onClick={() => onChange({ meals: { ...value.meals, [o.id]: !on } })} className="p-5">
+            <span className="text-4xl">{o.icon}</span>
+            <p className="mt-3 text-lg font-bold">{o.name}</p>
+            <p className="text-sm text-muted">{o.hint}</p>
+            {on && <Check className="absolute right-3 top-3 size-5 text-cobalt" />}
+          </SelectCard>
+        );
+      })}
     </div>
   );
 }
@@ -221,7 +220,7 @@ export function LeftoversField({ value, onChange }: FieldProps) {
       ))}
       {!applies && (
         <p className="rounded-xl bg-sun-50 px-3 py-2.5 text-xs text-ink-2">
-          Solo planificas {value.meals.cena ? "cenas" : "comidas"}, así que cada franja tendrá su receta. Igualmente te avisaremos de los ingredientes que sobren para que los uses antes de que se estropeen.
+          Las sobras se aprovechan de la cena a la comida del día siguiente, y ahora no planificas las dos. Cada franja tendrá su receta y te avisaremos de los ingredientes que sobren para que los uses antes de que se estropeen.
         </p>
       )}
     </div>
@@ -420,6 +419,14 @@ export function DislikesField({ value, onChange }: FieldProps) {
 export function AllergensField({ value, onChange }: FieldProps) {
   return (
     <div>
+      <button
+        onClick={() => onChange({ allergens: [], noAllergies: !value.noAllergies })}
+        aria-pressed={value.noAllergies}
+        className={cn("mb-3 w-full rounded-2xl border-2 py-3.5 font-semibold transition", value.noAllergies ? "border-leaf bg-leaf-50 text-leaf" : "border-line bg-white text-ink-2")}
+      >
+        {value.noAllergies ? "✓ " : ""}Ninguna alergia en casa
+      </button>
+      <p className="mb-2 text-xs font-semibold text-muted">O marca las que haya:</p>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {ALLERGENS.map((a) => {
           const sel = value.allergens.includes(a.id);
@@ -438,13 +445,6 @@ export function AllergensField({ value, onChange }: FieldProps) {
           );
         })}
       </div>
-      <button
-        onClick={() => onChange({ allergens: [], noAllergies: !value.noAllergies })}
-        aria-pressed={value.noAllergies}
-        className={cn("mt-3 w-full rounded-2xl border-2 py-3.5 font-semibold transition", value.noAllergies ? "border-leaf bg-leaf-50 text-leaf" : "border-line bg-white text-ink-2")}
-      >
-        {value.noAllergies ? "✓ " : ""}Ninguna alergia en casa
-      </button>
       <AllergyWarning className="mt-4" />
     </div>
   );

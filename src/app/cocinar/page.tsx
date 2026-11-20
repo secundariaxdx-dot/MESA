@@ -10,6 +10,7 @@ import { useMesa } from "@/store/mesa";
 import { Gate } from "@/components/layout/AppShell";
 import { Button, ProgressBar, cn } from "@/components/ui/primitives";
 import { getRecipe } from "@/data/recipes";
+import { SLOTS } from "@/data/taxonomy";
 import { getIngredient } from "@/data/ingredients";
 import { ingredientQty } from "@/engine/shopping";
 import { formatQty, toHousehold } from "@/engine/units";
@@ -71,7 +72,7 @@ function Cocinar() {
         <motion.h1 initial={{ y: 12, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }} className="mt-6 text-5xl font-extrabold tracking-tight">
           ¡BUEN PROVECHO!
         </motion.h1>
-        <p className="mt-3 text-lg text-cobalt-100">{meal?.slot === "comida" ? "La comida está lista." : meal?.slot === "cena" ? "La cena está lista." : "Tu plato está listo."}</p>
+        <p className="mt-3 text-lg text-cobalt-100">{SLOTS.find((x) => x.id === meal?.slot)?.ready ?? "Tu plato está listo."}</p>
         <div className="mt-8 grid w-full max-w-sm grid-cols-2 gap-3">
           <div className="rounded-2xl bg-white/10 p-4">
             <p className="font-display text-3xl font-extrabold tabular">{finished.minutes} min</p>

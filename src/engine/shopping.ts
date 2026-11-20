@@ -56,6 +56,24 @@ export interface ShoppingOptions {
    * supermercado adicional. Por debajo, sus productos vuelven al resto.
    */
   minStoreSaving?: number;
+  /**
+   * Supermercados donde puede ir cualquier producto (el principal y, si se
+   * reparte la compra, los adicionales). Por defecto, todos los catálogos.
+   */
+  general?: string[];
+  /** Ingrediente → supermercado favorito: se compra siempre allí. */
+  pinned?: Record<string, string>;
+  /** Productos propios del usuario que van a la lista (p. ej. «guacamole de Mercadona»). */
+  extras?: ExtraProduct[];
+}
+
+export interface ExtraProduct {
+  id: string;
+  name: string;
+  supermarketId: string;
+  price: number | null;
+  quantity: number;
+  aisle: ShoppingItem["aisle"];
 }
 
 type Option = { supermarketId: string; packs: ReturnType<typeof choosePacks> & object };
@@ -77,11 +95,14 @@ export function buildShoppingList(
 ): ShoppingList {
   const catalogs = Array.isArray(catalogOrCatalogs) ? catalogOrCatalogs : [catalogOrCatalogs];
   const main = catalogs[0];
-  const multi = catalogs.length > 1;
+  const general = new Set(opts.general ?? catalogs.map((c) => c.supermarketId));
+  general.add(main.supermarketId);
+  const pinned = opts.pinned ?? {};
+  const extras = (opts.extras ?? []).filter((e) => e.quantity > 0);
   const minSaving = opts.minStoreSaving ?? 1;
   const needs = computeNeeds(plan);
   const covered: ShoppingItem[] = [];
-  const pending: { base: Omit<ShoppingItem, "supermarketId" | "alternatives">; options: Option[] }[] = [];
+  const pending: { base: Omit<ShoppingItem, "supermarketId" | "alternatives">; options: Option[]; pin?: string }[] = [];
   let pantrySavings = 0;
 
   for (const [ingredientId, need] of needs) {
@@ -125,17 +146,29 @@ export function buildShoppingList(
       const res = choosePacks(remaining, productsFor(c, ingredientId), ing.unit);
       if (res) options.push({ supermarketId: c.supermarketId, packs: res });
     }
-    pending.push({ base, options });
+    const pin = pinned[ingredientId];
+    pending.push({ base, options, pin: pin && options.some((o) => o.supermarketId === pin) ? pin : undefined });
   }
 
+  // Los productos favoritos fijan su supermercado: ese súper nunca se descarta.
+  const locked = new Set<string>([
+    ...pending.filter((p) => p.pin).map((p) => p.pin!),
+    ...extras.map((e) => e.supermarketId),
+  ]);
+  const extrasCost = extras.reduce((sum, e) => sum + (e.price ?? 0) * e.quantity, 0);
+
   // Lo que costaría todo en el principal (referencia para el ahorro).
-  let singleStoreTotal = 0;
-  for (const p of pending) singleStoreTotal += p.options.find((o) => o.supermarketId === main.supermarketId)?.packs.cost ?? 0;
+  let singleStoreTotal = extrasCost;
+  for (const p of pending) {
+    const at = p.pin ?? main.supermarketId;
+    singleStoreTotal += p.options.find((o) => o.supermarketId === at)?.packs.cost ?? 0;
+  }
 
   // Asignación: el más barato entre los supermercados activos (empate → el principal).
-  const active = new Set(catalogs.map((c) => c.supermarketId));
+  const active = new Set([...general].filter((id) => catalogs.some((c) => c.supermarketId === id)));
   const order = catalogs.map((c) => c.supermarketId);
-  const pick = (options: Option[]) => {
+  const pick = (options: Option[], pin?: string) => {
+    if (pin) return options.find((o) => o.supermarketId === pin);
     let best: Option | undefined;
     for (const o of options) {
       if (!active.has(o.supermarketId)) continue;
@@ -144,15 +177,16 @@ export function buildShoppingList(
     return best;
   };
   const skippedStores: ShoppingList["skippedStores"] = [];
-  if (multi) {
+  if (active.size > 1) {
     // Poda: quitamos el supermercado adicional que menos ahorra mientras no llegue al mínimo.
     for (;;) {
       let worst: { id: string; saving: number } | null = null;
       for (const id of order.slice(1)) {
-        if (!active.has(id)) continue;
+        if (!active.has(id) || locked.has(id)) continue;
         let saving = 0;
         let used = false;
         for (const p of pending) {
+          if (p.pin) continue;
           const chosen = pick(p.options);
           if (chosen?.supermarketId !== id) continue;
           used = true;
@@ -172,8 +206,8 @@ export function buildShoppingList(
 
   const toBuy: ShoppingItem[] = [];
   let checkoutTotal = 0;
-  for (const { base, options } of pending) {
-    const chosen = pick(options);
+  for (const { base, options, pin } of pending) {
+    const chosen = pick(options, pin);
     const alternatives = options
       .filter((o) => o.supermarketId !== chosen?.supermarketId)
       .map((o) => ({ supermarketId: o.supermarketId, cost: o.packs.cost }));
@@ -194,13 +228,42 @@ export function buildShoppingList(
       surplus: r.surplus,
       supermarketId: chosen.supermarketId,
       alternatives,
+      pinned: Boolean(pin),
+    });
+  }
+
+  for (const e of extras) {
+    const cost = Math.round((e.price ?? 0) * e.quantity * 100) / 100;
+    checkoutTotal += cost;
+    toBuy.push({
+      ingredientId: `fav:${e.id}`,
+      name: e.name,
+      icon: "⭐",
+      aisle: e.aisle,
+      unit: "ud",
+      needed: e.quantity,
+      fromPantry: 0,
+      toBuy: e.quantity,
+      packs: [{ productId: e.id, productName: e.name, packSize: 1, packLabel: "ud", unitPrice: e.price ?? 0, count: e.quantity }],
+      purchasedQty: e.quantity,
+      cost,
+      consumedCost: cost,
+      shortfall: 0,
+      surplus: 0,
+      recipeIds: [],
+      supermarketId: e.supermarketId,
+      alternatives: [],
+      pinned: true,
+      custom: true,
+      priceUnknown: e.price === null,
     });
   }
 
   toBuy.sort((a, b) => a.name.localeCompare(b.name, "es"));
   covered.sort((a, b) => a.name.localeCompare(b.name, "es"));
 
-  const stores = order
+  const storeIds = [...new Set([...order, ...extras.map((e) => e.supermarketId)])];
+  const stores = storeIds
     .map((id) => {
       const items = toBuy.filter((i) => i.supermarketId === id);
       return { supermarketId: id, total: Math.round(items.reduce((s, i) => s + i.cost, 0) * 100) / 100, itemCount: items.length };
@@ -219,7 +282,7 @@ export function buildShoppingList(
     checkoutTotal: Math.round(checkoutTotal * 100) / 100,
     consumedTotal: Math.round(consumedTotal * 100) / 100,
     pantrySavings: Math.round(pantrySavings * 100) / 100,
-    multiStore: multi,
+    multiStore: storeIds.length > 1,
     stores,
     singleStoreTotal: Math.round(singleStoreTotal * 100) / 100,
     skippedStores,

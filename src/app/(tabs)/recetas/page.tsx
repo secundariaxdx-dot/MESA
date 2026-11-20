@@ -19,11 +19,12 @@ import { formatMoney } from "@/engine/units";
 import { getIngredient } from "@/data/ingredients";
 import type { DietId, Difficulty, Recipe } from "@/domain/types";
 
-type Collection = "todas" | "favoritas" | "rapidas" | "economicas" | "tradicional" | "cuchara" | "verdura" | "proteina" | "freidora" | "aprovechamiento" | "takeaway" | "ligeras";
+type Collection = "todas" | "favoritas" | "desayunos" | "rapidas" | "economicas" | "tradicional" | "cuchara" | "verdura" | "proteina" | "freidora" | "aprovechamiento" | "takeaway" | "ligeras";
 
 const COLLECTIONS: { id: Collection; label: string }[] = [
   { id: "todas", label: "Todas" },
   { id: "favoritas", label: "♥ Favoritas" },
+  { id: "desayunos", label: "☕ Desayunos y meriendas" },
   { id: "rapidas", label: "⚡ Rápidas" },
   { id: "economicas", label: "💶 Económicas" },
   { id: "tradicional", label: "🍳 Tradicionales" },
@@ -76,6 +77,8 @@ export default function Recetas() {
     switch (col) {
       case "favoritas":
         return favorites.includes(r.id);
+      case "desayunos":
+        return r.mealTypes.includes("desayuno") || r.mealTypes.includes("merienda");
       case "rapidas":
         return r.totalTime <= 30;
       case "economicas":

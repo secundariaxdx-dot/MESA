@@ -1,5 +1,6 @@
 import type {
   AisleId,
+  MealSlot,
   AllergenId,
   ApplianceId,
   DietId,
@@ -104,3 +105,15 @@ export const DAYS = [
   { short: "S", name: "Sábado" },
   { short: "D", name: "Domingo" },
 ];
+
+/** Franjas del día, en orden. */
+export const SLOTS: { id: MealSlot; name: string; plural: string; icon: string; hint: string; ready: string }[] = [
+  { id: "desayuno", name: "Desayuno", plural: "desayunos", icon: "☕", hint: "Para empezar el día", ready: "El desayuno está listo." },
+  { id: "comida", name: "Comida", plural: "comidas", icon: "☀️", hint: "Al mediodía", ready: "La comida está lista." },
+  { id: "merienda", name: "Merienda", plural: "meriendas", icon: "🍎", hint: "A media tarde", ready: "La merienda está lista." },
+  { id: "cena", name: "Cena", plural: "cenas", icon: "🌙", hint: "Por la noche", ready: "La cena está lista." },
+];
+
+export const slotName = (id: MealSlot) => SLOTS.find((s) => s.id === id)?.name ?? id;
+export const slotOrder = (id: MealSlot) => SLOTS.findIndex((s) => s.id === id);
+export const selectedSlots = (meals: Partial<Record<MealSlot, boolean>>) => SLOTS.filter((s) => meals[s.id]);

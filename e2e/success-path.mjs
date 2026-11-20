@@ -78,9 +78,11 @@ await shot("paso-carnes");
 await cont(); // carnes
 await page.getByRole("button", { name: /Champiñones/ }).click();
 await cont();
-await page.getByRole("button", { name: /Ninguna alergia/ }).click();
+// Sin alergias: sin marcar nada, el botón de abajo permite seguir.
+const noAllergy = page.getByRole("button", { name: /No hay alergias · Continuar/ });
+if (await noAllergy.isDisabled()) throw new Error("No se puede continuar sin alergias");
 await shot("paso-alergias");
-await cont();
+await noAllergy.click();
 step("8. Restricciones alimentarias");
 
 for (const a of ["Horno", "Microondas", "Batidora"]) await page.getByRole("button", { name: a, exact: true }).first().click();
@@ -110,7 +112,7 @@ for (const item of ["Aceite de oliva", "Sal"]) {
   await page.getByRole("button", { name: /Añadir/ }).first().click();
   await page.getByPlaceholder("Busca un ingrediente").fill(item);
   await page.locator("ul button").filter({ has: page.getByText(item, { exact: true }) }).first().click();
-  await page.getByRole("button", { name: "Guardar" }).click();
+  await page.getByRole("button", { name: "Guardar", exact: true }).click();
 }
 await shot("despensa");
 
@@ -126,7 +128,7 @@ const euros = (t) => Number(t.replace(/[^\d,]/g, "").replace(",", "."));
 await page.getByRole("button", { name: "Añadir", exact: true }).click();
 await page.getByRole("checkbox", { name: "También voy a DIA" }).click();
 await page.getByRole("checkbox", { name: "También voy a Lidl" }).click();
-await page.getByRole("button", { name: "Guardar" }).click();
+await page.getByRole("button", { name: "Guardar", exact: true }).click();
 await page.getByTestId("modo-repartir").waitFor();
 const totalMulti = await page.getByTestId("list-total").innerText();
 if (euros(totalMulti) > euros(total2)) throw new Error(`Repartir sale más caro: ${totalMulti} > ${total2}`);
@@ -193,6 +195,41 @@ for (const tab of ["Recetas", "Preferencias", "Ajustes", "Semana"]) {
   await page.getByRole("heading", { level: 1 }).first().waitFor();
 }
 step("    Navegación entre las cuatro pestañas");
+
+// Mis productos: el guacamole de Mercadona, cada semana en la lista.
+await page.goto(`${BASE}/lista`);
+const beforeFav = euros(await page.getByTestId("list-total").innerText());
+await page.getByTestId("mis-productos").click();
+await page.waitForURL(/\/productos\/?$/);
+await page.getByTestId("nuevo-producto").click();
+await page.getByLabel("Nombre del producto").fill("Guacamole");
+await page.getByRole("button", { name: "Mercadona" }).click();
+await page.getByLabel("Precio").fill("2,35");
+await page.getByRole("button", { name: "Guardar", exact: true }).click();
+await page.getByText("Guacamole").first().waitFor();
+await shot("mis-productos");
+await page.goto(`${BASE}/lista`);
+await page.getByText("Guacamole").first().waitFor();
+const afterFav = euros(await page.getByTestId("list-total").innerText());
+if (Math.abs(afterFav - beforeFav - 2.35) > 0.011) throw new Error(`El guacamole no suma bien: ${beforeFav} → ${afterFav}`);
+await shot("lista-con-guacamole");
+step(`    Mis productos: guacamole de Mercadona en la lista (${beforeFav} → ${afterFav} €)`);
+
+// Desayunos y meriendas desde Preferencias.
+await page.goto(`${BASE}/preferencias`);
+await page.getByRole("button", { name: /Franjas del día/ }).click();
+await page.getByRole("dialog").getByRole("button", { name: /Desayuno/ }).click();
+await page.getByRole("dialog").getByRole("button", { name: /Merienda/ }).click();
+await page.getByRole("button", { name: "Guardar", exact: true }).click();
+await page.getByRole("button", { name: /Regenerar mi semana/ }).click();
+await page.waitForURL(/\/semana\/?$/, { timeout: 20000 });
+await page.getByText("Tu menú").waitFor();
+const slotsText = await page.locator("article").allInnerTexts();
+const nBreakfast = slotsText.filter((t) => /DESAYUNO/i.test(t)).length;
+const nSnack = slotsText.filter((t) => /MERIENDA/i.test(t)).length;
+if (nBreakfast !== 5 || nSnack !== 5) throw new Error(`Esperaba 5 desayunos y 5 meriendas: ${nBreakfast}/${nSnack}`);
+await shot("semana-desayunos");
+step(`    Desayunos y meriendas: ${slotsText.length} platos (${nBreakfast} desayunos, ${nSnack} meriendas)`);
 
 await page.goto(`${BASE}/recetas`);
 await shot("recetas");

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Check, Clock, RefreshCw, Undo2, Users, XCircle } from "lucide-react";
 import type { PlannedMeal } from "@/domain/types";
 import { getRecipe } from "@/data/recipes";
-import { prefName } from "@/data/taxonomy";
+import { prefName, slotName } from "@/data/taxonomy";
 import { RecipeArt } from "@/components/recipe/RecipeArt";
 import { cn } from "@/components/ui/primitives";
 import { useMesa } from "@/store/mesa";
@@ -45,7 +45,7 @@ export function MealCard({ meal, onSwap }: { meal: PlannedMeal; onSwap(id: strin
         </div>
         <div className="min-w-0 flex-1 py-0.5">
           <p className="text-[11px] font-bold uppercase tracking-wider text-cobalt">
-            {meal.slot === "cena" ? "Cena" : "Comida"} · {meal.kind === "leftover" ? "Sobras" : category ?? recipe.cuisine}
+            {slotName(meal.slot)} · {meal.kind === "leftover" ? "Sobras" : category ?? recipe.cuisine}
           </p>
           <h3 className={cn("mt-0.5 line-clamp-2 font-display text-[17px] font-bold leading-snug", skipped && "line-through")}>{recipe.name}</h3>
           <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-muted">

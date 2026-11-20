@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { CookedEntry, CookingProgress, PantryItem, Profile, PurchaseRecord, ShoppingList, WeekPlan } from "@/domain/types";
+import type { CookedEntry, CookingProgress, MyProduct, PantryItem, Profile, PurchaseRecord, ShoppingList, WeekPlan } from "@/domain/types";
 import { DEMO_PANTRY_STAPLES, DEMO_PROFILE, EMPTY_PROFILE } from "@/data/demo";
 import { DEMO_RECIPE_IDS, getRecipe } from "@/data/recipes";
 import { getCatalogSync } from "@/services/prices/provider";
@@ -31,6 +31,8 @@ interface MesaState {
   pantry: PantryItem[];
   purchases: PurchaseRecord[];
   favorites: string[];
+  /** Productos que te gustan de un supermercado concreto. */
+  myProducts: MyProduct[];
   cooked: CookedEntry[];
   cooking: Record<string, CookingProgress>;
   settings: Settings;
@@ -56,6 +58,8 @@ interface MesaState {
   removePantry(id: string): void;
   toggleHave(ingredientId: string): void;
   toggleFavorite(recipeId: string): void;
+  saveMyProduct(p: MyProduct): void;
+  removeMyProduct(id: string): void;
   saveCooking(p: CookingProgress): void;
   clearCooking(key: string): void;
   updateSettings(s: Partial<Settings>): void;
@@ -79,6 +83,7 @@ const initialData = {
   pantry: [] as PantryItem[],
   purchases: [] as PurchaseRecord[],
   favorites: [] as string[],
+  myProducts: [] as MyProduct[],
   cooked: [] as CookedEntry[],
   cooking: {} as Record<string, CookingProgress>,
   settings: DEFAULT_SETTINGS,
@@ -224,6 +229,13 @@ export const useMesa = create<MesaState>()(
           favorites: s.favorites.includes(recipeId) ? s.favorites.filter((f) => f !== recipeId) : [...s.favorites, recipeId],
         })),
 
+      saveMyProduct: (p) =>
+        set((s) => ({
+          // Un ingrediente solo puede estar fijado a un supermercado: el nuevo sustituye al anterior.
+          myProducts: [p, ...s.myProducts.filter((x) => x.id !== p.id && !(p.ingredientId && x.ingredientId === p.ingredientId))],
+        })),
+      removeMyProduct: (id) => set((s) => ({ myProducts: s.myProducts.filter((x) => x.id !== id) })),
+
       saveCooking: (p) => set((s) => ({ cooking: { ...s.cooking, [p.key]: p } })),
       clearCooking: (key) =>
         set((s) => {
@@ -281,6 +293,7 @@ export function exportState(): string {
         pantry: s.pantry,
         purchases: s.purchases,
         favorites: s.favorites,
+        myProducts: s.myProducts,
         cooked: s.cooked,
         cooking: s.cooking,
         settings: s.settings,
