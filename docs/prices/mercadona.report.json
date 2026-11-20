@@ -204,7 +204,11 @@
     "Aceitunas verdes sin hueso Hacendado ·  · 525g · 1.85 €",
     "Aceitunas verdes sin hueso aliñadas Hacendado · Tarro · 420g · 1.9 €"
   ],
-  "leche-coco": [],
+  "leche-coco": [
+    "Refresco sin gas cero piña-coco Hacendado · Botella · 1500ml · 1.15 €",
+    "Fruta + leche piña y coco Hacendado sin azúcares añadidos ·  · 1200ml · 1.25 €",
+    "Bífidus cremoso con coco probióticos Hacendado ·  · 500ml · 1.3 €"
+  ],
   "pesto": [
     "Salsa Pesto con albahaca Hacendado · Tarro · 190g · 1.95 €"
   ],
@@ -361,17 +365,18 @@
     "Canela molida Hacendado · Bote · 52g · 1 €"
   ],
   "judias-verdes": [
-    "Judías verdes redondas Hacendado · Tarro · 660g · 1.1 €",
     "Judía verde plana · Paquete · 350g · 2 €"
   ],
   "coliflor": [
     "Coliflor · Pieza · 1350g · 2.3 €"
   ],
   "repollo": [
-    "Col lombarda · Pieza · 990g · 1.98 €",
     "Repollo liso partido · 1/2 Pieza · 900g · 1.94 €"
   ],
-  "boniato": [],
+  "boniato": [
+    "Batata · Pieza · 350g · 0.89 €",
+    "Batatas para microondas · Paquete · 400g · 2.5 €"
+  ],
   "albahaca": [
     "Albahaca Hacendado · Bote · 20g · 1.25 €"
   ],
@@ -379,6 +384,10 @@
     "Jengibre ·  · 200g · 1.65 €"
   ],
   "fresas": [],
+  "fresas (sin coincidencia)": [
+    "Fresas enteras Hacendado ultracongeladas · Paquete · 0.3 kg · 1.9 € · Congelados › Fruta y verdura › Fruta",
+    "Bífidus natural azucarado probióticos Hacendado con cereales y fresas deshidratadas · Tarrina · 0.17 kg · 1.25 € · Postres y yogures › Bífidus › Bífidus naturales"
+  ],
   "naranja": [
     "Naranjas · Malla · 5000g · 5.75 €",
     "Naranjas · Malla · 3000g · 4.65 €",
@@ -390,7 +399,6 @@
   ],
   "lomo-cerdo": [
     "Lomo de cerdo trozo · Pieza · 1100g · 4.95 €",
-    "Lomo de cerdo cocido Hacendado finas lonchas ·  · 450g · 2.95 €",
     "Lomo de cerdo marinado empanado sin gluten · Bandeja · 320g · 3.2 €"
   ],
   "costillas": [
@@ -398,13 +406,24 @@
     "Costillas de cerdo carnosas a tacos · Bandeja · 620g · 4.96 €"
   ],
   "salchichas": [],
-  "alitas": [],
+  "salchichas (sin coincidencia)": [
+    "Salchichas cocidas estilo Frankfurt Hacendado de pollo y cerdo sabor ahumado ·  · 0.704 kg · 1.8 € · Charcutería y quesos › Bacón y salchichas › Salchichas",
+    "Salchichas cocidas Hacendado de pollo y pavo sabor ahumado ·  · 0.4 kg · 1.5 € · Charcutería y quesos › Bacón y salchichas › Salchichas",
+    "Salchichas cocidas Schara de cerdo ahumadas · Pack-2 · 0.34 kg · 4.25 € · Charcutería y quesos › Bacón y salchichas › Salchichas",
+    "Salchichas cocidas estilo Viena con queso Hacendado de pollo y cerdo sabor ahumado · Pack-2 · 0.4 kg · 1.7 € · Charcutería y quesos › Bacón y salchichas › Salchichas",
+    "Salchichas cocidas con leche Campofrío de pollo, cerdo y pavo · Paquete · 0.17 kg · 1.25 € · Charcutería y quesos › Bacón y salchichas › Salchichas",
+    "Salchichas cocidas hot dog bocadillo Oscar Mayer Classic de pollo y cerdo sabor ahumado · Paquete · 0.275 kg · 1.85 € · Charcutería y quesos › Bacón y salchichas › Salchichas",
+    "Salchichas cocidas estilo Frankfurt con queso Hacendado de pollo y cerdo sabor ahumado ·  · 0.704 kg · 1.95 € · Charcutería y quesos › Bacón y salchichas › Salchichas",
+    "Salchichas cocidas bocata Hacendado de pollo y pavo sabor ahumado ·  · 0.4 kg · 2 € · Charcutería y quesos › Bacón y salchichas › Salchichas"
+  ],
+  "alitas": [
+    "Alas de pollo · Bandeja · 980g · 4.36 €"
+  ],
   "dorada": [
     "Dorada limpia · Bandeja · 400g · 5 €"
   ],
   "mejillones": [
-    "Mejillón vivo · Bandeja · 1000g · 2.95 €",
-    "Mejillones al natural Hacendado pequeños · Lata · 111g · 1.8 €"
+    "Mejillón vivo · Bandeja · 1000g · 2.95 €"
   ],
   "caldo-pescado": [
     "Caldo de pescado Hacendado · Brik · 1000ml · 0.95 €",
@@ -415,15 +434,29 @@
     "Mozzarella fresca de vaca Hacendado en perlas · Tarrina · 300g · 1.9 €",
     "Mozzarella fresca di bufala campana Hacendado · Tarrina · 280g · 1.85 €"
   ],
-  "nata": [],
-  "queso-cabra": [],
+  "nata": [
+    "Nata ligera para cocinar Hacendado · Pack-3 · 600ml · 1.85 €",
+    "Nata ligera para cocinar Hacendado · Brik · 500ml · 1.55 €",
+    "Nata montada azucarada Hacendado · Spray · 250ml · 1.45 €"
+  ],
+  "queso-cabra": [
+    "Agua mineral grande Solán de Cabras ·  · 9000g · 5.1 €",
+    "Agua mineral grande Solán de Cabras · Botella · 1500g · 0.85 €",
+    "Pasta fresca girasoles rellena de queso de cabra y cebolla caramelizada Hacendado · Bandeja · 250g · 1.95 €"
+  ],
   "mayonesa": [
     "Mayonesa Hacendado · Tarro · 500g · 1.2 €",
     "Mayonesa Hacendado · Bote · 490g · 1.45 €",
     "Mayonesa Hacendado · Tarro · 240g · 1.05 €"
   ],
-  "alubias": [],
-  "cuscus": [],
+  "alubias": [
+    "Alubia cocida blanca Hacendado · Tarro · 570g · 0.75 €",
+    "Alubia cocida blanca Hacendado · Tarro · 295g · 0.7 €",
+    "Alubia blanca Hacendado · Paquete · 1000g · 2.45 €"
+  ],
+  "cuscus": [
+    "Cous cous mediano Hacendado · Caja · 1000g · 1.95 €"
+  ],
   "quinoa": [
     "Quinoa Hacendado · Paquete · 500g · 2.65 €",
     "Quinoa cocida blanca y roja Sabroz ·  · 250g · 1.45 €"
@@ -431,7 +464,9 @@
   "lasana": [
     "Placas para lasaña precocidas El Pavo · Caja · 200g · 1.65 €"
   ],
-  "fideos-arroz": [],
+  "fideos-arroz": [
+    "Noodles de arroz Hacendado · Paquete · 200g · 1.4 €"
+  ],
   "masa-pizza": [
     "Masa pizza fresca familiar Hacendado · Paquete · 400g · 1.5 €",
     "Masa fresca pizza Hacendado ·  · 560g · 2.2 €",
@@ -451,7 +486,9 @@
   "curcuma": [
     "Cúrcuma molida Hacendado · Bote · 60g · 1.3 €"
   ],
-  "levadura": [],
+  "levadura": [
+    "Levadura de panadería Hacendado · Paquete · 70g · 1.6 €"
+  ],
   "mermelada": [
     "Mermelada de fresa Hacendado · Tarro · 400g · 1.45 €",
     "Confitura de fresa Hacendado 0% azúcares añadidos · Tarro · 380g · 1.6 €",
