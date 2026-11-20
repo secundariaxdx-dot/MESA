@@ -98,7 +98,7 @@ export default function Recetas() {
         <div className="flex gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-faint" />
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Busca recetas o ingredientes" className="h-12 w-full rounded-2xl border border-line bg-white pl-11 pr-10 text-[15px] outline-none focus:border-cobalt" aria-label="Buscar recetas" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Busca recetas o ingredientes" className="h-12 w-full rounded-2xl border border-line bg-white pl-11 pr-10 text-base outline-none focus:border-cobalt" aria-label="Buscar recetas" />
             {q && (
               <button aria-label="Borrar búsqueda" onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-faint">
                 <X className="size-4" />

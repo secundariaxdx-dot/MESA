@@ -373,7 +373,7 @@ export function DislikesField({ value, onChange }: FieldProps) {
           add();
         }}
       >
-        <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Otro ingrediente (p. ej. calabaza)" className="h-12 flex-1 rounded-2xl border border-line bg-white px-4 text-[15px] outline-none focus:border-cobalt" />
+        <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Otro ingrediente (p. ej. calabaza)" className="h-12 flex-1 rounded-2xl border border-line bg-white px-4 text-base outline-none focus:border-cobalt" />
         <button type="submit" aria-label="Añadir alimento" className="grid size-12 place-items-center rounded-2xl bg-cobalt text-white">
           <Plus className="size-5" />
         </button>

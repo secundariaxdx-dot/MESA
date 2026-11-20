@@ -147,7 +147,7 @@ export default function Onboarding() {
           </motion.main>
         </AnimatePresence>
 
-        <footer className="safe-bottom fixed inset-x-0 bottom-0 z-20 bg-gradient-to-t from-paper via-paper to-paper/0 px-5 pb-4 pt-6">
+        <footer className="hide-on-keyboard safe-bottom fixed inset-x-0 bottom-0 z-20 bg-gradient-to-t from-paper via-paper to-paper/0 px-5 pb-4 pt-6">
           <div className="mx-auto max-w-xl">
             {!valid && current.hint && <p className="mb-2 text-center text-xs font-medium text-tomato">{current.hint(draft)}</p>}
             <Button size="lg" block disabled={!valid} onClick={next}>

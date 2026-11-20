@@ -338,7 +338,7 @@ function Receta() {
       </div>
 
       {/* Acciones */}
-      <div className="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-line bg-white/95 backdrop-blur">
+      <div className="hide-on-keyboard safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-line bg-white/95 backdrop-blur">
         <div className="mx-auto grid max-w-3xl grid-cols-2 gap-2 px-4 py-3 sm:flex">
           {meal && !cooked && (
             <Button variant="ghost" size="md" onClick={() => setSwapOpen(true)} className="px-2 text-sm sm:flex-none sm:px-5">

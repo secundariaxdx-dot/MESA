@@ -179,7 +179,7 @@ function Cocinar() {
         </AnimatePresence>
       </main>
 
-      <footer className="safe-bottom fixed inset-x-0 bottom-0 border-t border-line bg-white/95 backdrop-blur">
+      <footer className="hide-on-keyboard safe-bottom fixed inset-x-0 bottom-0 border-t border-line bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-2xl gap-3 px-5 py-3">
           <Button variant="ghost" size="lg" disabled={step === 0} onClick={() => go(step - 1)} className="flex-1" data-testid="prev-step">
             <ArrowLeft className="size-5" /> Anterior

@@ -74,7 +74,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <main className="mx-auto w-full max-w-5xl flex-1 pb-28 lg:pb-12">{children}</main>
 
         {/* Barra de pestañas (móvil y tablet) */}
-        <nav className="safe-bottom fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 backdrop-blur lg:hidden" aria-label="Navegación principal">
+        <nav className="hide-on-keyboard safe-bottom fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 backdrop-blur lg:hidden" aria-label="Navegación principal">
           <div className="mx-auto grid max-w-lg grid-cols-4">
             {TABS.map((t) => {
               const active = isActive(t.href) || (t.href === "/semana" && (isActive("/lista") || isActive("/despensa")));

@@ -34,6 +34,10 @@
 
 html,
 body {
+  /* Nada puede desplazar la página de lado (en iPhone movía las barras fijas). */
+  overflow-x: clip;
+  /* Sin rebote elástico al llegar arriba o abajo del scroll. */
+  overscroll-behavior-y: none;
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
@@ -101,5 +105,20 @@ input[type="range"].mesa-range::-moz-range-thumb {
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* iPhone: Safari hace zoom en campos con letra < 16 px y descoloca las barras fijas. */
+input,
+textarea,
+select {
+  font-size: max(16px, 1em);
+}
+
+/* Con el teclado abierto, las barras fijas de abajo se esconden para que no
+   floten a mitad de pantalla (comportamiento de Safari en iOS). */
+@media (hover: none) and (pointer: coarse) {
+  body:has(input:not([type="range"]):not([type="checkbox"]):not([type="file"]):focus, textarea:focus) .hide-on-keyboard {
+    display: none;
   }
 }

@@ -1,6 +1,6 @@
-:HL["/MESA/docs/_next/static/chunks/40girhkjudkjd.css","style"]
+:HL["/MESA/docs/_next/static/chunks/3w9dl6vv1tfn6.css","style"]
 :HC["/",""]
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":"historial","h":96,"c":"$Q3"}]]
 1:[["children",{"s":"(tabs)","h":96,"c":"$Q2"}]]
-0:{"b":"l6S3kOiei8J8XWp2Szugn","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"C-yNKSsFcG6mKT6u_uGEc","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
