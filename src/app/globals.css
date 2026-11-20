@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cobalt: #2448f5;
+  --color-cobalt-600: #1b38d6;
+  --color-cobalt-700: #1530b0;
+  --color-cobalt-50: #eef1ff;
+  --color-cobalt-100: #dde4ff;
+  --color-ink: #0b1640;
+  --color-ink-2: #2b3456;
+  --color-muted: #5b6478;
+  --color-faint: #8b93a7;
+  --color-paper: #fbfaf7;
+  --color-mist: #eff2f8;
+  --color-line: #e3e7f0;
+  --color-sun: #ffc93c;
+  --color-sun-50: #fff6dc;
+  --color-leaf: #12945f;
+  --color-leaf-50: #e4f6ec;
+  --color-tomato: #d93a3f;
+  --color-tomato-50: #fdeceb;
+
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1.25rem;
+  --shadow-soft: 0 1px 2px rgb(11 22 64 / 0.04), 0 8px 24px -12px rgb(11 22 64 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(11 22 64 / 0.06), 0 18px 40px -18px rgb(11 22 64 / 0.28);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.safe-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 0px);
+}
+
+input[type="range"].mesa-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-cobalt) var(--fill, 50%), var(--color-line) var(--fill, 50%));
+  outline: none;
+}
+input[type="range"].mesa-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: white;
+  border: 3px solid var(--color-cobalt);
+  box-shadow: 0 4px 12px rgb(36 72 245 / 0.35);
+  cursor: grab;
+}
+input[type="range"].mesa-range::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: white;
+  border: 3px solid var(--color-cobalt);
+  cursor: grab;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-cobalt);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
