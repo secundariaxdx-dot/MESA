@@ -55,7 +55,7 @@ const SECTIONS: Section[] = [
     ),
     valid: (p) => selectedSlots(p.meals).length > 0,
   },
-  { id: "budget", title: "Presupuesto", icon: "💶", summary: (p) => `${formatMoney(p.budget, getCountry(p.countryId).currency)} / semana${p.cheapest ? " · lo más barato" : ""}`, render: (f) => <BudgetField {...f} /> },
+  { id: "budget", title: "Presupuesto y aprovechamiento", icon: "💶", summary: (p) => `${formatMoney(p.budget, getCountry(p.countryId).currency)} / semana${p.cheapest ? " · lo más barato" : ""}${p.optimizer ? " · aprovechamiento" : ""}`, render: (f) => <BudgetField {...f} /> },
   {
     id: "markets",
     title: "País y supermercados",

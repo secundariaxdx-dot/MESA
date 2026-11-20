@@ -5,6 +5,7 @@ import { getSupermarket } from "@/data/geo";
 import { nextWeekStart } from "./dates";
 import { compatibilityReport, generateWeek, PlanError } from "./planner";
 import { buildShoppingList } from "./shopping";
+import { expiringSoon } from "./pantry";
 
 export const GENERATION_STAGES = [
   "Analizando tus preferencias",
@@ -57,12 +58,18 @@ export async function generateStaged(
     `${envases} envases de referencia en ${ids.map((id) => getSupermarket(id).name).join(", ")}${catalog.isDemo ? " (demostración)" : ""}`,
   );
   const usable = pantry.filter((p) => p.status === "ok").length;
-  await step(5, usable ? `${usable} productos de tu despensa` : "Tu despensa está vacía");
+  const soon = expiringSoon(pantry, 14).length;
+  await step(
+    5,
+    usable
+      ? `${usable} productos de tu despensa${profile.optimizer && soon ? ` · priorizando ${soon} que conviene usar pronto` : ""}`
+      : "Tu despensa está vacía",
+  );
 
   const seed = Math.floor(Math.random() * 1e9);
   const avoid = input.previous?.meals.map((m) => m.recipeId) ?? [];
   const { plan, checkoutTotal } = generateWeek({ profile, pantry, catalog, extraCatalogs, shopping, seed, weekStart: nextWeekStart(), avoidRecipeIds: avoid });
   const total = buildShoppingList(plan, pantry, [catalog, ...extraCatalogs], shopping).checkoutTotal;
-  await step(6, `Envases completos: ${total.toFixed(2).replace(".", ",")}`);
+  await step(6, `Envases completos: ${total.toFixed(2).replace(".", ",")} €${profile.optimizer ? " · elegidos para gastarlos enteros" : ""}`);
   return { plan, checkoutTotal };
 }

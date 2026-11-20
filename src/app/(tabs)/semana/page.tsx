@@ -13,6 +13,7 @@ import { Button, Card, EmptyState, ProgressBar, cn } from "@/components/ui/primi
 import { Sheet } from "@/components/ui/Sheet";
 import { MealCard } from "@/components/week/MealCard";
 import { SwapSheet } from "@/components/week/SwapSheet";
+import { WasteCard } from "@/components/week/WasteCard";
 import { DAYS, SLOTS, slotOrder } from "@/data/taxonomy";
 import { addDays, greeting, longDate, shortDate } from "@/engine/dates";
 import { formatMoney } from "@/engine/units";
@@ -167,6 +168,8 @@ export default function Semana() {
               <ChevronRight className="size-5 text-faint" />
             </Card>
           </Link>
+
+          <WasteCard />
 
           <Button variant="secondary" block size="lg" onClick={() => setConfirmNew(true)}>
             <Sparkles className="size-5" /> Otra semana

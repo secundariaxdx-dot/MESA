@@ -266,12 +266,37 @@ export function BudgetField({ value, onChange }: FieldProps) {
       >
         {value.cheapest ? <Check className="size-5" /> : <span>💸</span>} Lo más barato posible
       </button>
+      <OptimizerToggle value={value} onChange={onChange} />
       <p className="mt-3 text-center text-xs leading-relaxed text-muted">
         {value.cheapest
           ? "Priorizaremos legumbres, recetas económicas e ingredientes compartidos, sin pasarnos del presupuesto."
           : "Es lo que pagarás en caja: envases completos y descontando lo que ya tienes en casa."}
       </p>
     </div>
+  );
+}
+
+export function OptimizerToggle({ value, onChange }: FieldProps) {
+  const on = value.optimizer ?? false;
+  return (
+    <button
+      role="switch"
+      aria-checked={on}
+      aria-label="Modo aprovechamiento"
+      onClick={() => onChange({ optimizer: !on })}
+      className={cn("mt-3 flex w-full items-center gap-3 rounded-2xl border-2 p-4 text-left transition", on ? "border-leaf bg-leaf-50" : "border-line bg-white")}
+    >
+      <span className="text-2xl">♻️</span>
+      <span className="flex-1">
+        <span className="block font-bold">Modo aprovechamiento</span>
+        <span className="block text-xs leading-relaxed text-muted">
+          Elegimos platos que gasten los envases enteros (si compras 6 huevos, se usan los 6) y lo que tienes en casa antes de que caduque. Lo que aguanta más se usa la semana siguiente.
+        </span>
+      </span>
+      <span className={cn("relative h-7 w-12 shrink-0 rounded-full transition-colors", on ? "bg-leaf" : "bg-line")}>
+        <span className={cn("absolute top-1 size-5 rounded-full bg-white shadow transition-all", on ? "right-1" : "left-1")} />
+      </span>
+    </button>
   );
 }
 

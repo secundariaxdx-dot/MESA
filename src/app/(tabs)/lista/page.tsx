@@ -11,6 +11,8 @@ import { useMesa } from "@/store/mesa";
 import { storeNames, useMarket, useShoppingList } from "@/hooks/useMesaData";
 import { StoreModeCard, StoreHeader } from "@/components/shopping/StoreMode";
 import { getSupermarket } from "@/data/geo";
+import { getIngredient } from "@/data/ingredients";
+import { fateFor } from "@/engine/waste";
 import { PageHeader } from "@/components/layout/AppShell";
 import { BackButton, Button, Card, EmptyState, ProgressBar, cn } from "@/components/ui/primitives";
 import { Sheet } from "@/components/ui/Sheet";
@@ -333,7 +335,7 @@ function ListRow({
             <span className="mt-0.5 block text-xs font-medium text-ink-2">Comprar {packText}</span>
           )}
           {item.shortfall > 0 && <span className="mt-0.5 block text-[11px] text-[#9a6f00]">Puede faltar un poco ({formatQty(item.shortfall, item.unit)}); el envase más cercano es suficiente.</span>}
-          {item.surplus > 0 && item.surplus / item.purchasedQty > 0.25 && <span className="mt-0.5 block text-[11px] text-leaf">Te sobrarán ≈ {formatQty(item.surplus, item.unit)} para tu despensa.</span>}
+          {!item.custom && item.surplus > 0 && <SurplusNote item={item} />}
           {nextBest && nextBest.cost - item.cost > 0.004 && (
             <span className="mt-0.5 block text-[11px] text-faint">
               En {getSupermarket(nextBest.supermarketId).name}: {formatMoney(nextBest.cost, currency)}
@@ -365,4 +367,17 @@ function ListRow({
       </AnimatePresence>
     </div>
   );
+}
+
+/** Qué pasa con lo que sobra del envase, según lo que dura el alimento. */
+function SurplusNote({ item }: { item: ShoppingItem }) {
+  const ing = getIngredient(item.ingredientId);
+  const fate = fateFor(ing.shelfLifeDays);
+  const qty = formatQty(item.surplus, item.unit);
+  if (fate === "riesgo")
+    return <span className="mt-0.5 block text-[11px] font-medium text-tomato">Sobran ≈ {qty} y duran unos {ing.shelfLifeDays} días: aprovéchalos esta semana.</span>;
+  if (fate === "proxima")
+    return <span className="mt-0.5 block text-[11px] text-[#9a6f00]">Sobran ≈ {qty}: aguantan ~{Math.round(ing.shelfLifeDays / 7)} semanas y tu próximo menú los usará primero.</span>;
+  if (item.surplus / item.purchasedQty < 0.25) return null;
+  return <span className="mt-0.5 block text-[11px] text-leaf">Sobran ≈ {qty} para tu despensa (larga duración).</span>;
 }

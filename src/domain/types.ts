@@ -236,6 +236,8 @@ export interface Profile {
   leftovers: "aprovechar" | "distintos";
   budget: number;
   cheapest: boolean;
+  /** Modo aprovechamiento: planificar para gastar los envases enteros y no tirar comida. */
+  optimizer?: boolean;
   preferences: PreferenceId[];
   diet: DietId;
   meats: MeatType[];

@@ -231,6 +231,24 @@ if (nBreakfast !== 5 || nSnack !== 5) throw new Error(`Esperaba 5 desayunos y 5 
 await shot("semana-desayunos");
 step(`    Desayunos y meriendas: ${slotsText.length} platos (${nBreakfast} desayunos, ${nSnack} meriendas)`);
 
+// Modo aprovechamiento: indicador, sobrantes y rehacer la semana.
+const card = page.getByTestId("aprovechamiento");
+await card.scrollIntoViewIfNeeded();
+const pct = await page.getByTestId("aprovechas").innerText();
+await card.getByRole("button", { name: /Ver sobrantes/ }).click();
+await page.getByText("Lo que sobra de tu compra").waitFor();
+await shot("sobrantes");
+await page.getByRole("button", { name: "Cerrar" }).click();
+const toggle = card.getByRole("switch", { name: "Modo aprovechamiento" });
+if ((await toggle.getAttribute("aria-checked")) !== "true") throw new Error("El modo aprovechamiento debería venir activado");
+await toggle.click();
+await toggle.click();
+await page.getByTestId("rehacer-aprovechando").click();
+await page.waitForURL(/\/semana\/?$/, { timeout: 20000 });
+await page.getByTestId("aprovechas").waitFor();
+await shot("semana-aprovechamiento");
+step(`    Modo aprovechamiento: ${pct} → ${await page.getByTestId("aprovechas").innerText()} tras rehacer`);
+
 await page.goto(`${BASE}/recetas`);
 await shot("recetas");
 await page.goto(`${BASE}/preferencias`);

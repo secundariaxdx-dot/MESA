@@ -5,6 +5,7 @@ import { useMesa } from "@/store/mesa";
 import { catalogsFor, getCatalogSync } from "@/services/prices/provider";
 import { shoppingSetup } from "@/engine/shoppingSetup";
 import { buildShoppingList } from "@/engine/shopping";
+import { wasteReport } from "@/engine/waste";
 import { getCountry, getSupermarket } from "@/data/geo";
 
 export function useCatalog() {
@@ -50,4 +51,13 @@ export function storeNames(ids: string[]): string {
   const names = ids.map((id) => getSupermarket(id).name);
   if (names.length <= 1) return names[0] ?? "";
   return `${names.slice(0, -1).join(", ")} y ${names[names.length - 1]}`;
+}
+
+/** Aprovechamiento de lo que se compra esta semana (sobrantes y lo que puede estropearse). */
+export function useWasteReport() {
+  const plan = useMesa((s) => s.plan);
+  const pantry = useMesa((s) => s.pantry);
+  const list = useShoppingList();
+  const { catalog } = useCatalogs();
+  return useMemo(() => (plan && list ? wasteReport(plan, list, pantry, catalog) : null), [plan, list, pantry, catalog]);
 }

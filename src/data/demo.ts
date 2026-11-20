@@ -14,6 +14,7 @@ export const EMPTY_PROFILE: Profile = {
   leftovers: "distintos",
   budget: 50,
   cheapest: false,
+  optimizer: true,
   preferences: [],
   diet: "omnivora",
   meats: ["ternera", "cerdo", "pollo", "pescado", "marisco"],

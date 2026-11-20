@@ -18,6 +18,15 @@ npm run e2e        # recorrido completo con Playwright contra http://localhost:3
 
 En el paso «¿Dónde haces la compra?», en Preferencias o desde la propia lista, marca otros supermercados con «También voy» y activa **Repartir la compra**. MESA calcula cada producto con envases completos en todos ellos, lo asigna al más barato y descarta cualquier súper adicional que no te ahorre al menos 1 € (no compensa la parada). La lista se agrupa por supermercado y después por pasillos, con el subtotal de cada uno y el ahorro frente a hacerlo todo en el principal.
 
+### Modo aprovechamiento
+
+Activado por defecto (Presupuesto, Preferencias o la tarjeta ♻️ de la Semana). En el súper se compra por envases enteros, así que MESA mira cuánto sobra de cada uno y qué le pasa según lo que dura el alimento:
+- **≤ 7 días** (pan, carne fresca, verdura de hoja, tomate…): se tiene que gastar esa semana; si no, cuenta como posible desperdicio.
+- **8–21 días** (huevos, yogures, embutido…): se reserva y el menú de la semana siguiente lo usa primero.
+- **> 21 días** (arroz, conservas, especias…): se queda en la despensa.
+
+Con el modo activado, el planificador cambia platos para gastar los envases enteros y lo que tienes en casa antes de que caduque (búsqueda local sobre «lo que pagas + lo que se tiraría − tus preferencias»), sin pasarse del presupuesto ni repetir la semana anterior. En las pruebas reduce lo que se tira de ~4,3 € a ~1,1 € por semana y abarata la compra.
+
 ### Mis productos
 
 En **Lista de la compra → Mis productos** (o con la ★ de cada producto de la lista) guardas lo que te gusta de un súper concreto:

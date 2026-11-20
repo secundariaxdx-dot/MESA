@@ -8,11 +8,18 @@ import { uid, expiringSoon } from "./pantry";
 import { buildShoppingList, recipeCost, type ShoppingOptions } from "./shopping";
 
 /** Total en caja considerando todos los supermercados del contexto. */
-function checkoutOf(plan: WeekPlan, ctx: Pick<PlanContext, "pantry" | "catalog" | "extraCatalogs" | "minStoreSaving" | "shopping">): number {
+type ShopCtx = Pick<PlanContext, "pantry" | "catalog" | "extraCatalogs" | "minStoreSaving" | "shopping">;
+
+function listOf(plan: WeekPlan, ctx: ShopCtx) {
   const catalogs = [ctx.catalog, ...(ctx.extraCatalogs ?? [])];
-  return buildShoppingList(plan, ctx.pantry, catalogs, { ...ctx.shopping, minStoreSaving: ctx.minStoreSaving ?? ctx.shopping?.minStoreSaving }).checkoutTotal;
+  return buildShoppingList(plan, ctx.pantry, catalogs, { ...ctx.shopping, minStoreSaving: ctx.minStoreSaving ?? ctx.shopping?.minStoreSaving });
+}
+
+function checkoutOf(plan: WeekPlan, ctx: ShopCtx): number {
+  return listOf(plan, ctx).checkoutTotal;
 }
 import { formatMoney } from "./units";
+import { wastePenalty, wasteReport } from "./waste";
 
 /**
  * Motor de planificación determinista (dado un seed).
@@ -163,7 +170,7 @@ function scoreRecipe(
     if (ing.staple) continue;
     if (chosenIngredients.has(ri.ingredientId)) shared++;
     if (pantryIds.has(ri.ingredientId)) s += 1.5;
-    if (expiringIds.has(ri.ingredientId)) s += 4;
+    if (expiringIds.has(ri.ingredientId)) s += ctx.profile.optimizer ? 6 : 4;
   }
   s += Math.min(shared, 4) * 1.5;
 
@@ -259,7 +266,8 @@ export function generateWeek(ctx: PlanContext): GenerateResult {
     return cpsCache.get(r.id)!;
   };
   const pantryIds = new Set(pantry.filter((p) => p.status === "ok" && p.ingredientId && !getIngredient(p.ingredientId).staple).map((p) => p.ingredientId!));
-  const expiringIds = new Set(expiringSoon(pantry).map((p) => p.ingredientId!).filter(Boolean));
+  // En modo aprovechamiento, lo que caduca en las próximas 2 semanas tiene prioridad.
+  const expiringIds = new Set(expiringSoon(pantry, profile.optimizer ? 14 : 3).map((p) => p.ingredientId!).filter(Boolean));
 
   const chosen: Recipe[] = new Array(slots.length);
   const chosenList: Recipe[] = [];
@@ -318,6 +326,10 @@ export function generateWeek(ctx: PlanContext): GenerateResult {
     const b = best as { mealIdx: number; recipe: Recipe; total: number };
     plan.meals = replaceRecipe(plan, plan.meals[b.mealIdx].id, b.recipe.id).meals;
     total = b.total;
+  }
+
+  if (profile.optimizer) {
+    total = optimizeWaste(plan, ctx, report.compatible, total).total;
   }
 
   if (repeats > 0) {
@@ -420,3 +432,55 @@ export function explainIncompat(list: Incompat[]): string {
   return list.map((i) => i.label).join(" · ");
 }
 
+
+/**
+ * Modo aprovechamiento: búsqueda local que cambia platos para que los envases
+ * comprados se gasten (y lo que tienes en casa no caduque), sin pasarse del
+ * presupuesto y manteniendo tus preferencias.
+ * Objetivo = lo que pagas + lo que acabaría en la basura − afinidad con tus gustos.
+ */
+export function optimizeWaste(plan: WeekPlan, ctx: PlanContext, compatible: Recipe[], startTotal: number) {
+  const prefValue = (r: Recipe) => r.categories.filter((c) => ctx.profile.preferences.includes(c)).length * 0.6;
+  const evaluate = (p: WeekPlan) => {
+    const list = listOf(p, ctx);
+    const waste = wastePenalty(wasteReport(p, list, ctx.pantry, ctx.catalog));
+    const cooked = p.meals.filter((m) => m.kind === "cook").map((m) => getRecipe(m.recipeId)!);
+    const prefs = cooked.reduce((sum, r) => sum + prefValue(r), 0);
+    // Variedad: no repetir la semana anterior ni la misma proteína en comidas y cenas.
+    const repeatedFromLastWeek = cooked.filter((r) => ctx.avoidRecipeIds?.includes(r.id)).length * 1.5;
+    const mains = cooked.filter((r) => !r.mealTypes.some(isLightSlot));
+    const proteins = mains.map(mainProtein);
+    const sameProtein = (proteins.length - new Set(proteins).size) * 0.5;
+    return { total: list.checkoutTotal, score: list.checkoutTotal + waste - prefs + repeatedFromLastWeek + sameProtein };
+  };
+  let current = evaluate(plan);
+  const limit = Math.max(ctx.profile.budget, startTotal);
+  for (let pass = 0; pass < 4; pass++) {
+    let improved = false;
+    for (const meal of plan.meals) {
+      if (meal.kind !== "cook" || meal.status !== "planned") continue;
+      const used = new Set(plan.meals.map((m) => m.recipeId));
+      // Candidatos: los que comparten ingredientes con la semana (aprovechan envases) primero.
+      const weekIngredients = new Set(plan.meals.flatMap((m) => getRecipe(m.recipeId)!.ingredients.map((i) => i.ingredientId)));
+      const candidates = compatible
+        .filter((r) => r.mealTypes.includes(meal.slot) && !used.has(r.id) && !(meal.feedsMealId && !r.leftoverFriendly))
+        .map((r) => ({ r, share: r.ingredients.filter((i) => weekIngredients.has(i.ingredientId) && !getIngredient(i.ingredientId).staple).length + prefValue(r) }))
+        .sort((a, b) => b.share - a.share)
+        .slice(0, 12);
+      let best: { recipe: Recipe; result: ReturnType<typeof evaluate> } | null = null;
+      for (const { r } of candidates) {
+        const trial = replaceRecipe(plan, meal.id, r.id);
+        const result = evaluate(trial);
+        if (result.total > limit + 1e-9) continue;
+        if (result.score < (best?.result.score ?? current.score) - 0.1) best = { recipe: r, result };
+      }
+      if (best) {
+        plan.meals = replaceRecipe(plan, meal.id, best.recipe.id).meals;
+        current = best.result;
+        improved = true;
+      }
+    }
+    if (!improved) break;
+  }
+  return current;
+}
