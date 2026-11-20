@@ -447,7 +447,7 @@ export function optimizeWaste(plan: WeekPlan, ctx: PlanContext, compatible: Reci
     const cooked = p.meals.filter((m) => m.kind === "cook").map((m) => getRecipe(m.recipeId)!);
     const prefs = cooked.reduce((sum, r) => sum + prefValue(r), 0);
     // Variedad: no repetir la semana anterior ni la misma proteína en comidas y cenas.
-    const repeatedFromLastWeek = cooked.filter((r) => ctx.avoidRecipeIds?.includes(r.id)).length * 1.5;
+    const repeatedFromLastWeek = cooked.filter((r) => ctx.avoidRecipeIds?.includes(r.id)).length * 3.5;
     const mains = cooked.filter((r) => !r.mealTypes.some(isLightSlot));
     const proteins = mains.map(mainProtein);
     const sameProtein = (proteins.length - new Set(proteins).size) * 0.5;

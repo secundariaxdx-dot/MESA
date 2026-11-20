@@ -166,3 +166,16 @@ describe("medidas caseras", () => {
     expect(toHousehold(getIngredient("bacalao"), 450)).toBeNull();
   });
 });
+
+describe("catálogo ampliado", () => {
+  it("no hay recetas con el mismo identificador", () => {
+    const ids = RECIPES.map((r) => r.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+  it("hay variedad suficiente en cada franja", () => {
+    expect(RECIPES.length).toBeGreaterThanOrEqual(110);
+    expect(RECIPES.filter((r) => r.mealTypes.includes("cena")).length).toBeGreaterThanOrEqual(80);
+    expect(RECIPES.filter((r) => r.mealTypes.includes("desayuno")).length).toBeGreaterThanOrEqual(15);
+    expect(RECIPES.filter((r) => r.mealTypes.includes("merienda")).length).toBeGreaterThanOrEqual(15);
+  });
+});

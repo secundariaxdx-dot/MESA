@@ -1,54 +1,15 @@
-import type { ApplianceId, Difficulty, MealSlot, Nutrition, PreferenceId, Recipe, RecipeStep, StorageInfo } from "@/domain/types";
+import type { Recipe } from "@/domain/types";
+import { fridge, now, toRecipe, type RecipeDef } from "./recipe-kit";
+import { CUCHARA_Y_VERDURA } from "./recipes/cuchara-verdura";
+import { CARNE_PESCADO_ARROZ } from "./recipes/carne-pescado-arroz";
+import { MUNDO_Y_DESAYUNOS } from "./recipes/mundo-desayunos";
 
 /**
- * Catálogo de recetas de MESA. Todas las cantidades son por ración de adulto
- * en la unidad base del ingrediente (g, ml o ud).
- * Las dietas compatibles y los alérgenos se DERIVAN de los ingredientes
- * (engine/compat.ts) para evitar incoherencias entre datos declarados.
+ * Catálogo de recetas de MESA (núcleo original). Las ampliaciones están en
+ * src/data/recipes/. Todas comparten formato: ver recipe-kit.ts.
  */
 
-type Ing = [string, number] | [string, number, string];
-
-interface R {
-  id: string;
-  name: string;
-  description: string;
-  art: string[];
-  palette: [string, string];
-  cuisine: string;
-  categories: PreferenceId[];
-  meals?: MealSlot[];
-  ing: Ing[];
-  time: number;
-  active: number;
-  difficulty?: Difficulty;
-  steps: RecipeStep[];
-  utensils: string[];
-  appliances: ApplianceId[][];
-  tags?: string[];
-  storage: StorageInfo;
-  leftover?: boolean;
-  nutrition?: Nutrition;
-}
-
-const fridge = (container: string, days: [number, number], freezable = false, freezeMonths?: number, notes?: string): StorageInfo => ({
-  method: "Nevera",
-  container,
-  days,
-  freezable,
-  freezeMonths,
-  notes,
-});
-
-const now = (notes: string): StorageInfo => ({
-  method: "Consumir al momento",
-  container: "—",
-  days: [0, 1],
-  freezable: false,
-  notes,
-});
-
-const RAW: R[] = [
+const RAW: RecipeDef[] = [
   // ─────────────────────────── RECETAS DE LA SEMANA DE DEMOSTRACIÓN ──
   {
     id: "pipirrana-atun-huevo",
@@ -1232,28 +1193,7 @@ const RAW: R[] = [
   },
 ];
 
-export const RECIPES: Recipe[] = RAW.map((r) => ({
-  id: r.id,
-  name: r.name,
-  description: r.description,
-  art: r.art,
-  palette: r.palette,
-  cuisine: r.cuisine,
-  categories: r.categories,
-  mealTypes: r.meals ?? ["comida", "cena"],
-  ingredients: r.ing.map(([ingredientId, perServing, note]) => ({ ingredientId, perServing, note })),
-  totalTime: r.time,
-  activeTime: r.active,
-  difficulty: r.difficulty ?? "Fácil",
-  baseServings: 2,
-  steps: r.steps,
-  utensils: r.utensils,
-  appliances: r.appliances,
-  tags: r.tags ?? [],
-  storage: r.storage,
-  leftoverFriendly: r.leftover ?? false,
-  nutrition: r.nutrition,
-}));
+export const RECIPES: Recipe[] = [...RAW, ...CUCHARA_Y_VERDURA, ...CARNE_PESCADO_ARROZ, ...MUNDO_Y_DESAYUNOS].map(toRecipe);
 
 const BY_ID = new Map(RECIPES.map((r) => [r.id, r]));
 

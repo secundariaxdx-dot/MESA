@@ -31,7 +31,7 @@ const pause = (ms: number) => new Promise((r) => setTimeout(r, ms));
  * la pausa mínima solo existe para que el usuario pueda leer el progreso.
  */
 export async function generateStaged(
-  input: { profile: Profile; pantry: PantryItem[]; previous?: WeekPlan | null; myProducts?: MyProduct[] },
+  input: { profile: Profile; pantry: PantryItem[]; previous?: WeekPlan | null; history?: WeekPlan[]; myProducts?: MyProduct[] },
   onStage: (s: StageInfo) => void,
   minStageMs = 380,
 ): Promise<{ plan: WeekPlan; checkoutTotal: number }> {
@@ -69,7 +69,9 @@ export async function generateStaged(
   );
 
   const seed = Math.floor(Math.random() * 1e9);
-  const avoid = input.previous?.meals.map((m) => m.recipeId) ?? [];
+  // Variedad: no repetir lo de las últimas 3 semanas (actual + 2 del historial).
+  const recentWeeks = [input.previous, ...(input.history ?? []).slice(0, 2)].filter(Boolean) as WeekPlan[];
+  const avoid = [...new Set(recentWeeks.flatMap((w) => w.meals.map((m) => m.recipeId)))];
   const { plan, checkoutTotal } = generateWeek({ profile, pantry, catalog, extraCatalogs, shopping, seed, weekStart: nextWeekStart(), avoidRecipeIds: avoid });
   const total = buildShoppingList(plan, pantry, [catalog, ...extraCatalogs], shopping).checkoutTotal;
   await step(6, `Envases completos: ${total.toFixed(2).replace(".", ",")} €${profile.optimizer ? " · elegidos para gastarlos enteros" : ""}`);

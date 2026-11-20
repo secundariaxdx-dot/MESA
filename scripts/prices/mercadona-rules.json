@@ -22,10 +22,8 @@
    "salsa",
    "seco"
   ],
-  "re": "cherry",
-  "all": [
-   "tomate"
-  ]
+  "re": "^tomates? cherry",
+  "all": []
  },
  "pimiento-verde": {
   "unit": "g",
@@ -87,7 +85,9 @@
    "tierno",
    "picado",
    "granulado",
-   "polvo"
+   "polvo",
+   "alinad",
+   "perejil"
   ],
   "size": [
    40,
@@ -195,7 +195,7 @@
    "iceberg"
   ],
   "gpu": 400,
-  "re": "^(lechugas? (romana|corazon romana)|cogollos?)"
+  "re": "^lechugas? (romana|corazon romana)"
  },
  "limon": {
   "unit": "g",
@@ -207,7 +207,8 @@
    "yogur",
    "galleta",
    "bebida",
-   "helado"
+   "helado",
+   "exprimido"
   ],
   "gpu": 120,
   "re": "^limon(es)?( |$)"
@@ -407,7 +408,7 @@
    "lomo",
    "dátil"
   ],
-  "re": "bacon"
+  "re": "^bacon"
  },
  "chorizo": {
   "unit": "g",
@@ -451,7 +452,13 @@
    "tartar",
    "sushi",
    "pate",
-   "paté"
+   "paté",
+   "verduras",
+   "natural",
+   "listo",
+   "lata",
+   "conserva",
+   "plato"
   ],
   "re": "^(lomos? de )?salmon|^salmon",
   "frozen": true
@@ -485,7 +492,7 @@
    "vizcaina",
    "bocado"
   ],
-  "re": "bacalao",
+  "re": "^(lomos? (de )?)?bacalao",
   "frozen": true
  },
  "merluza": {
@@ -528,7 +535,7 @@
    "salsa",
    "sabor"
   ],
-  "re": "gamba|langostino",
+  "re": "^(gambas?|langostinos?)( |$)",
   "frozen": true
  },
  "guisantes": {
@@ -718,9 +725,14 @@
   "any": [],
   "none": [
    "bebida",
-   "postre"
+   "galleta",
+   "rallado",
+   "yogur",
+   "agua de",
+   "postre",
+   "helado"
   ],
-  "re": "(leche|crema) de coco"
+  "re": "(leche|crema)( de)? coco"
  },
  "pesto": {
   "unit": "g",
@@ -901,7 +913,8 @@
    "ajo",
    "hierbas",
    "maldon",
-   "pimienta"
+   "pimienta",
+   "frutas"
   ],
   "re": "^sal "
  },
@@ -1214,11 +1227,11 @@
   "any": [],
   "all": [],
   "none": [
-   "mezcla",
-   "cóctel",
-   "moscada"
+   "macadamia",
+   "pecan",
+   "natural"
   ],
-  "re": "^nue(z|ces)"
+  "re": "^nue(z|ces) (troceada|pelada|peladas)"
  },
  "miel": {
   "unit": "g",
@@ -1276,5 +1289,343 @@
    "molida"
   ],
   "none": []
+ },
+ "judias-verdes": {
+  "unit": "g",
+  "re": "^judias? verdes?",
+  "any": [],
+  "none": [
+   "conserva",
+   "con patata",
+   "salteado"
+  ]
+ },
+ "coliflor": {
+  "unit": "g",
+  "re": "^coliflor",
+  "any": [],
+  "gpu": 900
+ },
+ "repollo": {
+  "unit": "g",
+  "re": "^(repollo|col )",
+  "any": [],
+  "gpu": 1000
+ },
+ "boniato": {
+  "unit": "g",
+  "re": "^boniatos?( |$)",
+  "any": []
+ },
+ "albahaca": {
+  "unit": "g",
+  "re": "^albahaca",
+  "any": [],
+  "none": [
+   "seca",
+   "deshidratada"
+  ]
+ },
+ "jengibre": {
+  "unit": "g",
+  "re": "^jengibre",
+  "any": [],
+  "none": [
+   "molido",
+   "polvo",
+   "infusion",
+   "bebida",
+   "galleta",
+   "encurtido"
+  ],
+  "gpu": 150
+ },
+ "fresas": {
+  "unit": "g",
+  "re": "^fresas?( |$)|^freson",
+  "any": [],
+  "none": [
+   "mermelada",
+   "yogur",
+   "batido"
+  ]
+ },
+ "naranja": {
+  "unit": "g",
+  "re": "^naranjas?( |$)",
+  "any": [],
+  "none": [
+   "zumo",
+   "refresco",
+   "mermelada"
+  ]
+ },
+ "pavo": {
+  "unit": "g",
+  "re": "^(filetes? (de )?)?(pechuga de )?pavo",
+  "any": [],
+  "none": [
+   "fiambre",
+   "lonchas",
+   "cocid",
+   "asad",
+   "salchicha",
+   "burger",
+   "hamburguesa",
+   "contramuslo",
+   "empanad"
+  ]
+ },
+ "lomo-cerdo": {
+  "unit": "g",
+  "re": "^(filetes? de )?lomo (de )?cerdo|^lomo de cerdo",
+  "any": [],
+  "none": [
+   "adobado",
+   "embuchado",
+   "curado",
+   "iberico",
+   "cinta"
+  ]
+ },
+ "costillas": {
+  "unit": "g",
+  "re": "^costillas? (de )?cerdo",
+  "any": [],
+  "none": [
+   "adobada",
+   "barbacoa",
+   "asada",
+   "cocinada"
+  ]
+ },
+ "salchichas": {
+  "unit": "g",
+  "re": "^salchichas? frescas?",
+  "any": [],
+  "none": [
+   "frankfurt",
+   "cocidas",
+   "pavo"
+  ]
+ },
+ "alitas": {
+  "unit": "g",
+  "re": "^alitas? de pollo",
+  "any": [],
+  "none": [
+   "barbacoa",
+   "asadas",
+   "picantes",
+   "cocinadas",
+   "adobadas"
+  ]
+ },
+ "dorada": {
+  "unit": "g",
+  "re": "^doradas?( |$)",
+  "any": [],
+  "none": [
+   "salsa",
+   "horno con"
+  ],
+  "gpu": 400
+ },
+ "mejillones": {
+  "unit": "g",
+  "re": "^mejillon",
+  "any": [],
+  "none": [
+   "escabeche",
+   "salsa",
+   "conserva",
+   "en lata",
+   "tigre",
+   "vinagreta",
+   "cocidos"
+  ]
+ },
+ "caldo-pescado": {
+  "unit": "ml",
+  "re": "caldo de pescado|fumet",
+  "any": [],
+  "none": [
+   "pastilla",
+   "polvo",
+   "cubito"
+  ]
+ },
+ "mozzarella": {
+  "unit": "g",
+  "re": "^(queso )?mozzarella",
+  "any": [],
+  "none": [
+   "rallad",
+   "palitos",
+   "bites",
+   "pizza",
+   "lonchas",
+   "barras"
+  ]
+ },
+ "nata": {
+  "unit": "ml",
+  "re": "^nata (para )?cocinar|^nata liquida",
+  "any": [],
+  "none": [
+   "montar",
+   "spray",
+   "vegetal"
+  ]
+ },
+ "queso-cabra": {
+  "unit": "g",
+  "re": "^(rulo de )?queso (de )?cabra|^rulo de cabra",
+  "any": [],
+  "none": [
+   "lonchas",
+   "rallado",
+   "untar",
+   "curado"
+  ]
+ },
+ "mayonesa": {
+  "unit": "g",
+  "re": "^mayonesa",
+  "any": [],
+  "none": [
+   "light",
+   "ajo",
+   "trufa",
+   "kimchi",
+   "sin huevo",
+   "vegana"
+  ]
+ },
+ "alubias": {
+  "unit": "g",
+  "re": "^alubias? blancas? cocidas?|^alubia blanca cocida",
+  "any": [],
+  "none": [
+   "chorizo",
+   "tomate"
+  ]
+ },
+ "cuscus": {
+  "unit": "g",
+  "re": "^cus ?cus",
+  "any": [],
+  "none": [
+   "preparado",
+   "verduras",
+   "integral"
+  ]
+ },
+ "quinoa": {
+  "unit": "g",
+  "re": "^quinoa",
+  "any": [],
+  "none": [
+   "preparad",
+   "vasito",
+   "snack",
+   "copos",
+   "verduras",
+   "hinchada"
+  ]
+ },
+ "lasana": {
+  "unit": "g",
+  "re": "^(placas (para |de )?lasana|lasana placas)",
+  "any": [],
+  "none": [
+   "preparad",
+   "carne",
+   "verduras",
+   "bolonesa"
+  ]
+ },
+ "fideos-arroz": {
+  "unit": "g",
+  "re": "^fideos? de arroz",
+  "any": [],
+  "none": [
+   "sabor"
+  ]
+ },
+ "masa-pizza": {
+  "unit": "g",
+  "re": "^masa (fresca )?(de |para )?pizza",
+  "any": [],
+  "none": [
+   "congelad"
+  ]
+ },
+ "pan-pita": {
+  "unit": "ud",
+  "re": "^pan (de )?pita|^pan pita",
+  "any": [],
+  "gpu": 70
+ },
+ "pimiento-piquillo": {
+  "unit": "g",
+  "re": "^pimientos? (del )?piquillo",
+  "any": [],
+  "none": [
+   "relleno",
+   "tiras con ajo",
+   "crema",
+   "confitado"
+  ]
+ },
+ "almendras": {
+  "unit": "g",
+  "re": "^almendras?( |$)",
+  "any": [],
+  "none": [
+   "chocolate",
+   "garrapiñada",
+   "bebida",
+   "harina",
+   "crema",
+   "fritas con sal",
+   "barbacoa",
+   "miel"
+  ]
+ },
+ "curcuma": {
+  "unit": "g",
+  "re": "^curcuma",
+  "any": []
+ },
+ "levadura": {
+  "unit": "g",
+  "re": "^levadura (quimica|en polvo)|^gasificante",
+  "any": [],
+  "none": [
+   "fresca",
+   "panadera",
+   "cerveza"
+  ]
+ },
+ "mermelada": {
+  "unit": "g",
+  "re": "^mermelada (extra )?de fresa|^confitura de fresa",
+  "any": [],
+  "none": [
+   "light",
+   "sin azucar"
+  ]
+ },
+ "salsa-barbacoa": {
+  "unit": "g",
+  "re": "salsa barbacoa|^barbacoa salsa",
+  "any": [],
+  "none": [
+   "patatas",
+   "alitas",
+   "costillas",
+   "pollo"
+  ]
  }
 }
