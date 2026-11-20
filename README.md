@@ -2,7 +2,7 @@
 
 Asistente de planificación de comidas y compra semanal. Configuras tu casa (supermercado, personas, días, presupuesto, gustos, dieta, alergias y aparatos) y MESA genera la semana, calcula **lo que pagarás en caja por envases completos**, descuenta lo que tienes en la **despensa** y te guía para **cocinar paso a paso**.
 
-> MESA no está afiliada a ningún supermercado. Los precios incluidos son **ficticios** y solo sirven para demostrar el cálculo (fecha de referencia visible en la app).
+> MESA no está afiliada a ningún supermercado. Los precios de Mercadona se leen una vez al día de su tienda online pública; el resto de supermercados usa precios estimados (marcados como tales en la app). Son orientativos: el ticket manda.
 
 ## Arrancar
 
@@ -84,8 +84,13 @@ supabase/schema.sql        Esquema propuesto para la fase 2
 e2e/success-path.mjs       Recorrido de la "definición de éxito"
 ```
 
-### Precios reales
-Implementa `PriceProvider` (`src/services/prices/provider.ts`) contra una fuente autorizada y regístralo en `PROVIDERS`. El resto de la app usa el catálogo que devuelva (tamaño de envase, precio, fecha, fuente y disponibilidad).
+### Precios reales (actualización diaria)
+
+- `.github/workflows/precios.yml` se ejecuta cada día (04:23 UTC) y a demanda (**Actions → Actualizar precios → Run workflow**).
+- `scripts/prices/fetch.mjs` recorre las categorías de la tienda online de Mercadona (zona `MERCADONA_WH`, por defecto `mad1`), con peticiones espaciadas y reintentos, y relaciona cada ingrediente con productos reales mediante `scripts/prices/mercadona-rules.json` (frases, expresiones regulares, exclusiones y tamaños).
+- Publica `docs/prices/mercadona.json` (lo lee la app sin recompilar) y un informe `mercadona.report.json` con el producto elegido para cada ingrediente, para revisar emparejamientos.
+- Si la descarga falla, se conservan los precios anteriores. Lo que no se encuentra en la web queda con precio estimado y la app lo indica.
+- Otros supermercados: añade un proveedor en `fetch.mjs` y su archivo de reglas. Ten en cuenta que leer automáticamente la web de un supermercado puede no estar permitido por sus condiciones de uso; para un uso comercial conviene un acuerdo o una fuente autorizada.
 
 ### IA opcional
 Con `ANTHROPIC_API_KEY` en el servidor, `/api/ai` activa ideas de aprovechamiento con Claude en la despensa. Sin clave, todo funciona con el motor local.
