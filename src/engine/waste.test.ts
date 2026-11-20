@@ -48,7 +48,8 @@ describe("aprovechamiento de envases", () => {
   it("el modo aprovechamiento tira menos comida, sin pasarse del presupuesto ni saltarse restricciones", () => {
     let normal = 0;
     let optimized = 0;
-    const profile: Profile = { ...DEMO_PROFILE, days: [0, 1, 2, 3, 4, 5, 6], meals: { desayuno: true, comida: true, cena: true }, budget: 120 };
+    // El modo viene activado por defecto: lo apagamos explícitamente para comparar.
+    const profile: Profile = { ...DEMO_PROFILE, optimizer: false, days: [0, 1, 2, 3, 4, 5, 6], meals: { desayuno: true, comida: true, cena: true }, budget: 120 };
     for (let seed = 1; seed <= 4; seed++) {
       normal += report(profile, seed).w.riskValue;
       const o = report({ ...profile, optimizer: true }, seed);
@@ -56,7 +57,7 @@ describe("aprovechamiento de envases", () => {
       expect(o.list.checkoutTotal).toBeLessThanOrEqual(120);
       for (const m of o.plan.meals) expect(checkRecipe(getRecipe(m.recipeId)!, profile)).toEqual([]);
     }
-    expect(optimized).toBeLessThan(normal * 0.75);
+    expect(optimized).toBeLessThan(normal * 0.6);
   });
 
   it("«Otra semana» sigue cambiando los platos con el modo activado", () => {
