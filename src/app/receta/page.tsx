@@ -1,6 +1,8 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { cookHref, recipeHref } from "@/lib/routes";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { AlertTriangle, Check, ChefHat, Clock, Flame, Heart, Minus, Plus, RefreshCw, Refrigerator, Scale, Snowflake, Users, Utensils } from "lucide-react";
@@ -23,14 +25,17 @@ import { toast } from "@/components/ui/Toast";
 export default function RecetaPage() {
   return (
     <Gate>
-      <Receta />
+      <Suspense fallback={null}>
+        <Receta />
+      </Suspense>
     </Gate>
   );
 }
 
 function Receta() {
-  const params = useParams<{ slug: string[] }>();
-  const [recipeId, mealId] = params.slug ?? [];
+  const params = useSearchParams();
+  const recipeId = params.get("r") ?? "";
+  const mealId = params.get("m") ?? undefined;
   const recipe = getRecipe(recipeId);
   const router = useRouter();
   const plan = useMesa((s) => s.plan);
@@ -73,7 +78,7 @@ function Receta() {
     if (!progress) {
       saveCooking({ key: cookingKey, recipeId: recipe.id, mealId, step: 0, servings, startedAt: new Date().toISOString(), updatedAt: new Date().toISOString(), doneTasks: [] });
     }
-    router.push(`/cocinar/${recipe.id}${mealId ? `/${mealId}` : ""}`);
+    router.push(cookHref(recipe.id, mealId));
   };
 
   return (
@@ -362,7 +367,7 @@ function Receta() {
         <SwapSheet
           mealId={swapOpen ? meal.id : null}
           onClose={() => setSwapOpen(false)}
-          onSwapped={(id) => router.replace(`/receta/${id}/${meal.id}`)}
+          onSwapped={(id) => router.replace(recipeHref(id, meal.id))}
         />
       )}
     </div>

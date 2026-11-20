@@ -1,5 +1,6 @@
 "use client";
 
+import { recipeHref } from "@/lib/routes";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Check, Clock, RefreshCw, Undo2, Users, XCircle } from "lucide-react";
@@ -33,7 +34,7 @@ export function MealCard({ meal, onSwap }: { meal: PlannedMeal; onSwap(id: strin
 
   return (
     <motion.article layout initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className={cn("group relative overflow-hidden rounded-[var(--radius-card)] bg-white shadow-soft", skipped && "opacity-60")}>
-      <Link href={`/receta/${recipe.id}/${meal.id}`} className="flex gap-3.5 p-3 pr-14">
+      <Link href={recipeHref(recipe.id, meal.id)} className="flex gap-3.5 p-3 pr-14">
         <div className="relative shrink-0">
           <RecipeArt recipe={recipe} className="size-[92px] rounded-2xl sm:size-24" />
           {cooked && (

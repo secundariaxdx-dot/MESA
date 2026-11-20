@@ -24,10 +24,10 @@ const step = (t) => console.log("✓", t);
 const cont = () => page.getByRole("button", { name: /Continuar/ }).click();
 
 await page.goto(`${BASE}/`);
-await page.waitForURL("**/bienvenida");
+await page.waitForURL(/\/bienvenida\/?$/);
 await shot("bienvenida");
 await page.getByRole("button", { name: /Empezar desde cero/ }).click();
-await page.waitForURL("**/onboarding");
+await page.waitForURL(/\/onboarding\/?$/);
 step("1. Entrar en la aplicación");
 
 await page.getByRole("button", { name: /España/ }).click();
@@ -90,10 +90,10 @@ step("9. Electrodomésticos");
 
 await shot("propuesta-valor");
 await page.getByRole("button", { name: /Hacer mi semana/ }).click();
-await page.waitForURL("**/generando");
+await page.waitForURL(/\/generando\/?$/);
 await page.waitForTimeout(900);
 await shot("generando");
-await page.waitForURL("**/semana", { timeout: 20000 });
+await page.waitForURL(/\/semana\/?$/, { timeout: 20000 });
 step("10. Crear la planificación");
 
 await page.getByText("Tu menú").waitFor();
@@ -130,12 +130,12 @@ await shot("lista-marcada");
 step(`16. Artículos marcados (${cart})`);
 await page.getByTestId("ya-he-comprado").click();
 await page.getByRole("button", { name: /Registrar/ }).click();
-await page.waitForURL("**/semana");
+await page.waitForURL(/\/semana\/?$/);
 await page.getByText("Compra registrada").first().waitFor();
 step("    Compra registrada");
 
 await page.locator("article a").first().click();
-await page.waitForURL("**/receta/**");
+await page.waitForURL(/\/receta\/?\?r=/);
 await page.getByText("Ingredientes").first().waitFor();
 const firstQty = page.locator("[data-testid^=qty-]").first();
 const before = await firstQty.innerText();
@@ -151,7 +151,7 @@ await shot("receta-caseras-conservacion");
 step("19-20. Medidas caseras y conservación");
 
 await page.getByTestId("cocinar-ahora").click();
-await page.waitForURL("**/cocinar/**");
+await page.waitForURL(/\/cocinar\/?\?r=/);
 await shot("cocina-paso1");
 const s1 = await page.getByTestId("step-text").innerText();
 await page.getByTestId("next-step").click();
@@ -165,7 +165,7 @@ await shot("buen-provecho");
 step("21-22. Cocinar paso a paso y terminar");
 
 await page.getByRole("button", { name: /Volver a mi semana/ }).click();
-await page.waitForURL("**/semana");
+await page.waitForURL(/\/semana\/?$/);
 await page.getByText("1 de 5 cocinados").waitFor();
 await page.reload();
 await page.getByText("1 de 5 cocinados").waitFor();

@@ -1,5 +1,6 @@
 "use client";
 
+import { recipeHref } from "@/lib/routes";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { CalendarClock, Minus, Plus, Search, Sparkles, Trash2 } from "lucide-react";
@@ -143,7 +144,7 @@ function UseSoon({ items }: { items: PantryItem[] }) {
         {ideas.map((i) => (
           <li key={i.title}>
             {i.recipeId ? (
-              <Link href={`/receta/${i.recipeId}`} className="block rounded-xl px-3 py-2 hover:bg-mist">
+              <Link href={recipeHref(i.recipeId)} className="block rounded-xl px-3 py-2 hover:bg-mist">
                 <span className="block text-sm font-semibold">{i.title}</span>
                 <span className="block text-xs text-muted">{i.detail}</span>
               </Link>

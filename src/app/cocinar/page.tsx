@@ -1,6 +1,8 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { recipeHref } from "@/lib/routes";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Check, Heart, Pause, Play, RotateCcw, Timer, X } from "lucide-react";
@@ -17,14 +19,17 @@ import type { CookingProgress } from "@/domain/types";
 export default function CocinarPage() {
   return (
     <Gate>
-      <Cocinar />
+      <Suspense fallback={null}>
+        <Cocinar />
+      </Suspense>
     </Gate>
   );
 }
 
 function Cocinar() {
-  const params = useParams<{ slug: string[] }>();
-  const [recipeId, mealId] = params.slug ?? [];
+  const params = useSearchParams();
+  const recipeId = params.get("r") ?? "";
+  const mealId = params.get("m") ?? undefined;
   const recipe = getRecipe(recipeId);
   const router = useRouter();
   const key = mealId ?? recipeId;
@@ -81,7 +86,7 @@ function Cocinar() {
           <Heart className={cn("size-5", fav && "fill-tomato")} /> {fav ? "En tus favoritas" : "Marcar como favorita"}
         </button>
         <div className="mt-10 flex w-full max-w-sm flex-col gap-2">
-          <Button variant="white" size="lg" block onClick={() => router.replace(mealId ? "/semana" : `/receta/${recipe.id}`)}>
+          <Button variant="white" size="lg" block onClick={() => router.replace(mealId ? "/semana" : recipeHref(recipe.id))}>
             {mealId ? "Volver a mi semana" : "Volver a la receta"}
           </Button>
         </div>
@@ -122,7 +127,7 @@ function Cocinar() {
             aria-label="Salir del modo cocina"
             onClick={() => {
               toast("Progreso guardado. Puedes reanudar cuando quieras.", "info");
-              router.push(`/receta/${recipe.id}${mealId ? `/${mealId}` : ""}`);
+              router.push(recipeHref(recipe.id, mealId));
             }}
             className="grid size-10 place-items-center rounded-full bg-mist"
           >

@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "e2e": "node e2e/success-path.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:pages": "node scripts/build-static.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.12.0",

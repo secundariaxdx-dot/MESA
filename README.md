@@ -16,6 +16,18 @@ npm run e2e        # recorrido completo con Playwright contra http://localhost:3
 
 Desde la bienvenida puedes **empezar desde cero** (onboarding de 13 pantallas) o **ver la semana de ejemplo** (España · Mercadona · 3 personas · L-V · cenas · 53 € · 45,64 € en caja).
 
+## Publicar en GitHub Pages
+
+El repositorio incluye el sitio estático ya generado en `docs/` (rutas `/MESA/…`). En GitHub: **Settings → Pages → Build and deployment → Deploy from a branch**, elige la rama y la carpeta **/docs**. La app quedará en `https://<usuario>.github.io/MESA/`.
+
+Para regenerarlo tras cambiar el código:
+
+```bash
+npm run build:pages        # usa basePath /MESA; otro nombre: node scripts/build-static.mjs /otro
+```
+
+El sitio estático no incluye `/api/ai` (necesita servidor); el resto funciona igual porque los datos viven en el navegador.
+
 ## Arquitectura
 
 ```

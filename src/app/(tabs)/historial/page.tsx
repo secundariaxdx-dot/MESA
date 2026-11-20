@@ -1,5 +1,6 @@
 "use client";
 
+import { recipeHref } from "@/lib/routes";
 import Link from "next/link";
 import { useMesa } from "@/store/mesa";
 import { PageHeader } from "@/components/layout/AppShell";
@@ -46,7 +47,7 @@ export default function Historial() {
                       {[...new Set(w.meals.map((m) => m.recipeId))].map((id) => {
                         const r = getRecipe(id);
                         return r ? (
-                          <Link key={id} href={`/receta/${id}`} className="w-28 shrink-0">
+                          <Link key={id} href={recipeHref(id)} className="w-28 shrink-0">
                             <RecipeArt recipe={r} variant="thumb" className="aspect-square w-full rounded-xl" />
                             <p className="mt-1 line-clamp-2 text-xs font-semibold">{r.name}</p>
                           </Link>
@@ -100,7 +101,7 @@ export default function Historial() {
           ) : (
             <Card className="divide-y divide-line">
               {cooked.map((c) => (
-                <Link key={c.id} href={`/receta/${c.recipeId}`} className="flex justify-between px-4 py-3 text-sm hover:bg-mist/60">
+                <Link key={c.id} href={recipeHref(c.recipeId)} className="flex justify-between px-4 py-3 text-sm hover:bg-mist/60">
                   <span className="font-semibold">{getRecipe(c.recipeId)?.name}</span>
                   <span className="text-muted">
                     {shortDate(c.date)} · {c.servings} rac.

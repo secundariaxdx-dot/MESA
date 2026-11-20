@@ -1,5 +1,6 @@
 "use client";
 
+import { recipeHref } from "@/lib/routes";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
@@ -204,7 +205,7 @@ function FilterGroup({ label, children }: { label: string; children: React.React
 function RecipeTile({ recipe, cps, fav, incompat, allergy, currency }: { recipe: Recipe; cps: number; fav: boolean; incompat: string[]; allergy: boolean; currency: "EUR" | "NOK" | "GBP" | "USD" }) {
   return (
     <motion.div layout initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <Link href={`/receta/${recipe.id}`} className="group block overflow-hidden rounded-[var(--radius-card)] bg-white shadow-soft transition hover:shadow-lift">
+      <Link href={recipeHref(recipe.id)} className="group block overflow-hidden rounded-[var(--radius-card)] bg-white shadow-soft transition hover:shadow-lift">
         <div className="relative">
           <RecipeArt recipe={recipe} className="aspect-[4/3] w-full transition duration-300 group-hover:scale-[1.03]" />
           {fav && (
