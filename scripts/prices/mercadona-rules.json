@@ -725,25 +725,10 @@
   "any": [],
   "none": [
    "bebida",
-   "galleta",
-   "rallado",
-   "yogur",
-   "agua de",
    "postre",
-   "helado",
-   "aceite",
-   "chocolate",
-   "copos",
-   "barrita",
-   "cereal",
-   "gel",
-   "champu",
-   "crema corporal",
-   "snack",
-   "chips",
-   "agua"
+   "helado"
   ],
-  "re": "coco",
+  "re": "^(leche|crema) de coco",
   "all": []
  },
  "pesto": {
@@ -1403,7 +1388,9 @@
    "cinta",
    "cocido",
    "lonchas",
-   "loncha"
+   "loncha",
+   "marinado",
+   "empanado"
   ]
  },
  "costillas": {
@@ -1506,23 +1493,21 @@
    "postre",
    "helado",
    "fresa",
-   "chocolate"
+   "chocolate",
+   "montada",
+   "azucarada"
   ]
  },
  "queso-cabra": {
   "unit": "g",
-  "re": "cabra",
+  "re": "^(queso (fresco )?(de )?cabra|rulo (de )?(queso )?(de )?cabra)",
   "any": [],
   "none": [
    "lonchas",
    "rallado",
    "untar",
    "curado",
-   "yogur",
-   "leche",
-   "semicurado",
-   "kefir",
-   "oveja"
+   "semicurado"
   ]
  },
  "mayonesa": {
@@ -1548,6 +1533,9 @@
    "seca",
    "secas",
    "paquete"
+  ],
+  "all": [
+   "cocida"
   ]
  },
  "cuscus": {
@@ -1647,7 +1635,8 @@
    "fresca",
    "panadera",
    "cerveza",
-   "nutricional"
+   "nutricional",
+   "panaderia"
   ]
  },
  "mermelada": {

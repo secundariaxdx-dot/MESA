@@ -12,6 +12,7 @@ import { priceSourceText, storeNames, useMarket, useShoppingList } from "@/hooks
 import { StoreModeCard, StoreHeader } from "@/components/shopping/StoreMode";
 import { getSupermarket } from "@/data/geo";
 import { getIngredient } from "@/data/ingredients";
+import { getCatalogSync } from "@/services/prices/provider";
 import { fateFor } from "@/engine/waste";
 import { PageHeader } from "@/components/layout/AppShell";
 import { BackButton, Button, Card, EmptyState, ProgressBar, cn } from "@/components/ui/primitives";
@@ -295,6 +296,9 @@ function ListRow({
   onFavorite(): void;
 }) {
   const nextBest = showAlternatives ? [...item.alternatives].sort((a, b) => a.cost - b.cost)[0] : undefined;
+  // Productos reales del súper (enlace a su ficha) o estimados.
+  const catalogProducts = item.custom ? [] : item.packs.map((p) => getCatalogSync(item.supermarketId).products.find((x) => x.id === p.productId)).filter(Boolean);
+  const estimated = catalogProducts.some((p) => p!.estimated) || (!item.custom && getCatalogSync(item.supermarketId).isDemo);
   const [open, setOpen] = useState(false);
   const packText = item.packs.map((p) => `${p.count} ${p.packLabel} de ${item.unit === "ud" ? "" : "aprox. "}${formatPack(p.packSize, item.unit)}`).join(" + ");
   return (
@@ -325,6 +329,7 @@ function ListRow({
               {item.fromPantry > 0 && ` (tienes ${formatQty(item.fromPantry, item.unit)})`}
             </span>
           )}
+          {estimated && <span className="mt-0.5 inline-block rounded bg-mist px-1.5 py-0.5 text-[10px] font-semibold text-muted">precio estimado</span>}
           {item.pinned && !item.custom && (
             <span className="mt-0.5 block text-[11px] font-semibold text-[#9a6f00]">★ Tu favorito de {getSupermarket(item.supermarketId).name}</span>
           )}
@@ -357,6 +362,13 @@ function ListRow({
           <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden">
             <div className="mx-4 mb-3 rounded-xl bg-mist px-3 py-2 text-xs text-muted">
               <p>{item.custom ? "Producto guardado en «Mis productos»." : `Para: ${item.recipeIds.map((r) => getRecipe(r)?.name).join(", ")}`}</p>
+              {catalogProducts.map((p) =>
+                p!.url ? (
+                  <a key={p!.id} href={p!.url} target="_blank" rel="noopener noreferrer" className="mt-1 block font-semibold text-cobalt underline-offset-2 hover:underline">
+                    {p!.name} · ver en la web de {getSupermarket(item.supermarketId).name} ↗
+                  </a>
+                ) : null,
+              )}
               <p className="mt-1">
                 {item.packs.map((p) => `${p.count} × ${formatMoney(p.unitPrice, currency)}`).join(" + ")} · coste de lo que consumes ≈ {formatMoney(item.consumedCost, currency)}
               </p>
