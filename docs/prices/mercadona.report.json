@@ -7,7 +7,7 @@
   "tomate-cherry": [
     "Tomates cherry · Bandeja · 500g · 2.2 €",
     "Tomates cherry pera kumato · Bandeja · 300g · 1.7 €",
-    "Focaccia con tomates cherry Hacendado · Paquete · 160g · 1.95 €"
+    "Tomates cherry en rama Dulcita · Bandeja · 200g · 2.5 €"
   ],
   "pimiento-verde": [
     "Pimiento verde freír · Pieza · 120g · 0.3 €"
@@ -25,9 +25,7 @@
     "Cebollas rojas · Malla · 500g · 1.4 €"
   ],
   "ajo": [
-    "Ajos morados · Malla · 250g · 1.85 €",
-    "Ajos aliñados Hacendado · Tarro · 345g · 2.6 €",
-    "Ajo y Perejil Hacendado · Bote · 74g · 1.35 €"
+    "Ajos morados · Malla · 250g · 1.85 €"
   ],
   "patata": [
     "Patatas · Malla · 5000g · 5.3 €",
@@ -53,14 +51,13 @@
     "Zanahorias · Paquete · 500g · 0.8 €"
   ],
   "lechuga": [
-    "Cogollos corazón de lechuga ·  · 2400g · 2 €",
-    "Cogollos de lechuga ·  · 1200g · 1.05 €",
-    "Lechugas corazón romana ·  · 800g · 1.85 €"
+    "Lechugas corazón romana ·  · 800g · 1.85 €",
+    "Lechuga corazón romana · Paquete · 400g · 1.1 €",
+    "Lechuga romana cortada y lavada · Paquete · 200g · 1.15 €"
   ],
   "limon": [
     "Limones · Malla · 1000g · 2.2 €",
-    "Limón · Pieza · 210g · 0.53 €",
-    "Limón exprimido Hacendado · Botella · 280g · 1.4 €"
+    "Limón · Pieza · 210g · 0.53 €"
   ],
   "perejil": [
     "Perejil troceado lavado · Paquete · 40g · 0.95 €",
@@ -120,7 +117,7 @@
   "bacon": [
     "Bacón Hacendado cintas ·  · 260g · 1.95 €",
     "Bacón ahumado sin corteza Monells · Pieza · 310g · 2.68 €",
-    "Macarrones Mac & Cheese Bacon Hacendado gratinados · Bandeja · 280g · 2.45 €"
+    "Bacón ahumado Monells lonchas · Paquete · 225g · 2.05 €"
   ],
   "chorizo": [
     "Chorizo oreado · Bandeja · 360g · 2.48 €",
@@ -132,8 +129,6 @@
     "Mini taquitos de jamón Incarlopsa · Pack-2 · 180g · 2.65 €"
   ],
   "salmon": [
-    "Salmón con verduras Listo para Comer · Bol · 400g · 5.75 €",
-    "Salmón al natural Hacendado · Pack-3 · 240g · 3.55 €",
     "Lomos de salmón sin piel Hacendado congelado · Paquete · 250g · 5.95 €"
   ],
   "sepia": [
@@ -141,18 +136,16 @@
     "Sepia troceada Faraónica · Bandeja · 300g · 5.5 €"
   ],
   "bacalao": [
-    "Pimientos del piquillo rellenos de bacalao Hacendado ultracongelados · Paquete · 185g · 2.1 €",
-    "Migas de bacalao dorado con cebolla y patatas paja Hacendado congelado · Caja · 240g · 2.9 €",
-    "Bacalao al punto de sal descongelado · Bandeja · 450g · 9.5 €"
+    "Bacalao al punto de sal descongelado · Bandeja · 450g · 9.5 €",
+    "Lomo de bacalao MareDeus ultracongelado · Paquete · 384g · 9.22 €",
+    "Bacalao ahumado Hacendado en aceite de girasol · Bandeja · 110g · 4.3 €"
   ],
   "merluza": [
     "Rodajas de merluza del Cabo descongelada · Bandeja · 260g · 4.67 €",
     "Merluza del Cabo abierta en libro · Bandeja · 650g · 15.93 €"
   ],
   "gambas": [
-    "Gamba arrocera pequeña Hacendado congelada · Caja · 550g · 6 €",
-    "Rollitos crujientes Crispy Rolls de langostino Hacendado ultracongelados · Caja · 216g · 2.7 €",
-    "Elaborado de merluza y langostino · Bandeja · 200g · 2.95 €"
+    "Gamba arrocera pequeña Hacendado congelada · Caja · 550g · 6 €"
   ],
   "guisantes": [
     "Guisante fino Hacendado ultracongelado · Paquete · 1000g · 1.55 €",
@@ -259,7 +252,7 @@
   "sal": [
     "Sal fina Hacendado · Paquete · 1000g · 0.45 €",
     "Sal fina de mesa Hacendado · Bote · 300g · 0.8 €",
-    "Sal de frutas sabor limón Hacendado · Bote · 250g · 2.1 €"
+    "Sal 60% menos de sodio Hacendado · Bote · 250g · 2.3 €"
   ],
   "pimienta": [
     "Pimienta negra molida Hacendado · Bote · 70g · 1.3 €",
@@ -348,9 +341,7 @@
     "Avena molida Hacendado · Paquete · 500g · 1.15 €"
   ],
   "nueces": [
-    "Nuez natural Hacendado · Paquete · 600g · 3.7 €",
-    "Nuez troceada pelada Hacendado · Paquete · 200g · 2.25 €",
-    "Nuez macadamia Hacendado tostada con sal · Paquete · 100g · 2.9 €"
+    "Nuez troceada pelada Hacendado · Paquete · 200g · 2.25 €"
   ],
   "miel": [
     "Miel de flores Hacendado · Tarro · 1000g · 5 €",
@@ -368,5 +359,105 @@
   ],
   "canela": [
     "Canela molida Hacendado · Bote · 52g · 1 €"
+  ],
+  "judias-verdes": [
+    "Judías verdes redondas Hacendado · Tarro · 660g · 1.1 €",
+    "Judía verde plana · Paquete · 350g · 2 €"
+  ],
+  "coliflor": [
+    "Coliflor · Pieza · 1350g · 2.3 €"
+  ],
+  "repollo": [
+    "Col lombarda · Pieza · 990g · 1.98 €",
+    "Repollo liso partido · 1/2 Pieza · 900g · 1.94 €"
+  ],
+  "boniato": [],
+  "albahaca": [
+    "Albahaca Hacendado · Bote · 20g · 1.25 €"
+  ],
+  "jengibre": [
+    "Jengibre ·  · 200g · 1.65 €"
+  ],
+  "fresas": [],
+  "naranja": [
+    "Naranjas · Malla · 5000g · 5.75 €",
+    "Naranjas · Malla · 3000g · 4.65 €",
+    "Naranja de mesa · Pieza · 310g · 0.67 €"
+  ],
+  "pavo": [
+    "Filetes pechuga de pavo · Bandeja · 580g · 5.07 €",
+    "Filetes pechuga de pavo marinados extra tiernos · Bandeja · 600g · 5.4 €"
+  ],
+  "lomo-cerdo": [
+    "Lomo de cerdo trozo · Pieza · 1100g · 4.95 €",
+    "Lomo de cerdo cocido Hacendado finas lonchas ·  · 450g · 2.95 €",
+    "Lomo de cerdo marinado empanado sin gluten · Bandeja · 320g · 3.2 €"
+  ],
+  "costillas": [
+    "Costilla de cerdo churrasco · Pieza · 900g · 4.77 €",
+    "Costillas de cerdo carnosas a tacos · Bandeja · 620g · 4.96 €"
+  ],
+  "salchichas": [],
+  "alitas": [],
+  "dorada": [
+    "Dorada limpia · Bandeja · 400g · 5 €"
+  ],
+  "mejillones": [
+    "Mejillón vivo · Bandeja · 1000g · 2.95 €",
+    "Mejillones al natural Hacendado pequeños · Lata · 111g · 1.8 €"
+  ],
+  "caldo-pescado": [
+    "Caldo de pescado Hacendado · Brik · 1000ml · 0.95 €",
+    "Fumet caldo de pescado Hacendado · Botella · 950ml · 3 €"
+  ],
+  "mozzarella": [
+    "Mozzarella fresca de vaca Hacendado · Paquete · 250g · 0.9 €",
+    "Mozzarella fresca de vaca Hacendado en perlas · Tarrina · 300g · 1.9 €",
+    "Mozzarella fresca di bufala campana Hacendado · Tarrina · 280g · 1.85 €"
+  ],
+  "nata": [],
+  "queso-cabra": [],
+  "mayonesa": [
+    "Mayonesa Hacendado · Tarro · 500g · 1.2 €",
+    "Mayonesa Hacendado · Bote · 490g · 1.45 €",
+    "Mayonesa Hacendado · Tarro · 240g · 1.05 €"
+  ],
+  "alubias": [],
+  "cuscus": [],
+  "quinoa": [
+    "Quinoa Hacendado · Paquete · 500g · 2.65 €",
+    "Quinoa cocida blanca y roja Sabroz ·  · 250g · 1.45 €"
+  ],
+  "lasana": [
+    "Placas para lasaña precocidas El Pavo · Caja · 200g · 1.65 €"
+  ],
+  "fideos-arroz": [],
+  "masa-pizza": [
+    "Masa pizza fresca familiar Hacendado · Paquete · 400g · 1.5 €",
+    "Masa fresca pizza Hacendado ·  · 560g · 2.2 €",
+    "Masa fresca pizza de cereales y semillas Hacendado ·  · 520g · 2.5 €"
+  ],
+  "pan-pita": [
+    "Pan de pita Mission · Paquete · 4ud · 2 €"
+  ],
+  "pimiento-piquillo": [
+    "Pimientos del piquillo enteros Hacendado extra · Tarro · 340g · 1.45 €",
+    "Pimientos del piquillo extra Hacendado estilo tradicional · Tarro · 185g · 1.7 €"
+  ],
+  "almendras": [
+    "Almendra natural Hacendado · Paquete · 200g · 2.3 €",
+    "Almendra molida Hacendado · Paquete · 150g · 2.55 €"
+  ],
+  "curcuma": [
+    "Cúrcuma molida Hacendado · Bote · 60g · 1.3 €"
+  ],
+  "levadura": [],
+  "mermelada": [
+    "Mermelada de fresa Hacendado · Tarro · 400g · 1.45 €",
+    "Confitura de fresa Hacendado 0% azúcares añadidos · Tarro · 380g · 1.6 €",
+    "Mermelada de fresa monodosis Hacendado · Pack-10 · 250g · 1.5 €"
+  ],
+  "salsa-barbacoa": [
+    "Salsa Barbacoa Hacendado · Bote · 350g · 1.15 €"
   ]
 }

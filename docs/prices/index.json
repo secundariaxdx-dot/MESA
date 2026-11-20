@@ -1,16 +1,26 @@
 {
-  "updatedAt": "2026-11-20T21:15:32.742Z",
+  "updatedAt": "2026-11-20T21:24:40.488Z",
   "catalogs": [
     {
       "supermarketId": "mercadona",
       "referenceDate": "2026-11-20",
-      "fetchedAt": "2026-11-20T21:17:13.382Z",
+      "fetchedAt": "2026-11-20T21:26:13.678Z",
       "source": "Web de Mercadona (tienda.mercadona.es, zona mad1)",
       "coverage": {
-        "matched": 89,
-        "total": 90,
+        "matched": 112,
+        "total": 123,
         "missing": [
-          "leche-coco"
+          "leche-coco",
+          "boniato",
+          "fresas",
+          "salchichas",
+          "alitas",
+          "nata",
+          "queso-cabra",
+          "alubias",
+          "cuscus",
+          "fideos-arroz",
+          "levadura"
         ]
       },
       "file": "mercadona.json"
