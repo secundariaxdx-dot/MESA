@@ -189,6 +189,7 @@ export const useMesa = create<MesaState>()(
             planId: s.plan.id,
             date: new Date().toISOString(),
             supermarketId: list.supermarketId,
+            stores: list.stores.filter((st) => st.itemCount > 0),
             currency: list.currency,
             total: list.checkoutTotal,
             items: list.toBuy.map((i) => ({
@@ -198,6 +199,7 @@ export const useMesa = create<MesaState>()(
               unit: i.unit,
               cost: i.cost,
               packs: i.packs.map((p) => `${p.count} × ${p.packLabel}`).join(" + "),
+              supermarketId: i.supermarketId,
             })),
           };
           return {

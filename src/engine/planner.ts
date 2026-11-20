@@ -5,6 +5,12 @@ import { checkRecipe, type Incompat, type IncompatType } from "./compat";
 import { addDays } from "./dates";
 import { uid, expiringSoon } from "./pantry";
 import { buildShoppingList, recipeCost } from "./shopping";
+
+/** Total en caja considerando todos los supermercados del contexto. */
+function checkoutOf(plan: WeekPlan, ctx: Pick<PlanContext, "pantry" | "catalog" | "extraCatalogs" | "minStoreSaving">): number {
+  const catalogs = [ctx.catalog, ...(ctx.extraCatalogs ?? [])];
+  return buildShoppingList(plan, ctx.pantry, catalogs, { minStoreSaving: ctx.minStoreSaving }).checkoutTotal;
+}
 import { formatMoney } from "./units";
 
 /**
@@ -37,6 +43,9 @@ export interface PlanContext {
   profile: Profile;
   pantry: PantryItem[];
   catalog: PriceCatalog;
+  /** Supermercados adicionales cuando la compra se reparte. */
+  extraCatalogs?: PriceCatalog[];
+  minStoreSaving?: number;
   seed: number;
   weekStart: string;
   /** Recetas a evitar (p. ej. las de la semana anterior). */
@@ -269,7 +278,7 @@ export function generateWeek(ctx: PlanContext): GenerateResult {
   });
 
   plan.meals = slotsToMeals(slots, chosen, people);
-  let total = buildShoppingList(plan, pantry, catalog).checkoutTotal;
+  let total = checkoutOf(plan, ctx);
 
   // Optimización de presupuesto: sustituciones que más reducen el coste en caja.
   for (let iter = 0; iter < 40 && total > profile.budget; iter++) {
@@ -281,7 +290,7 @@ export function generateWeek(ctx: PlanContext): GenerateResult {
         if (used.has(r.id) || !r.mealTypes.includes(m.slot)) continue;
         if (m.feedsMealId && !r.leftoverFriendly) continue;
         const trial = replaceRecipe(plan, m.id, r.id);
-        const t = buildShoppingList(trial, pantry, catalog).checkoutTotal;
+        const t = checkoutOf(trial, ctx);
         if (t < total - 0.05 && (!best || t < best.total)) best = { mealIdx: mi, recipe: r, total: t };
       }
     });
@@ -360,7 +369,7 @@ export function findAlternatives(plan: WeekPlan, mealId: string, ctx: Omit<PlanC
   const meal = plan.meals.find((m) => m.id === mealId);
   if (!meal) return [];
   const report = compatibilityReport(ctx.profile);
-  const base = buildShoppingList(plan, ctx.pantry, ctx.catalog).checkoutTotal;
+  const base = checkoutOf(plan, ctx);
   const used = new Set(plan.meals.map((m) => m.recipeId));
   const others = plan.meals.filter((m) => m.id !== mealId).map((m) => getRecipe(m.recipeId)!).filter(Boolean);
   const otherIngredients = new Set(others.flatMap((r) => r.ingredients.map((i) => i.ingredientId)));
@@ -368,7 +377,7 @@ export function findAlternatives(plan: WeekPlan, mealId: string, ctx: Omit<PlanC
     .filter((r) => !used.has(r.id) && r.mealTypes.includes(meal.slot))
     .map((r) => {
       const trial = replaceRecipe(plan, mealId, r.id);
-      const t = buildShoppingList(trial, ctx.pantry, ctx.catalog).checkoutTotal;
+      const t = checkoutOf(trial, ctx);
       const shared = r.ingredients.filter((ri) => !getIngredient(ri.ingredientId).staple && otherIngredients.has(ri.ingredientId)).length;
       const prefs = r.categories.filter((c) => ctx.profile.preferences.includes(c)).length;
       return { recipe: r, checkoutDelta: Math.round((t - base) * 100) / 100, sharedIngredients: shared, score: prefs * 5 + shared * 1.5 - Math.max(0, t - base) };
@@ -383,7 +392,7 @@ export function planFromRecipes(ctx: PlanContext, recipeIds: string[]): WeekPlan
   const slots = buildSlots({ ...ctx.profile, leftovers: "distintos" }, ctx.weekStart);
   const recipes = slots.map((_, i) => getRecipe(recipeIds[i % recipeIds.length])!);
   plan.meals = slotsToMeals(slots, recipes, plan.people);
-  plan.estimatedTotal = buildShoppingList(plan, ctx.pantry, ctx.catalog).checkoutTotal;
+  plan.estimatedTotal = checkoutOf(plan, ctx);
   return plan;
 }
 

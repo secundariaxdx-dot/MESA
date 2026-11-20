@@ -60,7 +60,10 @@ const SECTIONS: Section[] = [
     id: "markets",
     title: "País y supermercados",
     icon: "🛒",
-    summary: (p) => `${getCountry(p.countryId).flag} ${getSupermarket(p.supermarketId).name}${p.extraSupermarkets.length ? ` (+${p.extraSupermarkets.length})` : ""}`,
+    summary: (p) =>
+      `${getCountry(p.countryId).flag} ${[p.supermarketId, ...p.extraSupermarkets].map((id) => getSupermarket(id).name).join(" + ")}${
+        p.extraSupermarkets.length ? (p.multiStore ? " · repartiendo la compra" : " · todo en el principal") : ""
+      }`,
     render: (f) => (
       <div className="space-y-5">
         <CountryField {...f} />

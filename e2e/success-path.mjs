@@ -121,7 +121,24 @@ await shot("lista");
 step(`13-15. Lista por envases completos · ${total2} tras descontar despensa`);
 if (!(await page.getByText(/Comprar 1 .*aprox\./).first().isVisible())) throw new Error("No se muestran envases");
 
-const boxes = page.getByRole("checkbox");
+// Compra repartida entre varios supermercados.
+const euros = (t) => Number(t.replace(/[^\d,]/g, "").replace(",", "."));
+await page.getByRole("button", { name: "Añadir", exact: true }).click();
+await page.getByRole("checkbox", { name: "También voy a DIA" }).click();
+await page.getByRole("checkbox", { name: "También voy a Lidl" }).click();
+await page.getByRole("button", { name: "Guardar" }).click();
+await page.getByTestId("modo-repartir").waitFor();
+const totalMulti = await page.getByTestId("list-total").innerText();
+if (euros(totalMulti) > euros(total2)) throw new Error(`Repartir sale más caro: ${totalMulti} > ${total2}`);
+const stores = await page.getByTestId("list-stores").innerText();
+await shot("lista-varios-super");
+step(`    Varios supermercados: ${stores} · ${totalMulti} (antes ${total2})`);
+await page.getByRole("radio", { name: /Todo en Mercadona/ }).click();
+if ((await page.getByTestId("list-total").innerText()) !== total2) throw new Error("Volver a un súper no restaura el total");
+await page.getByTestId("modo-repartir").click();
+await page.getByText("en el carro").first().waitFor();
+
+const boxes = page.getByRole("checkbox", { name: /^Marcar / });
 await boxes.nth(0).click();
 await boxes.nth(1).click();
 const cart = await page.getByTestId("cart-count").innerText();

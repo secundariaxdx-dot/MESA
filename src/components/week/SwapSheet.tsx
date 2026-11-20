@@ -5,7 +5,7 @@ import { Clock, Repeat2 } from "lucide-react";
 import { Sheet } from "@/components/ui/Sheet";
 import { RecipeArt } from "@/components/recipe/RecipeArt";
 import { useMesa } from "@/store/mesa";
-import { useCatalog, useMarket } from "@/hooks/useMesaData";
+import { useCatalogs, useMarket } from "@/hooks/useMesaData";
 import { findAlternatives } from "@/engine/planner";
 import { formatMoney } from "@/engine/units";
 import { getRecipe } from "@/data/recipes";
@@ -17,13 +17,13 @@ export function SwapSheet({ mealId, onClose, onSwapped }: { mealId: string | nul
   const profile = useMesa((s) => s.profile);
   const pantry = useMesa((s) => s.pantry);
   const swapMeal = useMesa((s) => s.swapMeal);
-  const catalog = useCatalog();
+  const { catalog, extraCatalogs, minStoreSaving } = useCatalogs();
   const { currency } = useMarket();
   const meal = plan?.meals.find((m) => m.id === mealId);
 
   const alts = useMemo(
-    () => (plan && mealId ? findAlternatives(plan, mealId, { profile, pantry, catalog }, 10) : []),
-    [plan, mealId, profile, pantry, catalog],
+    () => (plan && mealId ? findAlternatives(plan, mealId, { profile, pantry, catalog, extraCatalogs, minStoreSaving }, 10) : []),
+    [plan, mealId, profile, pantry, catalog, extraCatalogs, minStoreSaving],
   );
   const current = meal ? getRecipe(meal.recipeId) : undefined;
 

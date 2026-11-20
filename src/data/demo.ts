@@ -6,6 +6,7 @@ export const EMPTY_PROFILE: Profile = {
   countryId: "es",
   supermarketId: "mercadona",
   extraSupermarkets: [],
+  multiStore: false,
   adults: 2,
   children: 0,
   days: [0, 1, 2, 3, 4],

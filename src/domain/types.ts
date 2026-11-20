@@ -225,6 +225,8 @@ export interface Profile {
   countryId: CountryId;
   supermarketId: string;
   extraSupermarkets: string[];
+  /** Repartir la compra entre el súper principal y los adicionales para ahorrar. */
+  multiStore: boolean;
   adults: number;
   children: number;
   /** 0 = lunes ... 6 = domingo */
@@ -323,6 +325,16 @@ export interface ShoppingItem {
   surplus: number;
   recipeIds: string[];
   missingProduct?: boolean;
+  /** Supermercado donde conviene comprarlo. */
+  supermarketId: string;
+  /** Coste del mismo producto (envases completos) en los demás supermercados. */
+  alternatives: { supermarketId: string; cost: number }[];
+}
+
+export interface StoreBreakdown {
+  supermarketId: string;
+  total: number;
+  itemCount: number;
 }
 
 export interface ShoppingList {
@@ -336,6 +348,14 @@ export interface ShoppingList {
   checkoutTotal: number;
   consumedTotal: number;
   pantrySavings: number;
+  /** La lista reparte la compra entre varios supermercados. */
+  multiStore: boolean;
+  /** Supermercados con algo que comprar, en orden (el principal primero). */
+  stores: StoreBreakdown[];
+  /** Lo que costaría comprarlo todo en el supermercado principal. */
+  singleStoreTotal: number;
+  /** Supermercados descartados porque el ahorro no compensa la parada. */
+  skippedStores: { supermarketId: string; saving: number }[];
 }
 
 export interface PurchaseRecord {
@@ -343,9 +363,11 @@ export interface PurchaseRecord {
   planId: string;
   date: string;
   supermarketId: string;
+  /** Desglose por supermercado cuando la compra se repartió. */
+  stores?: StoreBreakdown[];
   currency: CurrencyCode;
   total: number;
-  items: { ingredientId: string; name: string; qty: number; unit: BaseUnit; cost: number; packs: string }[];
+  items: { ingredientId: string; name: string; qty: number; unit: BaseUnit; cost: number; packs: string; supermarketId?: string }[];
 }
 
 export interface CookedEntry {

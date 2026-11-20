@@ -45,45 +45,77 @@ export function CountryField({ value, onChange }: FieldProps) {
 
 export function SupermarketField({ value, onChange }: FieldProps) {
   const markets = supermarketsOf(value.countryId);
+  const extras = value.extraSupermarkets.filter((id) => id !== value.supermarketId && markets.some((m) => m.id === id));
+  const setExtras = (next: string[]) =>
+    // Al añadir el primer supermercado extra, activamos el reparto (se puede desactivar).
+    onChange({ extraSupermarkets: next, multiStore: next.length === 0 ? false : extras.length === 0 ? true : value.multiStore });
   return (
     <div>
+      <p className="mb-2 text-sm font-semibold text-ink-2">Toca tu supermercado principal y marca otros a los que también vayas.</p>
       <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
         {markets.map((m) => {
           const main = value.supermarketId === m.id;
-          const extra = value.extraSupermarkets.includes(m.id);
+          const extra = extras.includes(m.id);
           return (
-            <SelectCard
+            <div
               key={m.id}
-              selected={main}
-              onClick={() => onChange({ supermarketId: m.id, extraSupermarkets: value.extraSupermarkets.filter((x) => x !== m.id) })}
-              className="flex flex-col items-start gap-2 p-3"
+              className={cn(
+                "flex flex-col overflow-hidden rounded-2xl border-2 bg-white transition-colors",
+                main ? "border-cobalt bg-cobalt-50" : extra ? "border-leaf" : "border-line",
+              )}
             >
-              <span className="grid size-10 place-items-center rounded-xl font-display text-lg font-extrabold text-white" style={{ background: m.color }}>
-                {m.name[0]}
-              </span>
-              <span className="font-semibold">{m.name}</span>
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                aria-pressed={main}
+                aria-label={`${m.name} como supermercado principal`}
+                onClick={() => onChange({ supermarketId: m.id, extraSupermarkets: extras.filter((x) => x !== m.id), multiStore: extras.filter((x) => x !== m.id).length ? value.multiStore : false })}
+                className="flex flex-col items-start gap-2 p-3 text-left"
+              >
+                <span className="grid size-10 place-items-center rounded-xl font-display text-lg font-extrabold text-white" style={{ background: m.color }}>
+                  {m.name[0]}
+                </span>
+                <span className="font-semibold">{m.name}</span>
+              </motion.button>
               {main ? (
-                <span className="text-xs font-semibold text-cobalt">Principal</span>
+                <span className="mx-3 mb-3 rounded-lg bg-cobalt px-2 py-1.5 text-center text-xs font-bold text-white">Principal</span>
               ) : (
-                <span
+                <button
                   role="checkbox"
                   aria-checked={extra}
-                  tabIndex={0}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onChange({ extraSupermarkets: toggle(value.extraSupermarkets, m.id) });
-                  }}
-                  className={cn("text-xs font-medium", extra ? "text-leaf" : "text-faint")}
+                  aria-label={`También voy a ${m.name}`}
+                  onClick={() => setExtras(toggle(extras, m.id))}
+                  className={cn("mx-3 mb-3 rounded-lg px-2 py-1.5 text-xs font-bold transition", extra ? "bg-leaf text-white" : "bg-mist text-ink-2 hover:bg-line")}
                 >
                   {extra ? "✓ También voy" : "+ También voy"}
-                </span>
+                </button>
               )}
-            </SelectCard>
+            </div>
           );
         })}
       </div>
+
+      {extras.length > 0 && (
+        <button
+          role="switch"
+          aria-checked={value.multiStore}
+          onClick={() => onChange({ multiStore: !value.multiStore })}
+          className={cn("mt-4 flex w-full items-center gap-3 rounded-2xl border-2 p-4 text-left transition", value.multiStore ? "border-leaf bg-leaf-50" : "border-line bg-white")}
+        >
+          <span className="text-2xl">🛒</span>
+          <span className="flex-1">
+            <span className="block font-bold">Repartir la compra entre mis supermercados</span>
+            <span className="block text-xs leading-relaxed text-muted">
+              Compraremos cada producto donde salga más barato, contando envases completos. Solo añadimos una parada si te ahorra al menos {formatMoney(Math.max(1, Math.round(getCountry(value.countryId).priceLevel)), getCountry(value.countryId).currency)}.
+            </span>
+          </span>
+          <span className={cn("relative h-7 w-12 shrink-0 rounded-full transition-colors", value.multiStore ? "bg-leaf" : "bg-line")}>
+            <span className={cn("absolute top-1 size-5 rounded-full bg-white shadow transition-all", value.multiStore ? "right-1" : "left-1")} />
+          </span>
+        </button>
+      )}
+
       <p className="mt-4 rounded-xl bg-mist px-3 py-2.5 text-xs leading-relaxed text-muted">
-        MESA no está afiliada, patrocinada ni respaldada por ninguno de estos supermercados. Los nombres se usan solo para identificar dónde compras. El supermercado principal define el catálogo de envases, los precios y la moneda ({getCountry(value.countryId).currency}).
+        MESA no está afiliada, patrocinada ni respaldada por ninguno de estos supermercados. Los nombres se usan solo para identificar dónde compras. El supermercado principal define la moneda ({getCountry(value.countryId).currency}) y es donde va todo lo que no ahorra nada en otro sitio.
       </p>
     </div>
   );

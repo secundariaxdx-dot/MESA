@@ -6,7 +6,9 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, CheckCircle2, ChevronDown, Home, PackageCheck, TriangleAlert } from "lucide-react";
 import { useMesa } from "@/store/mesa";
-import { useMarket, useShoppingList } from "@/hooks/useMesaData";
+import { storeNames, useMarket, useShoppingList } from "@/hooks/useMesaData";
+import { StoreModeCard, StoreHeader } from "@/components/shopping/StoreMode";
+import { getSupermarket } from "@/data/geo";
 import { PageHeader } from "@/components/layout/AppShell";
 import { BackButton, Button, Card, EmptyState, ProgressBar, cn } from "@/components/ui/primitives";
 import { Sheet } from "@/components/ui/Sheet";
@@ -15,7 +17,7 @@ import { getRecipe } from "@/data/recipes";
 import { formatMoney, formatPack, formatQty } from "@/engine/units";
 import { longDate } from "@/engine/dates";
 import { toast } from "@/components/ui/Toast";
-import type { ShoppingItem } from "@/domain/types";
+import type { AisleId, ShoppingItem } from "@/domain/types";
 
 const NONE: string[] = [];
 
@@ -46,11 +48,18 @@ export default function Lista() {
   const ids = list.toBuy.map((i) => i.ingredientId);
   const inCart = checked.filter((id) => ids.includes(id)).length;
   const allDone = list.toBuy.length > 0 && inCart === list.toBuy.length;
-  const groups = AISLES.map((a) => ({ aisle: a, items: list.toBuy.filter((i) => i.aisle === a.id) })).filter((g) => g.items.length);
+  const byAisle = (items: ShoppingItem[]) =>
+    AISLES.map((a) => ({ aisle: a, items: items.filter((i) => i.aisle === (a.id as AisleId)) })).filter((g) => g.items.length);
+  // Con la compra repartida, primero por supermercado y dentro por pasillos.
+  const splitByStore = list.multiStore && list.stores.length > 1;
+  const sections = splitByStore
+    ? list.stores.map((st) => ({ store: st, groups: byAisle(list.toBuy.filter((i) => i.supermarketId === st.supermarketId)) }))
+    : [{ store: null, groups: byAisle(list.toBuy) }];
+  const storesLabel = storeNames(list.stores.map((s) => s.supermarketId));
 
   return (
     <>
-      <PageHeader title="Lista de la compra" subtitle={<span className="font-semibold text-ink-2">{market.name}</span>} left={<BackButton href="/semana" />} />
+      <PageHeader title="Lista de la compra" subtitle={<span className="font-semibold text-ink-2" data-testid="list-stores">{storesLabel || market.name}</span>} left={<BackButton href="/semana" />} />
 
       <div className="grid gap-6 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
         <div className="space-y-3 lg:sticky lg:top-6 lg:order-2">
@@ -76,6 +85,19 @@ export default function Lista() {
                 </span>
               </div>
               <ProgressBar value={list.toBuy.length ? inCart / list.toBuy.length : 1} tone="leaf" />
+              {splitByStore && (
+                <div className="space-y-1.5 rounded-xl bg-mist p-3">
+                  {list.stores.map((st) => (
+                    <div key={st.supermarketId} className="flex items-center justify-between text-sm">
+                      <span className="flex items-center gap-2">
+                        <span className="size-2.5 rounded-full" style={{ background: getSupermarket(st.supermarketId).color }} />
+                        {getSupermarket(st.supermarketId).name} · {st.itemCount}
+                      </span>
+                      <span className="font-semibold tabular">{formatMoney(st.total, currency)}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
               {list.pantrySavings > 0 && (
                 <p className="rounded-xl bg-leaf-50 px-3 py-2 text-xs font-semibold text-leaf">Tu despensa te ahorra {formatMoney(list.pantrySavings, currency)} esta semana.</p>
               )}
@@ -98,6 +120,7 @@ export default function Lista() {
         </div>
 
         <div className="lg:order-1">
+          {!purchase && <StoreModeCard list={list} />}
           {list.toBuy.length === 0 ? (
             <EmptyState
               icon="✅"
@@ -106,19 +129,39 @@ export default function Lista() {
               action={<Link href="/semana"><Button>Volver a mi semana</Button></Link>}
             />
           ) : (
-            <div className="space-y-6">
-              {groups.map((g) => (
-                <section key={g.aisle.id}>
-                  <h2 className="mb-2 flex items-center gap-2 text-sm font-extrabold uppercase tracking-[0.12em]">
-                    <span className="text-lg">{g.aisle.icon}</span> {g.aisle.name}
-                    <span className="text-xs font-semibold text-faint">{g.items.length}</span>
-                  </h2>
-                  <Card className="divide-y divide-line">
-                    {g.items.map((item) => (
-                      <ListRow key={item.ingredientId} item={item} checked={checked.includes(item.ingredientId)} onToggle={() => toggleChecked(item.ingredientId)} currency={currency} />
-                    ))}
-                  </Card>
-                </section>
+            <div className="space-y-8">
+              {sections.map(({ store, groups }) => (
+                <div key={store?.supermarketId ?? "all"} className="space-y-6">
+                  {store && (
+                    <StoreHeader
+                      supermarketId={store.supermarketId}
+                      total={store.total}
+                      itemCount={store.itemCount}
+                      inCart={checked.filter((id) => list.toBuy.some((i) => i.ingredientId === id && i.supermarketId === store.supermarketId)).length}
+                      currency={currency}
+                    />
+                  )}
+                  {groups.map((g) => (
+                    <section key={g.aisle.id}>
+                      <h2 className="mb-2 flex items-center gap-2 text-sm font-extrabold uppercase tracking-[0.12em]">
+                        <span className="text-lg">{g.aisle.icon}</span> {g.aisle.name}
+                        <span className="text-xs font-semibold text-faint">{g.items.length}</span>
+                      </h2>
+                      <Card className="divide-y divide-line">
+                        {g.items.map((item) => (
+                          <ListRow
+                            key={item.ingredientId}
+                            item={item}
+                            checked={checked.includes(item.ingredientId)}
+                            onToggle={() => toggleChecked(item.ingredientId)}
+                            currency={currency}
+                            showAlternatives={list.multiStore}
+                          />
+                        ))}
+                      </Card>
+                    </section>
+                  ))}
+                </div>
               ))}
             </div>
           )}
@@ -188,7 +231,7 @@ export default function Lista() {
         }
       >
         <p className="text-sm text-muted">
-          Guardaremos esta compra en tu historial y añadiremos los envases a tu despensa con una fecha de consumo orientativa. Al cocinar cada receta descontaremos lo que use.
+          Guardaremos esta compra{list.stores.length > 1 ? ` (${storesLabel})` : ""} en tu historial y añadiremos los envases a tu despensa con una fecha de consumo orientativa. Al cocinar cada receta descontaremos lo que use.
         </p>
         {!allDone && (
           <p className="mt-3 flex gap-2 rounded-xl bg-sun-50 px-3 py-2 text-xs text-ink-2">
@@ -200,7 +243,20 @@ export default function Lista() {
   );
 }
 
-function ListRow({ item, checked, onToggle, currency }: { item: ShoppingItem; checked: boolean; onToggle(): void; currency: "EUR" | "NOK" | "GBP" | "USD" }) {
+function ListRow({
+  item,
+  checked,
+  onToggle,
+  currency,
+  showAlternatives,
+}: {
+  item: ShoppingItem;
+  checked: boolean;
+  onToggle(): void;
+  currency: "EUR" | "NOK" | "GBP" | "USD";
+  showAlternatives?: boolean;
+}) {
+  const nextBest = showAlternatives ? [...item.alternatives].sort((a, b) => a.cost - b.cost)[0] : undefined;
   const [open, setOpen] = useState(false);
   const packText = item.packs.map((p) => `${p.count} ${p.packLabel} de ${item.unit === "ud" ? "" : "aprox. "}${formatPack(p.packSize, item.unit)}`).join(" + ");
   return (
@@ -231,6 +287,11 @@ function ListRow({ item, checked, onToggle, currency }: { item: ShoppingItem; ch
           )}
           {item.shortfall > 0 && <span className="mt-0.5 block text-[11px] text-[#9a6f00]">Puede faltar un poco ({formatQty(item.shortfall, item.unit)}); el envase más cercano es suficiente.</span>}
           {item.surplus > 0 && item.surplus / item.purchasedQty > 0.25 && <span className="mt-0.5 block text-[11px] text-leaf">Te sobrarán ≈ {formatQty(item.surplus, item.unit)} para tu despensa.</span>}
+          {nextBest && nextBest.cost - item.cost > 0.004 && (
+            <span className="mt-0.5 block text-[11px] text-faint">
+              En {getSupermarket(nextBest.supermarketId).name}: {formatMoney(nextBest.cost, currency)}
+            </span>
+          )}
         </button>
         <span className={cn("shrink-0 pt-0.5 font-display text-[17px] font-bold tabular", checked && "text-faint")}>{formatMoney(item.cost, currency)}</span>
       </div>

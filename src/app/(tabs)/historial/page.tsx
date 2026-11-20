@@ -71,7 +71,7 @@ export default function Historial() {
                 <Card key={p.id} className="p-4">
                   <div className="flex items-baseline justify-between">
                     <p className="font-bold">
-                      {getSupermarket(p.supermarketId).name} · {new Date(p.date).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}
+                      {(p.stores?.length ? p.stores.map((st) => getSupermarket(st.supermarketId).name).join(" + ") : getSupermarket(p.supermarketId).name)} · {new Date(p.date).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}
                     </p>
                     <p className="font-display text-lg font-bold tabular">{formatMoney(p.total, p.currency)}</p>
                   </div>
@@ -81,7 +81,7 @@ export default function Historial() {
                       {p.items.map((i) => (
                         <li key={i.ingredientId} className="flex justify-between py-1.5">
                           <span>
-                            {i.name} <span className="text-xs text-muted">({i.packs})</span>
+                            {i.name} <span className="text-xs text-muted">({i.packs}{p.stores && p.stores.length > 1 && i.supermarketId ? ` · ${getSupermarket(i.supermarketId).name}` : ""})</span>
                           </span>
                           <span className="tabular">{formatMoney(i.cost, p.currency)}</span>
                         </li>

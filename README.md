@@ -14,6 +14,10 @@ npm run build && npm start
 npm run e2e        # recorrido completo con Playwright contra http://localhost:3000
 ```
 
+### Compra en varios supermercados
+
+En el paso «¿Dónde haces la compra?», en Preferencias o desde la propia lista, marca otros supermercados con «También voy» y activa **Repartir la compra**. MESA calcula cada producto con envases completos en todos ellos, lo asigna al más barato y descarta cualquier súper adicional que no te ahorre al menos 1 € (no compensa la parada). La lista se agrupa por supermercado y después por pasillos, con el subtotal de cada uno y el ahorro frente a hacerlo todo en el principal.
+
 Desde la bienvenida puedes **empezar desde cero** (onboarding de 13 pantallas) o **ver la semana de ejemplo** (España · Mercadona · 3 personas · L-V · cenas · 53 € · 45,64 € en caja).
 
 ## Publicar en GitHub Pages (y usarla como app en el móvil)

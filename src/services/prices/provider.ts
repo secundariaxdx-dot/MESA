@@ -122,3 +122,27 @@ export function getCatalogSync(supermarketId: string): PriceCatalog {
   }
   return c;
 }
+
+/**
+ * Supermercados con los que se calcula la compra: el principal y, si el
+ * usuario reparte la compra, los adicionales del mismo país (misma moneda).
+ */
+export function storeIdsFor(
+  profile: { supermarketId: string; extraSupermarkets: string[]; multiStore?: boolean; countryId: string },
+  mainId = profile.supermarketId,
+): string[] {
+  const main = getSupermarket(mainId);
+  if (!profile.multiStore) return [mainId];
+  const extras = profile.extraSupermarkets.filter((id) => id !== mainId && getSupermarket(id).countryId === main.countryId);
+  return [mainId, ...new Set(extras)];
+}
+
+export function catalogsFor(ids: string[]): PriceCatalog[] {
+  return ids.map(getCatalogSync);
+}
+
+/** Ahorro mínimo para que compense ir a otro supermercado (≈ 1 € ajustado al país). */
+export function minStoreSavingFor(supermarketId: string): number {
+  const level = getCountry(getSupermarket(supermarketId).countryId).priceLevel;
+  return Math.max(1, Math.round(level));
+}

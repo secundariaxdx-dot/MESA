@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { ChevronRight, Info, Package, ShoppingBasket, SlidersHorizontal, Sparkles, TriangleAlert, CheckCircle2 } from "lucide-react";
 import { useMesa } from "@/store/mesa";
 import type { PlannedMeal } from "@/domain/types";
-import { useMarket, useShoppingList } from "@/hooks/useMesaData";
+import { storeNames, useMarket, useShoppingList } from "@/hooks/useMesaData";
 import { PageHeader } from "@/components/layout/AppShell";
 import { Button, Card, EmptyState, ProgressBar, cn } from "@/components/ui/primitives";
 import { Sheet } from "@/components/ui/Sheet";
@@ -84,7 +84,8 @@ export default function Semana() {
         title={`${greeting()}${profile.name ? `, ${profile.name}` : ""}`}
         subtitle={
           <>
-            {activeMeals.length} {slots || "platos"} · {plan.people} {plan.people === 1 ? "persona" : "personas"} · {market.name}
+            {activeMeals.length} {slots || "platos"} · {plan.people} {plan.people === 1 ? "persona" : "personas"} ·{" "}
+            {storeNames(list.stores.filter((st) => st.itemCount > 0).map((st) => st.supermarketId)) || market.name}
           </>
         }
         right={prefsButton}
@@ -95,7 +96,9 @@ export default function Semana() {
         <div className="space-y-3 lg:sticky lg:top-6 lg:order-2">
           <motion.section initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className={cn("relative overflow-hidden rounded-[28px] p-5 text-white shadow-lift", over ? "bg-[#1d2a6b]" : "bg-cobalt")} aria-label="Presupuesto de la semana">
             <div className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-white/10" />
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-cobalt-100">Tu semana en {market.name}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-cobalt-100" data-testid="week-stores">
+              Tu semana en {purchase?.stores?.length ? storeNames(purchase.stores.map((st) => st.supermarketId)) : storeNames(list.stores.filter((st) => st.itemCount > 0).map((st) => st.supermarketId)) || market.name}
+            </p>
             <div className="mt-2 flex items-baseline gap-2">
               <span className="font-display text-[44px] font-extrabold leading-none tabular" data-testid="checkout-total">
                 {formatMoney(total, currency)}
@@ -117,6 +120,11 @@ export default function Semana() {
                 </p>
               ) : (
                 <p>Importe estimado en caja con envases completos{list.pantrySavings > 0 ? `, descontando tu despensa (−${formatMoney(list.pantrySavings, currency)})` : ""}.</p>
+              )}
+              {!purchase && list.multiStore && list.singleStoreTotal - list.checkoutTotal > 0.004 && (
+                <p className="font-semibold text-white">
+                  Repartiendo la compra ahorras {formatMoney(list.singleStoreTotal - list.checkoutTotal, currency)} frente a todo en {market.name}.
+                </p>
               )}
               <p>
                 Los platos consumen ≈ {formatMoney(list.consumedTotal, currency)}; el resto de los envases queda en tu despensa.
