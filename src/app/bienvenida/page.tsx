@@ -23,7 +23,7 @@ export default function Bienvenida() {
             <motion.span
               key={i}
               className="absolute text-4xl opacity-90 sm:text-5xl"
-              style={{ left: `${8 + ((i * 37) % 84)}%`, top: `${6 + ((i * 23) % 30)}%` }}
+              style={{ left: `${8 + ((i * 37) % 84)}%`, top: `${9 + ((i * 23) % 17)}%` }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 0.95, y: [0, -8, 0] }}
               transition={{ delay: i * 0.08, y: { duration: 4 + (i % 3), repeat: Infinity, ease: "easeInOut" } }}

@@ -1,30 +1,31 @@
 1:"$Sreact.fragment"
-2:"/MESA/_next/static/chunks/0k7gitvcqbiu2.js"
-3:"/MESA/_next/static/chunks/07s9j27wgv1wz.js"
+2:"/MESA/docs/_next/static/chunks/34e-p4ok0fxlk.js"
+3:"/MESA/docs/_next/static/chunks/07s9j27wgv1wz.js"
 4:I[39756,["$2","$3"],"default"]
 5:I[37457,["$2","$3"],"default"]
 6:I[88840,["$2","$3"],"Toaster"]
-a:I[47257,["$2","$3"],"ClientPageRoot"]
-b:"/MESA/_next/static/chunks/0kdjsic_i06t2.js"
-c:"/MESA/_next/static/chunks/1-2lru22xdd-t.js"
-d:I[51415,["$2","$3","$b","$c"],"default"]
-10:I[97367,["$2","$3"],"OutletBoundary"]
-11:"$Sreact.suspense"
-13:"ViewportBoundary"
-14:I[97367,["$2","$3"],"$13"]
-16:"MetadataBoundary"
-17:I[97367,["$2","$3"],"$16"]
-19:I[68027,["$2","$3"],"default",1]
-:HL["/MESA/_next/static/chunks/2egn_c7kq-i0i.css","style"]
+7:I[53624,["$2","$3"],"AppInstall"]
+b:I[47257,["$2","$3"],"ClientPageRoot"]
+c:"/MESA/docs/_next/static/chunks/2a6wts8-wnvsf.js"
+d:"/MESA/docs/_next/static/chunks/1-2lru22xdd-t.js"
+e:I[51415,["$2","$3","$c","$d"],"default"]
+11:I[97367,["$2","$3"],"OutletBoundary"]
+12:"$Sreact.suspense"
+14:"ViewportBoundary"
+15:I[97367,["$2","$3"],"$14"]
+17:"MetadataBoundary"
+18:I[97367,["$2","$3"],"$17"]
+1a:I[68027,["$2","$3"],"default",1]
+:HL["/MESA/docs/_next/static/chunks/40girhkjudkjd.css","style"]
 :HC["/",""]
-8:X
-9:[["children",{"s":"__PAGE__","h":512,"d":{"r":["$","$1","c",{"children":[["$","$La",null,{"Component":"$d","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@e","$@f"]}}],[["$","script","script-0",{"src":"/MESA/_next/static/chunks/0kdjsic_i06t2.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/MESA/_next/static/chunks/1-2lru22xdd-t.js","async":true,"nonce":"$undefined"}]],["$","$L10",null,{"children":["$","$11",null,{"name":"Next.MetadataOutlet","children":"$@12"}]}]]}],"p":false,"v":null}}]]
-7:[["children",{"s":"receta","h":512,"d":{"r":["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],"p":false,"v":"$8"},"c":"$Q9"}]]
-0:{"P":null,"c":["","receta",""],"q":"","i":false,"t":{"t":{"s":"","h":528,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/MESA/_next/static/chunks/2egn_c7kq-i0i.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/MESA/_next/static/chunks/0k7gitvcqbiu2.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/MESA/_next/static/chunks/07s9j27wgv1wz.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"es","className":"h-full antialiased","children":["$","body",null,{"className":"min-h-full","children":[["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}],["$","$L6",null,{}]]}]}]]}],"p":false,"v":null},"c":"$Q7"},"h":{"r":["$","$1","h",{"children":[null,["$","$L14",null,{"children":"$L15"}],["$","$L17",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$11",null,{"name":"Next.Metadata","children":"$L18"}]}],null]}],null]}],"p":false,"v":null}},"m":"$undefined","G":["$19",[["$","link","0",{"rel":"stylesheet","href":"/MESA/_next/static/chunks/2egn_c7kq-i0i.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]]],"S":true,"r":"$undefined","s":"$undefined","a":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"0oHsJQmy8Z2KewHupy90O"}
-8:C
-e:{}
-f:"$9:0:1:d:r:props:children:0:props:serverProvidedParams:params"
-15:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#2448f5"}]]
-1a:I[27201,["$2","$3"],"IconMark"]
-12:null
-18:[["$","title","0",{"children":"MESA · Tu semana de comidas"}],["$","meta","1",{"name":"description","content":"Planifica tus comidas, calcula lo que pagarás en caja por envases completos, usa tu despensa y cocina paso a paso."}],["$","meta","2",{"name":"application-name","content":"MESA"}],["$","link","3",{"rel":"icon","href":"/MESA/favicon.ico?favicon.117ezoe8m31dk.ico","sizes":"48x48","type":"image/x-icon"}],["$","$L1a","4",{}]]
+9:X
+a:[["children",{"s":"__PAGE__","h":512,"d":{"r":["$","$1","c",{"children":[["$","$Lb",null,{"Component":"$e","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@f","$@10"]}}],[["$","script","script-0",{"src":"/MESA/docs/_next/static/chunks/2a6wts8-wnvsf.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/MESA/docs/_next/static/chunks/1-2lru22xdd-t.js","async":true,"nonce":"$undefined"}]],["$","$L11",null,{"children":["$","$12",null,{"name":"Next.MetadataOutlet","children":"$@13"}]}]]}],"p":false,"v":null}}]]
+8:[["children",{"s":"receta","h":512,"d":{"r":["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],"p":false,"v":"$9"},"c":"$Qa"}]]
+0:{"P":null,"c":["","receta",""],"q":"","i":false,"t":{"t":{"s":"","h":528,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/MESA/docs/_next/static/chunks/40girhkjudkjd.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/MESA/docs/_next/static/chunks/34e-p4ok0fxlk.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/MESA/docs/_next/static/chunks/07s9j27wgv1wz.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"es","className":"h-full antialiased","children":["$","body",null,{"className":"min-h-full","children":[["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}],["$","$L6",null,{}],["$","$L7",null,{}]]}]}]]}],"p":false,"v":null},"c":"$Q8"},"h":{"r":["$","$1","h",{"children":[null,["$","$L15",null,{"children":"$L16"}],["$","$L18",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$12",null,{"name":"Next.Metadata","children":"$L19"}]}],null]}],null]}],"p":false,"v":null}},"m":"$undefined","G":["$1a",[["$","link","0",{"rel":"stylesheet","href":"/MESA/docs/_next/static/chunks/40girhkjudkjd.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]]],"S":true,"r":"$undefined","s":"$undefined","a":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"l6S3kOiei8J8XWp2Szugn"}
+9:C
+f:{}
+10:"$a:0:1:d:r:props:children:0:props:serverProvidedParams:params"
+16:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1, viewport-fit=cover"}],["$","meta","2",{"name":"theme-color","content":"#fbfaf7"}]]
+1b:I[27201,["$2","$3"],"IconMark"]
+13:null
+19:[["$","title","0",{"children":"MESA · Tu semana de comidas"}],["$","meta","1",{"name":"description","content":"Planifica tus comidas, calcula lo que pagarás en caja por envases completos, usa tu despensa y cocina paso a paso."}],["$","meta","2",{"name":"application-name","content":"MESA"}],["$","link","3",{"rel":"manifest","href":"/MESA/docs/manifest.webmanifest","crossOrigin":"$undefined"}],["$","meta","4",{"name":"format-detection","content":"telephone=no"}],["$","meta","5",{"name":"mobile-web-app-capable","content":"yes"}],["$","meta","6",{"name":"apple-mobile-web-app-title","content":"MESA"}],["$","meta","7",{"name":"apple-mobile-web-app-status-bar-style","content":"default"}],["$","link","8",{"rel":"icon","href":"/MESA/docs/icon.png?icon.1dsuvx-m1roce.png","sizes":"64x64","type":"image/png"}],["$","link","9",{"rel":"apple-touch-icon","href":"/MESA/docs/apple-icon.png?apple-icon.2yoo749xepa_3.png","sizes":"180x180","type":"image/png"}],["$","$L1b","10",{}]]

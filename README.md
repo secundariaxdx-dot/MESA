@@ -16,17 +16,20 @@ npm run e2e        # recorrido completo con Playwright contra http://localhost:3
 
 Desde la bienvenida puedes **empezar desde cero** (onboarding de 13 pantallas) o **ver la semana de ejemplo** (España · Mercadona · 3 personas · L-V · cenas · 53 € · 45,64 € en caja).
 
-## Publicar en GitHub Pages
+## Publicar en GitHub Pages (y usarla como app en el móvil)
 
-El repositorio incluye el sitio estático ya generado en `docs/` (rutas `/MESA/…`). En GitHub: **Settings → Pages → Build and deployment → Deploy from a branch**, elige la rama y la carpeta **/docs**. La app quedará en `https://<usuario>.github.io/MESA/`.
+GitHub Pages está en **Deploy from a branch → `/ (root)`**. La app estática vive en `docs/` y en la raíz hay un `index.html` que redirige a ella, más un `.nojekyll` para que no se muestre este README.
 
-Para regenerarlo tras cambiar el código:
+- Enlace: `https://<usuario>.github.io/MESA/` (redirige a `/MESA/docs/`).
+- Es una PWA: en iPhone, Safari → Compartir → **Añadir a pantalla de inicio**; en Android, **Instalar app**. Se abre a pantalla completa y funciona sin conexión.
+
+Para regenerarla tras cambiar el código:
 
 ```bash
-npm run build:pages        # usa basePath /MESA; otro nombre: node scripts/build-static.mjs /otro
+npm run build:pages        # basePath /MESA/docs
 ```
 
-El sitio estático no incluye `/api/ai` (necesita servidor); el resto funciona igual porque los datos viven en el navegador.
+La versión estática no incluye `/api/ai` (necesita servidor); el resto funciona igual porque los datos viven en el navegador.
 
 ## Arquitectura
 
