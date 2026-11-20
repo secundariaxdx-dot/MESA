@@ -204,10 +204,16 @@
     "Aceitunas verdes sin hueso Hacendado ·  · 525g · 1.85 €",
     "Aceitunas verdes sin hueso aliñadas Hacendado · Tarro · 420g · 1.9 €"
   ],
-  "leche-coco": [
-    "Refresco sin gas cero piña-coco Hacendado · Botella · 1500ml · 1.15 €",
-    "Fruta + leche piña y coco Hacendado sin azúcares añadidos ·  · 1200ml · 1.25 €",
-    "Bífidus cremoso con coco probióticos Hacendado ·  · 500ml · 1.3 €"
+  "leche-coco": [],
+  "leche-coco (sin coincidencia)": [
+    "Porciones de chocolate con leche classic Hacendado extrafino · Paquete · 0.2 kg · 2.25 € · Azúcar, caramelos y chocolate › Chocolate › Chocolate con leche",
+    "Chocolate con leche Fussion Hacendado relleno cremoso y conos sabor bacón y queso · Tableta · 0.135 kg · 1.75 € · Azúcar, caramelos y chocolate › Chocolate › Chocolate con leche",
+    "Chocolate con leche extrafino Nestlé · Tableta · 0.125 kg · 1.5 € · Azúcar, caramelos y chocolate › Chocolate › Chocolate con leche",
+    "Chocolate con leche Milka · Tableta · 0.15 kg · 1.95 € · Azúcar, caramelos y chocolate › Chocolate › Chocolate con leche",
+    "Chocolate extrafino con leche Hacendado almendras enteras · Tableta · 0.2 kg · 2 € · Azúcar, caramelos y chocolate › Chocolate › Chocolate con leche",
+    "Chocolate con leche Valor almendras enteras · Tableta · 0.25 kg · 4.95 € · Azúcar, caramelos y chocolate › Chocolate › Chocolate con leche",
+    "Chocolate con leche Hacendado avellanas troceadas · Tableta · 0.15 kg · 1.65 € · Azúcar, caramelos y chocolate › Chocolate › Chocolate con leche",
+    "Chocolate extrafino con leche Hacendado 0% azúcares añadidos · Tableta · 0.1 kg · 1.35 € · Azúcar, caramelos y chocolate › Chocolate › Chocolate con leche"
   ],
   "pesto": [
     "Salsa Pesto con albahaca Hacendado · Tarro · 190g · 1.95 €"
@@ -398,8 +404,7 @@
     "Filetes pechuga de pavo marinados extra tiernos · Bandeja · 600g · 5.4 €"
   ],
   "lomo-cerdo": [
-    "Lomo de cerdo trozo · Pieza · 1100g · 4.95 €",
-    "Lomo de cerdo marinado empanado sin gluten · Bandeja · 320g · 3.2 €"
+    "Lomo de cerdo trozo · Pieza · 1100g · 4.95 €"
   ],
   "costillas": [
     "Costilla de cerdo churrasco · Pieza · 900g · 4.77 €",
@@ -437,12 +442,10 @@
   "nata": [
     "Nata ligera para cocinar Hacendado · Pack-3 · 600ml · 1.85 €",
     "Nata ligera para cocinar Hacendado · Brik · 500ml · 1.55 €",
-    "Nata montada azucarada Hacendado · Spray · 250ml · 1.45 €"
+    "Nata fresca para cocinar Hacendado · Tarrina · 197ml · 1.3 €"
   ],
   "queso-cabra": [
-    "Agua mineral grande Solán de Cabras ·  · 9000g · 5.1 €",
-    "Agua mineral grande Solán de Cabras · Botella · 1500g · 0.85 €",
-    "Pasta fresca girasoles rellena de queso de cabra y cebolla caramelizada Hacendado · Bandeja · 250g · 1.95 €"
+    "Queso fresco de cabra Hacendado · Tarrina · 250g · 2.95 €"
   ],
   "mayonesa": [
     "Mayonesa Hacendado · Tarro · 500g · 1.2 €",
@@ -451,8 +454,7 @@
   ],
   "alubias": [
     "Alubia cocida blanca Hacendado · Tarro · 570g · 0.75 €",
-    "Alubia cocida blanca Hacendado · Tarro · 295g · 0.7 €",
-    "Alubia blanca Hacendado · Paquete · 1000g · 2.45 €"
+    "Alubia cocida blanca Hacendado · Tarro · 295g · 0.7 €"
   ],
   "cuscus": [
     "Cous cous mediano Hacendado · Caja · 1000g · 1.95 €"
@@ -486,8 +488,10 @@
   "curcuma": [
     "Cúrcuma molida Hacendado · Bote · 60g · 1.3 €"
   ],
-  "levadura": [
-    "Levadura de panadería Hacendado · Paquete · 70g · 1.6 €"
+  "levadura": [],
+  "levadura (sin coincidencia)": [
+    "Levadura fresca Levital · Paquete · 0.05 kg · 0.5 € · Panadería y pastelería › Harina y preparado repostería › Levadura y preparado repostería",
+    "Levadura de panadería Hacendado · Paquete · 0.07 kg · 1.6 € · Panadería y pastelería › Harina y preparado repostería › Levadura y preparado repostería"
   ],
   "mermelada": [
     "Mermelada de fresa Hacendado · Tarro · 400g · 1.45 €",

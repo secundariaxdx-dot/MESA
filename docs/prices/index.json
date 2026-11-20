@@ -1,17 +1,19 @@
 {
-  "updatedAt": "2026-11-20T21:27:51.771Z",
+  "updatedAt": "2026-11-20T21:30:03.779Z",
   "catalogs": [
     {
       "supermarketId": "mercadona",
       "referenceDate": "2026-11-20",
-      "fetchedAt": "2026-11-20T21:29:21.851Z",
+      "fetchedAt": "2026-11-20T21:31:34.930Z",
       "source": "Web de Mercadona (tienda.mercadona.es, zona mad1)",
       "coverage": {
-        "matched": 121,
+        "matched": 119,
         "total": 123,
         "missing": [
+          "leche-coco",
           "fresas",
-          "salchichas"
+          "salchichas",
+          "levadura"
         ]
       },
       "file": "mercadona.json"
