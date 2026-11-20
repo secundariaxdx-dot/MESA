@@ -161,6 +161,14 @@ async function runProvider(provider) {
     report[ingredientId] = packs.map((p) => `${p.name} · ${p.packaging} · ${p.packSize}${rule.unit} · ${p.price} €`);
     if (!packs.length) {
       missing.push(ingredientId);
+      // Pistas para afinar la regla: productos que coinciden pero sin tamaño válido,
+      // o que contienen la palabra clave del ingrediente.
+      const key = norm(ingredientId.split("-")[0]);
+      const near = [
+        ...products.filter((p) => matches(p.name, rule, p.path)),
+        ...products.filter((p) => norm(p.name).includes(key)),
+      ].slice(0, 8);
+      report[`${ingredientId} (sin coincidencia)`] = near.map((p) => `${p.name} · ${p.packaging} · ${p.size} ${p.format} · ${p.price} € · ${p.path}`);
       continue;
     }
     for (const p of packs) {

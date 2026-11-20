@@ -730,9 +730,21 @@
    "yogur",
    "agua de",
    "postre",
-   "helado"
+   "helado",
+   "aceite",
+   "chocolate",
+   "copos",
+   "barrita",
+   "cereal",
+   "gel",
+   "champu",
+   "crema corporal",
+   "snack",
+   "chips",
+   "agua"
   ],
-  "re": "(leche|crema)( de)? coco"
+  "re": "coco",
+  "all": []
  },
  "pesto": {
   "unit": "g",
@@ -1297,7 +1309,10 @@
   "none": [
    "conserva",
    "con patata",
-   "salteado"
+   "salteado",
+   "hacendado",
+   "redondas",
+   "tarro"
   ]
  },
  "coliflor": {
@@ -1308,13 +1323,13 @@
  },
  "repollo": {
   "unit": "g",
-  "re": "^(repollo|col )",
+  "re": "^repollo",
   "any": [],
   "gpu": 1000
  },
  "boniato": {
   "unit": "g",
-  "re": "^boniatos?( |$)",
+  "re": "^(boniatos?|batatas?)( |$)",
   "any": []
  },
  "albahaca": {
@@ -1385,7 +1400,10 @@
    "embuchado",
    "curado",
    "iberico",
-   "cinta"
+   "cinta",
+   "cocido",
+   "lonchas",
+   "loncha"
   ]
  },
  "costillas": {
@@ -1401,17 +1419,24 @@
  },
  "salchichas": {
   "unit": "g",
-  "re": "^salchichas? frescas?",
+  "re": "^salchichas?( |$)",
   "any": [],
   "none": [
    "frankfurt",
-   "cocidas",
+   "viena",
+   "cocida",
+   "cocktail",
+   "hot dog",
+   "lata",
+   "ahumada",
+   "vegetal",
+   "vegana",
    "pavo"
   ]
  },
  "alitas": {
   "unit": "g",
-  "re": "^alitas? de pollo",
+  "re": "^(alitas?|alas) (de )?pollo",
   "any": [],
   "none": [
    "barbacoa",
@@ -1442,7 +1467,9 @@
    "en lata",
    "tigre",
    "vinagreta",
-   "cocidos"
+   "cocidos",
+   "natural",
+   "lata"
   ]
  },
  "caldo-pescado": {
@@ -1470,23 +1497,32 @@
  },
  "nata": {
   "unit": "ml",
-  "re": "^nata (para )?cocinar|^nata liquida",
+  "re": "^nata",
   "any": [],
   "none": [
    "montar",
    "spray",
-   "vegetal"
+   "vegetal",
+   "postre",
+   "helado",
+   "fresa",
+   "chocolate"
   ]
  },
  "queso-cabra": {
   "unit": "g",
-  "re": "^(rulo de )?queso (de )?cabra|^rulo de cabra",
+  "re": "cabra",
   "any": [],
   "none": [
    "lonchas",
    "rallado",
    "untar",
-   "curado"
+   "curado",
+   "yogur",
+   "leche",
+   "semicurado",
+   "kefir",
+   "oveja"
   ]
  },
  "mayonesa": {
@@ -1504,21 +1540,24 @@
  },
  "alubias": {
   "unit": "g",
-  "re": "^alubias? blancas? cocidas?|^alubia blanca cocida",
+  "re": "^alubias? (blancas? )?cocidas?|^alubia blanca|^alubias blancas",
   "any": [],
   "none": [
    "chorizo",
-   "tomate"
+   "tomate",
+   "seca",
+   "secas",
+   "paquete"
   ]
  },
  "cuscus": {
   "unit": "g",
-  "re": "^cus ?cus",
+  "re": "^(cus ?cus|cous ?cous)",
   "any": [],
   "none": [
    "preparado",
    "verduras",
-   "integral"
+   "pollo"
   ]
  },
  "quinoa": {
@@ -1547,10 +1586,12 @@
  },
  "fideos-arroz": {
   "unit": "g",
-  "re": "^fideos? de arroz",
+  "re": "(fideos?|noodles|tallarines) de arroz",
   "any": [],
   "none": [
-   "sabor"
+   "sabor",
+   "pollo",
+   "vasito"
   ]
  },
  "masa-pizza": {
@@ -1600,12 +1641,13 @@
  },
  "levadura": {
   "unit": "g",
-  "re": "^levadura (quimica|en polvo)|^gasificante",
+  "re": "levadura",
   "any": [],
   "none": [
    "fresca",
    "panadera",
-   "cerveza"
+   "cerveza",
+   "nutricional"
   ]
  },
  "mermelada": {
