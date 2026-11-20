@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { ensureRemotePrices, pricesSettled, subscribePrices } from "@/services/prices/provider";
 import { CalendarDays, BookOpen, SlidersHorizontal, Settings, ShoppingBasket, Package, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { useMesa } from "@/store/mesa";
@@ -32,14 +33,27 @@ export function Splash() {
 }
 
 /** Espera a que el estado persistido esté cargado y exige onboarding. */
+/** Espera a los precios del día (como mucho 2,5 s) para no mostrar importes que luego cambian. */
+function usePricesReady() {
+  const settled = useSyncExternalStore(subscribePrices, pricesSettled, () => false);
+  const [timedOut, setTimedOut] = useState(false);
+  useEffect(() => {
+    ensureRemotePrices();
+    const t = setTimeout(() => setTimedOut(true), 2500);
+    return () => clearTimeout(t);
+  }, []);
+  return settled || timedOut;
+}
+
 export function Gate({ children, requireOnboarding = true }: { children: React.ReactNode; requireOnboarding?: boolean }) {
+  const pricesReady = usePricesReady();
   const hydrated = useMesa((s) => s.hydrated);
   const done = useMesa((s) => s.onboardingDone);
   const router = useRouter();
   useEffect(() => {
     if (hydrated && requireOnboarding && !done) router.replace("/bienvenida");
   }, [hydrated, done, requireOnboarding, router]);
-  if (!hydrated || (requireOnboarding && !done)) return <Splash />;
+  if (!hydrated || !pricesReady || (requireOnboarding && !done)) return <Splash />;
   return <>{children}</>;
 }
 

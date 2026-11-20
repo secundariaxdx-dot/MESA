@@ -246,6 +246,12 @@ export function registerRemoteCatalog(file: RemoteCatalogFile) {
 }
 
 let loading: Promise<RemoteIndexEntry[]> | null = null;
+let settled = false;
+
+/** true cuando ya se intentó cargar los precios reales (con o sin éxito). */
+export function pricesSettled() {
+  return settled;
+}
 let loadedIndex: RemoteIndexEntry[] = [];
 
 export function remoteIndex(): RemoteIndexEntry[] {
@@ -263,7 +269,7 @@ export function ensureRemotePrices(): Promise<RemoteIndexEntry[]> {
     loading = (async () => {
       try {
         const res = await fetch(`${base}/prices/index.json`, { cache: "no-cache" });
-        if (!res.ok) return [];
+        if (!res.ok) return [] as RemoteIndexEntry[];
         const index = (await res.json()) as { catalogs?: RemoteIndexEntry[] };
         const entries = index.catalogs ?? [];
         await Promise.all(
@@ -277,11 +283,13 @@ export function ensureRemotePrices(): Promise<RemoteIndexEntry[]> {
           }),
         );
         loadedIndex = entries;
-        version++;
-        listeners.forEach((l) => l());
         return entries;
       } catch {
         return [];
+      } finally {
+        settled = true;
+        version++;
+        listeners.forEach((l) => l());
       }
     })();
   }

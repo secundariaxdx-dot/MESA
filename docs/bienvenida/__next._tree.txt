@@ -1,5 +1,5 @@
-:HL["/MESA/docs/_next/static/chunks/0q3_ah_d6xj-b.css","style"]
+:HL["/MESA/docs/_next/static/chunks/0vv-brf5n4tf8.css","style"]
 :HC["/",""]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"bienvenida","h":96,"c":"$Q2"}]]
-0:{"b":"Nl2ieKvPoHeb2eGM2hY9S","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"dVmhAEZTLAbegvWcZfinu","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
