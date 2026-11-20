@@ -1,5 +1,5 @@
 import type { MyProduct, PantryItem, Profile, WeekPlan } from "@/domain/types";
-import { providerFor } from "@/services/prices/provider";
+import { ensureRemotePrices, providerFor } from "@/services/prices/provider";
 import { shoppingSetup } from "./shoppingSetup";
 import { getSupermarket } from "@/data/geo";
 import { nextWeekStart } from "./dates";
@@ -50,12 +50,14 @@ export async function generateStaged(
   const people = profile.adults + profile.children;
   await step(2, `Raciones para ${people} ${people === 1 ? "persona" : "personas"}${profile.children ? ` (${profile.children} niños)` : ""}`);
   await step(3, `${new Set(report.compatible.flatMap((r) => r.ingredients.map((i) => i.ingredientId))).size} ingredientes revisados`);
+  // Precios reales publicados junto a la app (si los hay); si no, estimaciones.
+  await ensureRemotePrices();
   const { ids, opts: shopping } = shoppingSetup(profile, profile.supermarketId, input.myProducts);
   const [catalog, ...extraCatalogs] = await Promise.all(ids.map((id) => providerFor(id).getCatalog(id)));
   const envases = [catalog, ...extraCatalogs].reduce((s, c) => s + c.products.length, 0);
   await step(
     4,
-    `${envases} envases de referencia en ${ids.map((id) => getSupermarket(id).name).join(", ")}${catalog.isDemo ? " (demostración)" : ""}`,
+    `${envases} envases en ${ids.map((id) => getSupermarket(id).name).join(", ")}${catalog.isDemo ? " (precios estimados)" : ` · precios de su web del ${catalog.referenceDate.split("-").reverse().join("/")}`}`,
   );
   const usable = pantry.filter((p) => p.status === "ok").length;
   const soon = expiringSoon(pantry, 14).length;

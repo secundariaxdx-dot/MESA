@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { ChevronRight, Info, Package, ShoppingBasket, SlidersHorizontal, Sparkles, TriangleAlert, CheckCircle2 } from "lucide-react";
 import { useMesa } from "@/store/mesa";
 import type { PlannedMeal } from "@/domain/types";
-import { storeNames, useMarket, useShoppingList } from "@/hooks/useMesaData";
+import { priceSourceText, storeNames, useMarket, useShoppingList } from "@/hooks/useMesaData";
 import { PageHeader } from "@/components/layout/AppShell";
 import { Button, Card, EmptyState, ProgressBar, cn } from "@/components/ui/primitives";
 import { Sheet } from "@/components/ui/Sheet";
@@ -15,7 +15,7 @@ import { MealCard } from "@/components/week/MealCard";
 import { SwapSheet } from "@/components/week/SwapSheet";
 import { WasteCard } from "@/components/week/WasteCard";
 import { DAYS, SLOTS, slotOrder } from "@/data/taxonomy";
-import { addDays, greeting, longDate, shortDate } from "@/engine/dates";
+import { addDays, greeting, shortDate } from "@/engine/dates";
 import { formatMoney } from "@/engine/units";
 import { expiringSoon } from "@/engine/pantry";
 
@@ -132,7 +132,7 @@ export default function Semana() {
                 Los platos consumen ≈ {formatMoney(list.consumedTotal, currency)}; el resto de los envases queda en tu despensa.
               </p>
               <p>
-                Precios {list.isDemoPrices ? "de demostración (ficticios)" : "de referencia"} · actualizados el {longDate(list.referenceDate)}
+                {priceSourceText(list)}
               </p>
             </div>
           </motion.section>

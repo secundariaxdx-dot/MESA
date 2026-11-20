@@ -69,7 +69,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </Link>
             ))}
           </nav>
-          <p className="mt-auto px-3 text-xs leading-relaxed text-faint">MESA no está afiliada a ningún supermercado. Precios de demostración.</p>
+          <p className="mt-auto px-3 text-xs leading-relaxed text-faint">MESA no está afiliada a ningún supermercado. Los precios se leen a diario de su web pública y son orientativos.</p>
         </aside>
 
         <main className="mx-auto w-full max-w-5xl flex-1 pb-28 lg:pb-12">{children}</main>

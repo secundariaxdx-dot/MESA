@@ -66,8 +66,15 @@ function toBase(size, format, unit, gpu) {
   return null;
 }
 
-function matches(name, rule) {
+// Secciones que no son comida y congelados (salvo que la regla los admita).
+const NOT_FOOD = /(mascota|perro|gato|cuidado|higiene|limpieza|drogueria|maquillaje|cabello|facial|corporal|bebe|parafarmacia|hogar)/;
+const FROZEN = /(ultracongelad|congelad)/;
+
+function matches(name, rule, catPath = "") {
   const n = norm(name);
+  if (NOT_FOOD.test(norm(catPath)) || NOT_FOOD.test(n)) return false;
+  if (!rule.frozen && FROZEN.test(n)) return false;
+  if (rule.re && !new RegExp(rule.re).test(n)) return false;
   const any = (rule.any ?? []).map(norm);
   const all = (rule.all ?? []).map(norm);
   const none = (rule.none ?? []).map(norm);
@@ -147,7 +154,7 @@ async function runProvider(provider) {
   for (const [ingredientId, rule] of Object.entries(rules)) {
     if (ingredientId.startsWith("_")) continue;
     const candidates = products
-      .filter((p) => matches(p.name, rule))
+      .filter((p) => matches(p.name, rule, p.path))
       .map((p) => ({ ...p, packSize: toBase(p.size, p.format, rule.unit, rule.gpu) }))
       .filter((p) => p.packSize && p.packSize > 0);
     const packs = choosePacks(candidates, rule);

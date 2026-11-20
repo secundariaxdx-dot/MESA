@@ -73,7 +73,7 @@ export default function Bienvenida() {
               )}
             </div>
             <p className="mt-6 text-xs leading-relaxed text-cobalt-100/80">
-              MESA no está afiliada a ningún supermercado. Los precios del ejemplo son ficticios y solo sirven para demostrar el cálculo.
+              MESA no está afiliada a ningún supermercado. Los precios se leen a diario de la web pública de cada súper cuando están disponibles; si no, son estimados. Son orientativos: el ticket manda.
             </p>
           </div>
         </div>

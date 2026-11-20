@@ -277,6 +277,7 @@ export function buildShoppingList(
     currency: main.currency,
     referenceDate: main.referenceDate,
     isDemoPrices: catalogs.some((c) => c.isDemo),
+    realPriceStores: catalogs.filter((c) => !c.isDemo).map((c) => c.supermarketId),
     toBuy,
     covered,
     checkoutTotal: Math.round(checkoutTotal * 100) / 100,

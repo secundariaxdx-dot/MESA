@@ -209,6 +209,10 @@ export interface Product {
   updatedAt: string;
   source: string;
   available: boolean | null;
+  /** Enlace a la ficha del producto en la web del súper (precios reales). */
+  url?: string;
+  /** Precio estimado (no se encontró el producto en la web del súper). */
+  estimated?: boolean;
 }
 
 export interface PriceCatalog {
@@ -218,6 +222,9 @@ export interface PriceCatalog {
   source: string;
   isDemo: boolean;
   products: Product[];
+  /** Precios reales: momento de la descarga y cobertura del catálogo. */
+  fetchedAt?: string;
+  coverage?: { matched: number; total: number; missing: string[] };
 }
 
 export interface Profile {
@@ -363,6 +370,8 @@ export interface ShoppingList {
   stores: StoreBreakdown[];
   /** Lo que costaría comprarlo todo en el supermercado principal. */
   singleStoreTotal: number;
+  /** Supermercados de la lista con precios reales descargados de su web. */
+  realPriceStores: string[];
   /** Supermercados descartados porque el ahorro no compensa la parada. */
   skippedStores: { supermarketId: string; saving: number }[];
 }

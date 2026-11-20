@@ -96,6 +96,18 @@ function buildDemoCatalog(supermarketId: string): PriceCatalog {
 
 const cache = new Map<string, PriceCatalog>();
 
+/** Precios reales descargados de la web del súper (si existen para ese súper). */
+export const RemotePriceProvider: PriceProvider = {
+  id: "web",
+  label: "Precios de la web del supermercado",
+  isDemo: false,
+  supports: (supermarketId) => remote.has(supermarketId),
+  async getCatalog(supermarketId) {
+    await ensureRemotePrices();
+    return getCatalogSync(supermarketId);
+  },
+};
+
 export const DemoPriceProvider: PriceProvider = {
   id: "demo",
   label: "Precios de demostración",
@@ -107,7 +119,7 @@ export const DemoPriceProvider: PriceProvider = {
 };
 
 /** Lugar para registrar proveedores reales en el futuro (orden de prioridad). */
-const PROVIDERS: PriceProvider[] = [DemoPriceProvider];
+const PROVIDERS: PriceProvider[] = [RemotePriceProvider, DemoPriceProvider];
 
 export function providerFor(supermarketId: string): PriceProvider {
   return PROVIDERS.find((p) => p.supports(supermarketId)) ?? DemoPriceProvider;
@@ -115,6 +127,8 @@ export function providerFor(supermarketId: string): PriceProvider {
 
 /** Acceso síncrono para el catálogo de demostración (cálculos en la UI). */
 export function getCatalogSync(supermarketId: string): PriceCatalog {
+  const real = remote.get(supermarketId);
+  if (real) return real;
   let c = cache.get(supermarketId);
   if (!c) {
     c = buildDemoCatalog(supermarketId);
@@ -145,4 +159,131 @@ export function catalogsFor(ids: string[]): PriceCatalog[] {
 export function minStoreSavingFor(supermarketId: string): number {
   const level = getCountry(getSupermarket(supermarketId).countryId).priceLevel;
   return Math.max(1, Math.round(level));
+}
+
+// ───────────────────────── Precios reales (descargados) ─────────────────────────
+// Un proceso diario (scripts/prices/fetch.mjs en GitHub Actions) publica
+// prices/index.json y prices/<súper>.json junto a la app. Aquí se cargan y se
+// combinan con el catálogo de demostración: lo que no se encuentre en la web
+// del súper conserva un precio estimado, marcado como tal.
+
+export interface RemoteCatalogFile {
+  supermarketId: string;
+  currency: PriceCatalog["currency"];
+  referenceDate: string;
+  fetchedAt: string;
+  source: string;
+  coverage: { matched: number; total: number; missing: string[] };
+  products: { id: string; ingredientId: string; name: string; packLabel: string; packSize: number; unit: "g" | "ml" | "ud"; price: number; url?: string }[];
+}
+
+export interface RemoteIndexEntry {
+  supermarketId: string;
+  referenceDate: string;
+  fetchedAt: string;
+  source: string;
+  coverage: { matched: number; total: number; missing: string[] };
+  file: string;
+}
+
+const remote = new Map<string, PriceCatalog>();
+const listeners = new Set<() => void>();
+let version = 0;
+
+export function pricesVersion() {
+  return version;
+}
+
+export function subscribePrices(fn: () => void) {
+  listeners.add(fn);
+  return () => {
+    listeners.delete(fn);
+  };
+}
+
+/** Registra un catálogo real y lo combina con estimaciones para lo que falte. */
+export function registerRemoteCatalog(file: RemoteCatalogFile) {
+  const known = new Map(INGREDIENTS.map((i) => [i.id, i]));
+  const demo = buildDemoCatalog(file.supermarketId);
+  const real: Product[] = file.products
+    .filter((p) => known.has(p.ingredientId) && known.get(p.ingredientId)!.unit === p.unit && p.price > 0 && p.packSize > 0)
+    .map((p) => {
+      const ing = known.get(p.ingredientId)!;
+      const perUnit = ing.unit === "ud" ? p.price / p.packSize : (p.price / p.packSize) * 1000;
+      return {
+        id: p.id,
+        name: p.name,
+        brand: "",
+        supermarketId: file.supermarketId,
+        ingredientId: p.ingredientId,
+        category: ing.aisle,
+        packSize: p.packSize,
+        unit: ing.unit,
+        packLabel: p.packLabel,
+        price: p.price,
+        pricePerUnit: Math.round(perUnit * 100) / 100,
+        pricePerUnitLabel: `/${UNIT_LABEL[ing.unit]}`,
+        updatedAt: file.referenceDate,
+        source: file.source,
+        available: true,
+        url: p.url,
+      };
+    });
+  const covered = new Set(real.map((p) => p.ingredientId));
+  const estimated = demo.products.filter((p) => !covered.has(p.ingredientId)).map((p) => ({ ...p, estimated: true }));
+  remote.set(file.supermarketId, {
+    supermarketId: file.supermarketId,
+    currency: file.currency,
+    referenceDate: file.referenceDate,
+    source: file.source,
+    isDemo: false,
+    fetchedAt: file.fetchedAt,
+    coverage: { matched: covered.size, total: INGREDIENTS.length, missing: INGREDIENTS.filter((i) => !covered.has(i.id)).map((i) => i.id) },
+    products: [...real, ...estimated],
+  });
+  version++;
+  listeners.forEach((l) => l());
+}
+
+let loading: Promise<RemoteIndexEntry[]> | null = null;
+let loadedIndex: RemoteIndexEntry[] = [];
+
+export function remoteIndex(): RemoteIndexEntry[] {
+  return loadedIndex;
+}
+
+/**
+ * Carga los precios reales publicados junto a la app (una sola vez por sesión).
+ * Si no hay precios reales o falla la red, la app sigue con los de demostración.
+ */
+export function ensureRemotePrices(): Promise<RemoteIndexEntry[]> {
+  if (typeof window === "undefined") return Promise.resolve([]);
+  if (!loading) {
+    const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    loading = (async () => {
+      try {
+        const res = await fetch(`${base}/prices/index.json`, { cache: "no-cache" });
+        if (!res.ok) return [];
+        const index = (await res.json()) as { catalogs?: RemoteIndexEntry[] };
+        const entries = index.catalogs ?? [];
+        await Promise.all(
+          entries.map(async (e) => {
+            try {
+              const r = await fetch(`${base}/prices/${e.file}`, { cache: "no-cache" });
+              if (r.ok) registerRemoteCatalog((await r.json()) as RemoteCatalogFile);
+            } catch {
+              /* ese súper sigue con estimaciones */
+            }
+          }),
+        );
+        loadedIndex = entries;
+        version++;
+        listeners.forEach((l) => l());
+        return entries;
+      } catch {
+        return [];
+      }
+    })();
+  }
+  return loading;
 }

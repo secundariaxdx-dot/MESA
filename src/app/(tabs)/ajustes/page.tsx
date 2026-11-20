@@ -9,7 +9,8 @@ import { PageHeader } from "@/components/layout/AppShell";
 import { Button, Card, Toggle } from "@/components/ui/primitives";
 import { Sheet } from "@/components/ui/Sheet";
 import { getCountry, getSupermarket } from "@/data/geo";
-import { providerFor } from "@/services/prices/provider";
+import { getCatalogSync, providerFor } from "@/services/prices/provider";
+import { usePricesVersion } from "@/hooks/useMesaData";
 import { longDate } from "@/engine/dates";
 import { toast } from "@/components/ui/Toast";
 import { RECIPES } from "@/data/recipes";
@@ -32,6 +33,7 @@ export default function Ajustes() {
   const fileRef = useRef<HTMLInputElement>(null);
   const country = getCountry(profile.countryId);
   const market = getSupermarket(profile.supermarketId);
+  usePricesVersion();
   const provider = providerFor(profile.supermarketId);
 
   const setNotif = async (k: keyof typeof settings.notifications, v: boolean) => {
@@ -88,7 +90,7 @@ export default function Ajustes() {
           </div>
           <div className="px-4 py-3.5 text-xs leading-relaxed text-muted">
             Precios: {provider.label}
-            {provider.isDemo ? " (ficticios, no oficiales)" : ""}. Catálogo de {RECIPES.length} recetas. MESA no está afiliada a ningún supermercado.
+            {provider.isDemo ? " (estimados, aún no hay precios descargados de este súper)" : ` · actualizados el ${longDate(getCatalogSync(profile.supermarketId).referenceDate)}`}. Catálogo de {RECIPES.length} recetas. MESA no está afiliada a ningún supermercado.
           </div>
         </Group>
 

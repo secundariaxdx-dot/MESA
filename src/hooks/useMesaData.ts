@@ -1,16 +1,27 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useSyncExternalStore } from "react";
 import { useMesa } from "@/store/mesa";
-import { catalogsFor, getCatalogSync } from "@/services/prices/provider";
+import { catalogsFor, ensureRemotePrices, getCatalogSync, pricesVersion, subscribePrices } from "@/services/prices/provider";
 import { shoppingSetup } from "@/engine/shoppingSetup";
 import { buildShoppingList } from "@/engine/shopping";
 import { wasteReport } from "@/engine/waste";
 import { getCountry, getSupermarket } from "@/data/geo";
 
+/** Se incrementa cuando llegan precios reales: fuerza a recalcular la compra. */
+export function usePricesVersion() {
+  const v = useSyncExternalStore(subscribePrices, pricesVersion, () => 0);
+  useEffect(() => {
+    ensureRemotePrices();
+  }, []);
+  return v;
+}
+
 export function useCatalog() {
   const supermarketId = useMesa((s) => s.plan?.supermarketId ?? s.profile.supermarketId);
-  return useMemo(() => getCatalogSync(supermarketId), [supermarketId]);
+  const v = usePricesVersion();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(() => getCatalogSync(supermarketId), [supermarketId, v]);
 }
 
 /**
@@ -21,11 +32,13 @@ export function useCatalogs() {
   const profile = useMesa((s) => s.profile);
   const myProducts = useMesa((s) => s.myProducts);
   const mainId = useMesa((s) => s.plan?.supermarketId ?? s.profile.supermarketId);
+  const v = usePricesVersion();
   return useMemo(() => {
     const { ids, opts } = shoppingSetup(profile, mainId, myProducts);
     const [catalog, ...extraCatalogs] = catalogsFor(ids);
     return { catalog, extraCatalogs, shopping: opts };
-  }, [profile, mainId, myProducts]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profile, mainId, myProducts, v]);
 }
 
 export function useShoppingList() {
@@ -60,4 +73,14 @@ export function useWasteReport() {
   const list = useShoppingList();
   const { catalog } = useCatalogs();
   return useMemo(() => (plan && list ? wasteReport(plan, list, pantry, catalog) : null), [plan, list, pantry, catalog]);
+}
+
+/** Texto de origen de los precios de una lista: reales (web del súper) o estimados. */
+export function priceSourceText(list: { realPriceStores: string[]; stores: { supermarketId: string; itemCount: number }[]; referenceDate: string; isDemoPrices: boolean }): string {
+  const used = list.stores.filter((s) => s.itemCount > 0).map((s) => s.supermarketId);
+  const real = used.filter((id) => list.realPriceStores.includes(id));
+  const estimated = used.filter((id) => !list.realPriceStores.includes(id));
+  const [y, m, d] = list.referenceDate.split("-");
+  if (!real.length) return "Precios estimados (no oficiales): aún no hay precios descargados de este supermercado";
+  return `Precios de la web de ${storeNames(real)} del ${d}/${m}/${y}${estimated.length ? ` · ${storeNames(estimated)}: estimados` : ""}`;
 }

@@ -8,7 +8,7 @@ import { Check, CheckCircle2, ChevronDown, ChevronRight, Home, PackageCheck, Sta
 import { MyProductSheet } from "@/components/shopping/MyProductSheet";
 import type { MyProduct } from "@/domain/types";
 import { useMesa } from "@/store/mesa";
-import { storeNames, useMarket, useShoppingList } from "@/hooks/useMesaData";
+import { priceSourceText, storeNames, useMarket, useShoppingList } from "@/hooks/useMesaData";
 import { StoreModeCard, StoreHeader } from "@/components/shopping/StoreMode";
 import { getSupermarket } from "@/data/geo";
 import { getIngredient } from "@/data/ingredients";
@@ -19,7 +19,6 @@ import { Sheet } from "@/components/ui/Sheet";
 import { AISLES } from "@/data/taxonomy";
 import { getRecipe } from "@/data/recipes";
 import { formatMoney, formatPack, formatQty } from "@/engine/units";
-import { longDate } from "@/engine/dates";
 import { toast } from "@/components/ui/Toast";
 import type { AisleId, ShoppingItem } from "@/domain/types";
 
@@ -76,7 +75,7 @@ export default function Lista() {
                 {formatMoney(list.checkoutTotal, currency)}
               </p>
               <p className="mt-2 text-xs text-cobalt-100">
-                {list.isDemoPrices ? "Precios de demostración, no oficiales" : "Precios de referencia"} · {longDate(list.referenceDate)}
+                <span data-testid="price-source">{priceSourceText(list)}</span>
               </p>
             </div>
             <div className="space-y-3 p-5">

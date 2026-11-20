@@ -153,7 +153,7 @@ function Receta() {
           <Stat label="Coste por ración" value={`≈ ${formatMoney(cost.perServing, currency)}`} sub={`≈ ${formatMoney(cost.total, currency)} en total`} />
         </div>
         <p className="mt-2 text-[11px] leading-relaxed text-faint">
-          Coste aproximado de los ingredientes que consume la receta (proporcional), no lo que pagas en caja. {catalog.isDemo ? "Precios de demostración" : "Precios de referencia"} · {longDate(catalog.referenceDate)}.
+          Coste aproximado de los ingredientes que consume la receta (proporcional), no lo que pagas en caja. {catalog.isDemo ? "Precios estimados (no oficiales)" : `Precios de la web del súper del ${longDate(catalog.referenceDate)}`}.
           {meal?.feedsMealId && " Incluye las raciones para la comida de mañana."}
         </p>
 
