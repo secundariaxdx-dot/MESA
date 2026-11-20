@@ -1,21 +1,16 @@
 {
-  "updatedAt": "2026-11-20T21:12:07.422Z",
+  "updatedAt": "2026-11-20T21:15:32.742Z",
   "catalogs": [
     {
       "supermarketId": "mercadona",
       "referenceDate": "2026-11-20",
-      "fetchedAt": "2026-11-20T21:13:38.794Z",
+      "fetchedAt": "2026-11-20T21:17:13.382Z",
       "source": "Web de Mercadona (tienda.mercadona.es, zona mad1)",
       "coverage": {
-        "matched": 84,
+        "matched": 89,
         "total": 90,
         "missing": [
-          "tomate-cherry",
-          "bacon",
-          "bacalao",
-          "gambas",
-          "leche-coco",
-          "pan-hamburguesa"
+          "leche-coco"
         ]
       },
       "file": "mercadona.json"
