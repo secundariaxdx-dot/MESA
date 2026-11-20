@@ -1,0 +1,381 @@
+{
+  "tomate": [
+    "Tomate canario · Pieza · 170g · 0.37 €",
+    "Tomate pera · Pieza · 140g · 0.31 €",
+    "Tomate ensalada · Pieza · 200g · 0.5 €"
+  ],
+  "tomate-cherry": [],
+  "pimiento-verde": [
+    "Pimiento verde freír · Pieza · 120g · 0.3 €",
+    "Brochetas de pollo, pimiento verde y tocino de cerdo con varilla · Bandeja · 370g · 3.11 €"
+  ],
+  "pimiento-rojo": [
+    "Pimiento rojo y verde Hacendado ultracongelado · Paquete · 450g · 1.2 €",
+    "Pimiento rojo · Pieza · 300g · 0.87 €"
+  ],
+  "pepino": [
+    "Pepino · Pieza · 200g · 0.37 €",
+    "Pepino holandés · Pieza · 425g · 1.13 €"
+  ],
+  "cebolla": [
+    "Cebollas · Malla · 2000g · 3 €",
+    "Cebollas · Malla · 1000g · 1.5 €",
+    "Cebolla troceada Hacendado ultracongelada · Paquete · 450g · 0.95 €"
+  ],
+  "ajo": [
+    "Patatas prefritas gajo Hacendado ultracongeladas · Paquete · 750g · 1.65 €",
+    "Pimientos del piquillo en tiras con ajo Hacendado · Tarro · 290g · 1.05 €",
+    "Baguette ajo y finas hierbas Hacendado ultracongeladas · Paquete · 350g · 2 €"
+  ],
+  "patata": [
+    "Patatas · Malla · 5000g · 5.3 €",
+    "Patatas · Malla · 3000g · 4.65 €",
+    "Patatas rojas · Malla · 2000g · 3.8 €"
+  ],
+  "brocoli": [
+    "Coliflor, brócoli y zanahoria Hacendado ultracongelada · Paquete · 1000g · 1.8 €",
+    "Brócoli · Pieza · 470g · 1.27 €",
+    "Floretas de brócoli para microondas lavadas · Paquete · 230g · 1.7 €"
+  ],
+  "espinacas": [
+    "Espinacas cortadas y lavadas · Paquete · 300g · 1.3 €",
+    "Smoothie veggie aguacate, mango y espinaca Hacendado · Botella · 250g · 1.8 €",
+    "Burger de pavo y espinacas · Bandeja · 240g · 2.4 €"
+  ],
+  "calabacin": [
+    "Calabacín verde · Pieza · 380g · 0.72 €",
+    "Calabacín blanco · Pieza · 330g · 0.73 €"
+  ],
+  "berenjena": [
+    "Berenjena · Pieza · 400g · 0.88 €",
+    "Berenjenas de Almagro aliñada Antonio · Tarro · 680g · 3.59 €"
+  ],
+  "zanahoria": [
+    "Zanahorias · Paquete · 1000g · 1.2 €",
+    "Zanahorias · Paquete · 500g · 0.8 €"
+  ],
+  "lechuga": [
+    "Cogollos corazón de lechuga ·  · 2400g · 2 €",
+    "Cogollos de lechuga ·  · 1200g · 1.05 €",
+    "Lechugas corazón romana ·  · 800g · 1.85 €"
+  ],
+  "limon": [
+    "Tinto de verano zero limón Casón Histórico · Botella · 1500g · 1.15 €",
+    "Tinto de verano limón Don Simón ·  · 3000g · 2.5 €",
+    "Limonada sin gas light Hacendado ·  · 1320g · 1.6 €"
+  ],
+  "perejil": [
+    "Pan tostado con ajo y perejil Hacendado · Paquete · 170g · 1.3 €",
+    "Hueso dental perro adulto sabor menta y perejil Compy · Paquete · 192g · 1.75 €",
+    "Aliño de aceite con perejil y ajo Hacendado ·  · 150g · 1.8 €"
+  ],
+  "champinon": [
+    "Champiñones laminados Hacendado · Bote · 355g · 1 €",
+    "Champiñón laminado Hacendado · Pack-3 · 450g · 1.8 €",
+    "Champiñones laminados limpios · Bandeja · 320g · 2.11 €"
+  ],
+  "aguacate": [
+    "Aguacates ·  · 730g · 3.87 €",
+    "Aguacate · Pieza · 180g · 1.01 €",
+    "Aguacate en dados Hacendado congelado · Paquete · 500g · 3.5 €"
+  ],
+  "calabaza": [
+    "Media calabaza cacahuete · 1/2 Pieza · 680g · 2.04 €",
+    "Calabaza cacahuete cortada a trozos · Bandeja · 560g · 2.24 €",
+    "Pasta fresca ravioli rellena de calabaza con cebolla Hacendado · Bandeja · 250g · 1.95 €"
+  ],
+  "puerro": [
+    "Puerros ·  · 450g · 2.16 €"
+  ],
+  "platano": [
+    "Bebida láctea de fresa y plátano Hacendado · Botella · 1000g · 1.5 €",
+    "Petit sabor fresa y plátano Hacendado ·  · 360g · 0.85 €",
+    "Yogur griego dulce Hacendado con dulce de leche, galleta y plátano ·  · 750g · 1.85 €"
+  ],
+  "tofu": [
+    "Tofu firme Hacendado · Paquete · 400g · 1.75 €"
+  ],
+  "hummus": [
+    "Hummus de garbanzos Hacendado receta clásica · Tarrina · 240g · 1.05 €"
+  ],
+  "chuleta-cerdo": [
+    "Chuletas aguja de cerdo · Bandeja · 730g · 3.76 €",
+    "Chuletas lomo de cerdo finas · Bandeja · 530g · 3.66 €",
+    "Chuletas de cerdo sajonia · Bandeja · 400g · 3.76 €"
+  ],
+  "pechuga-pollo": [
+    "Filetes pechuga de pollo · Bandeja · 520g · 4 €",
+    "Filetes pechuga de pollo extra tiernos · Bandeja · 560g · 4.31 €",
+    "Filetes pechuga de pollo corte fino · Bandeja · 500g · 4.1 €"
+  ],
+  "muslo-pollo": [
+    "Contramuslos de pollo sin piel · Bandeja · 790g · 3.32 €",
+    "Chuletas de pavo contramuslo · Bandeja · 460g · 3.59 €",
+    "Filetes de pavo contramuslo · Bandeja · 600g · 4.92 €"
+  ],
+  "carne-picada-ternera": [
+    "Preparado de carne picada vacuno · Bandeja · 1000g · 10.8 €",
+    "Preparado de carne picada vacuno · Bandeja · 500g · 5.5 €",
+    "Preparado de carne picada vacuno · Paquete · 400g · 5.4 €"
+  ],
+  "carne-picada-mixta": [
+    "Preparado de carne picada vacuno y cerdo · Bandeja · 1000g · 8 €",
+    "Preparado de carne picada vacuno y cerdo · Bandeja · 500g · 4.1 €"
+  ],
+  "ternera-guisar": [
+    "Tacos de vacuno añojo para guisar · Bandeja · 520g · 8.42 €"
+  ],
+  "bacon": [],
+  "chorizo": [
+    "Tortilla de patata con chorizo Hacendado · Bandeja · 600g · 3.4 €",
+    "Chorizo oreado · Bandeja · 360g · 2.48 €",
+    "Chorizo aperitivo · Bandeja · 300g · 2.59 €"
+  ],
+  "jamon": [
+    "Taquitos de jamón Incarlopsa · Pack-2 · 200g · 2.65 €",
+    "Mini taquitos de jamón Incarlopsa · Pack-2 · 180g · 2.65 €"
+  ],
+  "salmon": [
+    "Comida perro con salmón fresco, frutas y verduras adulto Supreme Compy · Saco · 10000g · 26.5 €",
+    "Comida perro con salmón fresco, frutas y verduras adulto Supreme Compy · Paquete · 3000g · 10.5 €",
+    "Comida perro con salmón fresco, frutas y verduras adulto Supreme Compy · Paquete · 1500g · 6 €"
+  ],
+  "sepia": [
+    "Sepia Faraónica · Bandeja · 510g · 8.64 €",
+    "Sepia troceada Faraónica · Bandeja · 300g · 5.5 €"
+  ],
+  "bacalao": [],
+  "merluza": [
+    "Papilla verduritas con merluza Hero Solo +6 meses · Tarrito · 235g · 1.8 €",
+    "Filetes de merluza al huevo Hacendado ultracongelados · Paquete · 600g · 5.15 €",
+    "Fingers de merluza Hacendado ultracongelados · Paquete · 400g · 3.65 €"
+  ],
+  "gambas": [],
+  "guisantes": [
+    "Guisante fino Hacendado ultracongelado · Paquete · 1000g · 1.55 €",
+    "Guisantes extra Hacendado · Bote · 390g · 0.95 €",
+    "Guisantes extra Hacendado · Pack-3 · 555g · 1.75 €"
+  ],
+  "huevo": [
+    "Huevos · Paquete · 24ud · 5.25 €",
+    "Huevos medianos M · Paquete · 12ud · 2.85 €",
+    "Huevos grandes L · Paquete · 6ud · 1.8 €"
+  ],
+  "queso-rallado": [
+    "Queso rallado especial fundir mezcla Hacendado · Paquete · 400g · 1.9 €",
+    "Queso rallado especial fundir mezcla Hacendado · Paquete · 200g · 1.1 €",
+    "Queso rallado sin lactosa de vaca Hacendado · Paquete · 150g · 1.8 €"
+  ],
+  "queso-lonchas": [
+    "Queso lonchas fundido suave mezcla Hacendado · Paquete · 555g · 2.35 €",
+    "Queso lonchas gouda de vaca Hacendado · Paquete · 500g · 2.7 €",
+    "Queso lonchas fundido sándwich mezcla Hacendado · Paquete · 200g · 1.1 €"
+  ],
+  "queso-crema": [
+    "Queso untar suave de vaca Hacendado · Tarrina · 300g · 1.4 €",
+    "Queso untar con queso azul de vaca Hacendado · Tarrina · 200g · 1.9 €",
+    "Queso untar original Philadelphia · Tarrina · 270g · 2.9 €"
+  ],
+  "yogur": [
+    "Yogur natural Hacendado · Pack-6 · 750g · 1 €",
+    "Yogur natural Danone · Pack-8 · 960g · 1.99 €",
+    "Yogur natural de cabra Hacendado · Pack-4 · 500g · 2.1 €"
+  ],
+  "atun": [
+    "Atún claro en aceite de oliva Hacendado · Pack-6 · 480g · 4.9 €",
+    "Atún claro en aceite de oliva Hacendado · Lata · 111g · 1.55 €",
+    "Atún claro en aceite de oliva Hacendado · Bote · 195g · 3.7 €"
+  ],
+  "tomate-triturado": [
+    "Tomate triturado Hacendado · Bote · 800g · 1 €",
+    "Tomate triturado Hacendado · Bote · 400g · 0.55 €"
+  ],
+  "tomate-frito": [
+    "Tomate frito Hacendado · Pack-3 · 1200g · 1.35 €",
+    "Tomate frito Hacendado · Pack-3 · 630g · 0.95 €",
+    "Tomate frito Hacendado · Tarro · 560g · 0.9 €"
+  ],
+  "garbanzos": [
+    "Garbanzo cocido Hacendado · Tarro · 570g · 0.8 €",
+    "Garbanzo pedrosillano Hacendado · Paquete · 1000g · 1.9 €",
+    "Garbanzo cocido Hacendado · Tarro · 295g · 0.75 €"
+  ],
+  "maiz": [
+    "Maíz dulce Hacendado ultracongelado · Paquete · 400g · 1.24 €",
+    "Maíz dulce Hacendado · Pack-3 · 450g · 1.55 €",
+    "Maíz dulce Hacendado · Pack-3 · 225g · 1.25 €"
+  ],
+  "aceitunas": [
+    "Aceitunas verdes sin hueso Hacendado · Tarro · 700g · 2.2 €",
+    "Aceitunas verdes sin hueso Hacendado ·  · 525g · 1.85 €",
+    "Aceitunas verdes sin hueso aliñadas Hacendado · Tarro · 420g · 1.9 €"
+  ],
+  "leche-coco": [],
+  "pesto": [
+    "Pasta fresca girasoles rellena de pesto y queso de oveja Hacendado · Bandeja · 250g · 1.95 €",
+    "Pasta con pollo al pesto Hacendado ultracongelada · Paquete · 300g · 2.4 €",
+    "Salsa Pesto con albahaca Hacendado · Tarro · 190g · 1.95 €"
+  ],
+  "lentejas": [
+    "Lenteja pardina Hacendado · Paquete · 1000g · 1.85 €",
+    "Lentejas a la jardinera Hacendado · Bote · 420g · 1.2 €",
+    "Crema de lentejas Hacendado · Bol · 350g · 1.7 €"
+  ],
+  "arroz": [
+    "Arroz redondo Hacendado · Paquete · 1000g · 1.15 €"
+  ],
+  "macarrones": [
+    "Macarrón Hacendado · Paquete · 1000g · 1.2 €",
+    "Macarrón fino Hacendado · Paquete · 500g · 0.85 €"
+  ],
+  "espaguetis": [
+    "Spaghetti Hacendado · Paquete · 1000g · 1.2 €",
+    "Spaghetti fino Hacendado · Paquete · 500g · 0.85 €"
+  ],
+  "fideos": [
+    "Fideo cabello de ángel Hacendado · Paquete · 500g · 0.85 €",
+    "Fideos orientales sabor pollo Hacendado · Paquete · 65g · 0.55 €",
+    "Fideos de chocolate Hacendado · Paquete · 100g · 1.75 €"
+  ],
+  "pan": [
+    "Barra de pan ·  · 250g · 0.5 €",
+    "Barra de pan espiga ·  · 300g · 0.78 €",
+    "Barra de pan chapata ·  · 400g · 1.3 €"
+  ],
+  "pan-hamburguesa": [],
+  "tortillas": [
+    "Tortillas de trigo Hacendado · Paquete · 9ud · 1.15 €",
+    "Tortillas de trigo Delibreads 30 cm · Paquete · 16ud · 2.35 €",
+    "Wraps Texas · Bol · 8ud · 3.1 €"
+  ],
+  "pan-rallado": [
+    "Pan rallado Hacendado · Paquete · 750g · 0.85 €",
+    "Pan rallado casero Hacendado · Paquete · 500g · 1 €",
+    "Pan rallado de arroz Hacendado · Paquete · 350g · 2 €"
+  ],
+  "aceite": [
+    "Aceite de oliva 0,4º Hacendado · Garrafa · 5000ml · 16.75 €",
+    "Aceite de oliva virgen Hacendado · Garrafa · 3000ml · 10.75 €",
+    "Aceite de oliva 0,4º Hacendado · Botella · 1000ml · 3.6 €"
+  ],
+  "sal": [
+    "Sal fina Hacendado · Paquete · 1000g · 0.45 €",
+    "Sal fina de mesa Hacendado · Bote · 300g · 0.8 €",
+    "Pan tostado fino con sésamo y sal marina Delicate Crisp Wasa · Paquete · 190g · 1.8 €"
+  ],
+  "pimienta": [
+    "Pimienta negra molida Hacendado · Bote · 70g · 1.3 €",
+    "Molinillo pimienta negra Hacendado · Bote · 65g · 1.85 €"
+  ],
+  "vinagre": [
+    "Vinagre de vino blanco Hacendado · Botella · 1000ml · 0.65 €"
+  ],
+  "harina": [
+    "Harina de trigo grande Hacendado · Paquete · 5000g · 2.95 €",
+    "Harina de trigo Hacendado · Paquete · 1000g · 0.72 €"
+  ],
+  "azucar": [
+    "Refresco cola Hacendado zero azúcar · Botella · 2000g · 0.8 €",
+    "Bebida de soja 0% azúcar Hacendado · Brik · 1000g · 0.75 €",
+    "Refresco cola Hacendado zero azúcar ·  · 1980g · 2.1 €"
+  ],
+  "pimenton": [
+    "Pimentón dulce Hacendado · Bote · 75g · 1.3 €"
+  ],
+  "comino": [
+    "Comino molido Hacendado · Bote · 58g · 1.15 €"
+  ],
+  "curry": [
+    "Curry Hacendado · Bote · 57g · 1.1 €"
+  ],
+  "laurel": [
+    "Hoja de laurel Hacendado · Paquete · 12g · 0.85 €"
+  ],
+  "oregano": [
+    "Galletas saladas con semillas y orégano Hacendado · Paquete · 250g · 1.45 €",
+    "Bocaditos de queso mozzarella, tomate y orégano Pizza Bites Hacendado ultracongelados · Paquete · 300g · 2.3 €",
+    "Panes especiales con tomate y orégano Hacendado · Paquete · 80g · 0.85 €"
+  ],
+  "cayena": [
+    "Guindillas picantes Hacendado · Tarro · 290g · 1.7 €",
+    "Banderillas Gildas Hacendado pinchos de aceituna, anchoa y guindilla · Paquete · 125g · 2.3 €",
+    "Cayena molida Hacendado · Bote · 55g · 1.65 €"
+  ],
+  "vino-blanco": [
+    "Vino blanco Casón Histórico · Brik · 1000ml · 0.95 €",
+    "Vino blanco Airén Sauvignon Blanc Fidencio DO La Mancha · Botella · 750ml · 1.45 €"
+  ],
+  "caldo-pollo": [
+    "Caldo de pollo Hacendado · Brik · 1000ml · 0.75 €"
+  ],
+  "caldo-verduras": [
+    "Caldo de verduras casero Gallina blanca · Brik · 1000ml · 1.8 €"
+  ],
+  "salsa-soja": [
+    "Salsa de Soja Hacendado · Botella · 250ml · 1.2 €"
+  ],
+  "mostaza": [
+    "Mostaza clásica Hacendado · Bote · 388g · 1.25 €"
+  ],
+  "manzana": [
+    "Néctar de maracuyá Hacendado fruta de la pasión, mango, uva y manzana · Brik · 1000g · 1.5 €",
+    "Manzanas Golden ·  · 1550g · 2.79 €",
+    "Manzanas rojas dulces ·  · 1610g · 2.9 €"
+  ],
+  "leche": [
+    "Leche semidesnatada Hacendado · Brik · 1000ml · 0.83 €",
+    "Leche semidesnatada Hacendado ·  · 6000ml · 4.98 €",
+    "Leche semidesnatada Hacendado · Pack-6 · 9000ml · 8.7 €"
+  ],
+  "bebida-avena": [
+    "Bebida de avena Hacendado 0% azúcar · Pack-6 · 6000ml · 4.5 €",
+    "Bebida de avena Hacendado 0% azúcar · Brik · 1000ml · 0.75 €",
+    "Bebida de avena Alitey · Pack-3 · 750ml · 1.5 €"
+  ],
+  "mantequilla": [
+    "Palomitas de maíz sabor mantequilla Hacendado para microondas · Paquete · 270g · 1.2 €",
+    "Masa fresca Hacendado hojaldre con mantequilla ·  · 520g · 2.85 €",
+    "Rosquillas de mantequilla Hacendado · Caja · 300g · 2.05 €"
+  ],
+  "queso-fresco": [
+    "Queso fresco Burgos natural Hacendado · Pack-2 · 500g · 2.05 €",
+    "Queso fresco Burgos natural Hacendado · Pack-4 · 250g · 1.15 €",
+    "Queso fresco de vaca QuesPro Hacendado · Tarrina · 300g · 2 €"
+  ],
+  "jamon-cocido": [
+    "Jamón cocido Hacendado finas lonchas ·  · 450g · 3.35 €",
+    "Jamón cocido jugoso Hacendado lonchas · Paquete · 250g · 1.95 €",
+    "Jamón cocido extra Hacendado finas lonchas · Paquete · 200g · 2 €"
+  ],
+  "pan-molde": [
+    "Pan de molde blanco familiar Hacendado · Paquete · 820g · 1.15 €",
+    "Pan de molde blanco Hacendado · Paquete · 460g · 0.8 €",
+    "Pan de molde blanco natural rústico Hacendado · Paquete · 550g · 1.3 €"
+  ],
+  "avena": [
+    "Copos de avena Brüggen · Caja · 800g · 1.3 €",
+    "Gel de baño avena Deliplus piel sensible · Botella · 750g · 1.6 €",
+    "Avena molida Hacendado · Paquete · 500g · 1.15 €"
+  ],
+  "nueces": [
+    "Nuez troceada pelada Hacendado · Paquete · 200g · 2.25 €"
+  ],
+  "miel": [
+    "Gel de baño vainilla y miel Deliplus piel normal · Botella · 750g · 1.6 €",
+    "Miel de flores Hacendado · Tarro · 1000g · 5 €",
+    "Miel de flores Hacendado · Bote · 500g · 3.2 €"
+  ],
+  "cacao": [
+    "Cacao en polvo a la taza Hacendado · Paquete · 400g · 1.85 €",
+    "Cacao soluble instantáneo Hacendado · Caja · 800g · 3.75 €",
+    "Cacao soluble Hacendado · Bote · 1000g · 4.9 €"
+  ],
+  "chocolate": [
+    "Cacahuetes Hacendado chocolate negro · Paquete · 250g · 2.05 €",
+    "Barritas de avena y chocolate negro Crunchy Nature Valley · Caja · 210g · 1.95 €",
+    "Turrón de chocolate negro crujiente Hacendado · Tableta · 200g · 2.2 €"
+  ],
+  "canela": [
+    "Canela molida Hacendado · Bote · 52g · 1 €"
+  ]
+}
