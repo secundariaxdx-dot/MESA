@@ -1,10 +1,10 @@
 {
-  "updatedAt": "2026-11-21T05:11:54.864Z",
+  "updatedAt": "2026-11-22T05:14:13.074Z",
   "catalogs": [
     {
       "supermarketId": "mercadona",
-      "referenceDate": "2026-11-21",
-      "fetchedAt": "2026-11-21T05:13:20.389Z",
+      "referenceDate": "2026-11-22",
+      "fetchedAt": "2026-11-22T05:15:38.076Z",
       "source": "Web de Mercadona (tienda.mercadona.es, zona mad1)",
       "coverage": {
         "matched": 119,
