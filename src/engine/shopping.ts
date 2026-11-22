@@ -23,7 +23,9 @@ export function computeNeeds(plan: WeekPlan): Map<string, Need> {
     if (meal.kind !== "cook" || meal.status !== "planned") continue;
     const recipe = getRecipe(meal.recipeId);
     if (!recipe) continue;
-    addRecipeNeeds(needs, recipe, meal.servings, plan.portionFactor);
+    // Raciones equivalentes: incluye tu ración ajustada a calorías si la hay.
+    const portions = meal.portions ?? meal.servings * plan.portionFactor;
+    addRecipeNeeds(needs, recipe, portions, 1);
   }
   return needs;
 }

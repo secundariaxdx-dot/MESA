@@ -18,6 +18,15 @@ npm run e2e        # recorrido completo con Playwright contra http://localhost:3
 
 En el paso «¿Dónde haces la compra?», en Preferencias o desde la propia lista, marca otros supermercados con «También voy» y activa **Repartir la compra**. MESA calcula cada producto con envases completos en todos ellos, lo asigna al más barato y descarta cualquier súper adicional que no te ahorre al menos 1 € (no compensa la parada). La lista se agrupa por supermercado y después por pasillos, con el subtotal de cada uno y el ahorro frente a hacerlo todo en el principal.
 
+### Calorías y objetivo (estilo Fitia)
+
+Opcional, en el cuestionario («Tus datos y tu objetivo») o en Preferencias → Calorías y objetivo:
+- Sexo, edad, peso, altura, actividad física y objetivo (perder —suave −15 % o normal −20 %—, mantener o ganar +10 %).
+- Gasto con Mifflin-St Jeor × factor de actividad; proteína 1,6–2 g/kg, grasa 30 % y el resto hidratos. Límites prudentes: mínimo 1.200/1.500 kcal y nunca por debajo del basal; sin déficit para menores de 18 años.
+- Las calorías del día se reparten por franjas (desayuno 22 %, comida 35 %, merienda 10 %, cena 30 %). El planificador elige platos que encajan y **ajusta tu ración** de cada uno (×0,6–×1,7); la del resto de la casa no cambia y la compra se recalcula con esas cantidades.
+- Tarjeta «Tu día» en la Semana con kcal y macros por día frente al objetivo; «Tu ración» en cada plato y en la ficha de receta.
+- Es una estimación orientativa, no consejo médico.
+
 ### Modo aprovechamiento
 
 Activado por defecto (Presupuesto, Preferencias o la tarjeta ♻️ de la Semana). En el súper se compra por envases enteros, así que MESA mira cuánto sobra de cada uno y qué le pasa según lo que dura el alimento:

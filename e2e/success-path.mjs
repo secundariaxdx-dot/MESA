@@ -43,6 +43,17 @@ await shot("paso-personas");
 await cont();
 step("3. Tres personas");
 
+// Datos personales y objetivo (calorías estilo Fitia).
+await page.getByRole("switch", { name: "Ajustar a mis calorías" }).click();
+await page.getByLabel("Edad", { exact: true }).fill("30");
+await page.getByLabel("Peso", { exact: true }).fill("60");
+await page.getByLabel("Altura", { exact: true }).fill("165");
+await page.getByRole("button", { name: /Perder peso/ }).click();
+const objetivo = (await page.getByTestId("objetivo-kcal").innerText()).split("\n")[1];
+await shot("paso-calorias");
+await cont();
+step(`    Datos personales: objetivo ${objetivo}`);
+
 // Días: L-V por defecto; comprobamos y probamos a quitar/poner un día.
 await page.getByRole("button", { name: "Sábado", exact: true }).click();
 await page.getByRole("button", { name: "Sábado", exact: true }).click();
@@ -105,6 +116,10 @@ if (meals !== 5) throw new Error(`Esperaba 5 cenas, hay ${meals}`);
 const total1 = await page.getByTestId("checkout-total").innerText();
 await shot("semana");
 step(`11-12. Menú semanal (5 cenas) · importe en caja ${total1}`);
+await page.getByTestId("tu-dia").waitFor();
+const media = await page.getByTestId("kcal-media").innerText();
+const racion = await page.getByTestId("mi-racion").first().innerText();
+step(`    Tu día: ${media.split("\n")[0].trim()} · ${racion}`);
 
 // Despensa: añadir aceite y sal.
 await page.goto(`${BASE}/despensa`);

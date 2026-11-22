@@ -27,6 +27,8 @@ import {
 import { getCountry, getSupermarket } from "@/data/geo";
 import { allergenName, applianceName, DAYS, DIETS, DISLIKES, MEATS, prefName, selectedSlots } from "@/data/taxonomy";
 import { compatibilityReport } from "@/engine/planner";
+import { GOALS, isNutritionReady, nutritionTargets } from "@/engine/nutrition";
+import { NutritionField } from "@/components/profile/NutritionField";
 import { formatMoney } from "@/engine/units";
 import { toast } from "@/components/ui/Toast";
 
@@ -40,6 +42,17 @@ interface Section {
 }
 
 const SECTIONS: Section[] = [
+  {
+    id: "nutrition",
+    title: "Calorías y objetivo",
+    icon: "🔥",
+    summary: (p) => {
+      if (!isNutritionReady(p.nutrition)) return "Sin ajuste de calorías";
+      const t = nutritionTargets(p.nutrition);
+      return `${t.kcal} kcal/día · ${GOALS.find((g) => g.id === p.nutrition!.goal)?.name.toLowerCase()} · ${t.protein} g de proteína`;
+    },
+    render: (f) => <NutritionField {...f} />,
+  },
   { id: "people", title: "Personas de la casa", icon: "👨‍👩‍👧", summary: (p) => `${p.adults} adultos · ${p.children} niños`, render: (f) => <PeopleField {...f} /> },
   { id: "days", title: "Días de planificación", icon: "🗓️", summary: (p) => p.days.map((d) => DAYS[d].short).join(" ") || "Ninguno", render: (f) => <DaysField {...f} />, valid: (p) => p.days.length > 0 },
   {

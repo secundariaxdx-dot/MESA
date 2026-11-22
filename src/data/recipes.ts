@@ -3,6 +3,7 @@ import { fridge, now, toRecipe, type RecipeDef } from "./recipe-kit";
 import { CUCHARA_Y_VERDURA } from "./recipes/cuchara-verdura";
 import { CARNE_PESCADO_ARROZ } from "./recipes/carne-pescado-arroz";
 import { MUNDO_Y_DESAYUNOS } from "./recipes/mundo-desayunos";
+import { PROTEICAS } from "./recipes/proteicas";
 
 /**
  * Catálogo de recetas de MESA (núcleo original). Las ampliaciones están en
@@ -1193,7 +1194,7 @@ const RAW: RecipeDef[] = [
   },
 ];
 
-export const RECIPES: Recipe[] = [...RAW, ...CUCHARA_Y_VERDURA, ...CARNE_PESCADO_ARROZ, ...MUNDO_Y_DESAYUNOS].map(toRecipe);
+export const RECIPES: Recipe[] = [...RAW, ...CUCHARA_Y_VERDURA, ...CARNE_PESCADO_ARROZ, ...MUNDO_Y_DESAYUNOS, ...PROTEICAS].map(toRecipe);
 
 const BY_ID = new Map(RECIPES.map((r) => [r.id, r]));
 

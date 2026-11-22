@@ -20,6 +20,7 @@ function checkoutOf(plan: WeekPlan, ctx: ShopCtx): number {
 }
 import { formatMoney } from "./units";
 import { wastePenalty, wasteReport } from "./waste";
+import { dailyIntake, isNutritionReady, nutritionFit, nutritionTargets, plannedShare, withPortions } from "./nutrition";
 
 /**
  * Motor de planificación determinista (dado un seed).
@@ -182,6 +183,10 @@ function scoreRecipe(
   s -= sameKind.filter((c) => c.id === r.id).length * 6;
   if (prev && mainProtein(prev) === protein && !isLightSlot(slot.slot)) s -= 1.5;
   if (slot.feeds && !r.leftoverFriendly) s -= 100;
+  // Calorías y proteína: platos que encajan con tu objetivo sin forzar raciones extremas.
+  if (isNutritionReady(ctx.profile.nutrition)) {
+    s += nutritionFit(r, slot.slot, ctx.profile.nutrition, nutritionTargets(ctx.profile.nutrition));
+  }
   s += rng() * 6;
   return s;
 }
@@ -305,7 +310,7 @@ export function generateWeek(ctx: PlanContext): GenerateResult {
     }
   });
 
-  plan.meals = slotsToMeals(slots, chosen, people);
+  plan.meals = withPortions({ ...plan, meals: slotsToMeals(slots, chosen, people) }, profile).meals;
   let total = checkoutOf(plan, ctx);
 
   // Optimización de presupuesto: sustituciones que más reducen el coste en caja.
@@ -317,14 +322,14 @@ export function generateWeek(ctx: PlanContext): GenerateResult {
       for (const r of report.compatible) {
         if (used.has(r.id) || !r.mealTypes.includes(m.slot)) continue;
         if (m.feedsMealId && !r.leftoverFriendly) continue;
-        const trial = replaceRecipe(plan, m.id, r.id);
+        const trial = swapIn(plan, m.id, r.id, ctx.profile);
         const t = checkoutOf(trial, ctx);
         if (t < total - 0.05 && (!best || t < best.total)) best = { mealIdx: mi, recipe: r, total: t };
       }
     });
     if (!best) break;
     const b = best as { mealIdx: number; recipe: Recipe; total: number };
-    plan.meals = replaceRecipe(plan, plan.meals[b.mealIdx].id, b.recipe.id).meals;
+    plan.meals = swapIn(plan, plan.meals[b.mealIdx].id, b.recipe.id, ctx.profile).meals;
     total = b.total;
   }
 
@@ -352,6 +357,11 @@ export function suggestionsFor(report: CompatibilityReport): string[] {
   if (report.excluded.diet) s.push(`Tu dieta descarta ${report.excluded.diet} recetas del catálogo actual.`);
   if (report.excluded.allergen) s.push(`Las alergias descartan ${report.excluded.allergen} recetas. Las alergias nunca se ignoran.`);
   return s;
+}
+
+/** Cambia un plato y recalcula las raciones ajustadas a calorías. */
+export function swapIn(plan: WeekPlan, mealId: string, recipeId: string, profile: Profile): WeekPlan {
+  return withPortions(replaceRecipe(plan, mealId, recipeId), profile);
 }
 
 /** Sustituye la receta de UNA comida sin tocar el resto de la semana. */
@@ -408,7 +418,7 @@ export function findAlternatives(plan: WeekPlan, mealId: string, ctx: Omit<PlanC
   return report.compatible
     .filter((r) => !used.has(r.id) && r.mealTypes.includes(meal.slot))
     .map((r) => {
-      const trial = replaceRecipe(plan, mealId, r.id);
+      const trial = swapIn(plan, mealId, r.id, ctx.profile);
       const t = checkoutOf(trial, ctx);
       const shared = r.ingredients.filter((ri) => !getIngredient(ri.ingredientId).staple && otherIngredients.has(ri.ingredientId)).length;
       const prefs = r.categories.filter((c) => ctx.profile.preferences.includes(c)).length;
@@ -423,7 +433,7 @@ export function planFromRecipes(ctx: PlanContext, recipeIds: string[]): WeekPlan
   const plan = makePlanShell(ctx);
   const slots = buildSlots({ ...ctx.profile, leftovers: "distintos" }, ctx.weekStart);
   const recipes = slots.map((_, i) => getRecipe(recipeIds[i % recipeIds.length])!);
-  plan.meals = slotsToMeals(slots, recipes, plan.people);
+  plan.meals = withPortions({ ...plan, meals: slotsToMeals(slots, recipes, plan.people) }, ctx.profile).meals;
   plan.estimatedTotal = checkoutOf(plan, ctx);
   return plan;
 }
@@ -451,7 +461,17 @@ export function optimizeWaste(plan: WeekPlan, ctx: PlanContext, compatible: Reci
     const mains = cooked.filter((r) => !r.mealTypes.some(isLightSlot));
     const proteins = mains.map(mainProtein);
     const sameProtein = (proteins.length - new Set(proteins).size) * 0.5;
-    return { total: list.checkoutTotal, score: list.checkoutTotal + waste - prefs + repeatedFromLastWeek + sameProtein };
+    // Nutrición: falta de proteína (≈ 10 céntimos por gramo) y desvío de calorías del día.
+    let nutrition = 0;
+    if (isNutritionReady(ctx.profile.nutrition)) {
+      const t = nutritionTargets(ctx.profile.nutrition);
+      const share = plannedShare(ctx.profile.meals);
+      for (const d of dailyIntake(p)) {
+        nutrition += Math.max(0, t.protein * share - d.protein) * 0.1;
+        nutrition += (Math.abs(d.kcal - t.kcal * share) / (t.kcal * share)) * 2;
+      }
+    }
+    return { total: list.checkoutTotal, score: list.checkoutTotal + waste - prefs + repeatedFromLastWeek + sameProtein + nutrition };
   };
   let current = evaluate(plan);
   const limit = Math.max(ctx.profile.budget, startTotal);
@@ -469,13 +489,13 @@ export function optimizeWaste(plan: WeekPlan, ctx: PlanContext, compatible: Reci
         .slice(0, 12);
       let best: { recipe: Recipe; result: ReturnType<typeof evaluate> } | null = null;
       for (const { r } of candidates) {
-        const trial = replaceRecipe(plan, meal.id, r.id);
+        const trial = swapIn(plan, meal.id, r.id, ctx.profile);
         const result = evaluate(trial);
         if (result.total > limit + 1e-9) continue;
         if (result.score < (best?.result.score ?? current.score) - 0.1) best = { recipe: r, result };
       }
       if (best) {
-        plan.meals = replaceRecipe(plan, meal.id, best.recipe.id).meals;
+        plan.meals = swapIn(plan, meal.id, best.recipe.id, ctx.profile).meals;
         current = best.result;
         improved = true;
       }

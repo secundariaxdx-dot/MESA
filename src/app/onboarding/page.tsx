@@ -24,6 +24,7 @@ import {
   type FieldProps,
 } from "@/components/profile/fields";
 import { RECIPES } from "@/data/recipes";
+import { NutritionField } from "@/components/profile/NutritionField";
 import { selectedSlots } from "@/data/taxonomy";
 
 interface Step {
@@ -49,6 +50,12 @@ const STEPS: Step[] = [
     valid: (p) => Boolean(p.supermarketId),
   },
   { title: "¿Cuántos coméis en casa?", description: "Ajustaremos raciones y cantidades de compra a tu casa.", render: (p) => <PeopleField {...p} /> },
+  {
+    title: "Tus datos y tu objetivo",
+    description: "Opcional. Calculamos tus calorías diarias y ajustamos tu ración de cada plato (y la compra) a tu objetivo.",
+    render: (p) => <NutritionField {...p} />,
+    cta: (p) => (!p.nutrition?.enabled ? { label: "Ahora no · Continuar", patch: {} } : null),
+  },
   {
     title: "Marca tus días",
     description: "Solo planificaremos los días que elijas. El resto, libres.",

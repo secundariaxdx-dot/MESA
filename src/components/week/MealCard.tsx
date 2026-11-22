@@ -26,7 +26,7 @@ export function MealCard({ meal, onSwap }: { meal: PlannedMeal; onSwap(id: strin
   const { currency } = useMarket();
   if (!recipe) return null;
 
-  const cost = meal.kind === "cook" ? recipeCost(recipe, meal.servings, catalog, plan.portionFactor).total : 0;
+  const cost = meal.kind === "cook" ? recipeCost(recipe, meal.portions ?? meal.servings * plan.portionFactor, catalog, 1).total : 0;
   const leftoverSource = meal.leftoverOfMealId ? plan.meals.find((m) => m.id === meal.leftoverOfMealId) : undefined;
   const skipped = meal.status === "skipped";
   const cooked = meal.status === "cooked";
@@ -67,6 +67,11 @@ export function MealCard({ meal, onSwap }: { meal: PlannedMeal; onSwap(id: strin
               </>
             )}
           </div>
+          {meal.myPortion !== undefined && recipe.nutrition && (
+            <p className="mt-1 text-[11px] font-semibold text-tomato" data-testid="mi-racion">
+              🔥 Tu ración: {Math.round(recipe.nutrition.kcal * meal.myPortion)} kcal{Math.abs(meal.myPortion - 1) > 0.02 ? ` (×${meal.myPortion.toLocaleString("es-ES")})` : ""}
+            </p>
+          )}
           {leftoverSource && leftoverSource.status === "skipped" && <p className="mt-1 text-xs text-tomato">La cena de origen está desprogramada.</p>}
         </div>
       </Link>

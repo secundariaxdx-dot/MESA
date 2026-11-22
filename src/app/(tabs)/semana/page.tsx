@@ -14,6 +14,7 @@ import { Sheet } from "@/components/ui/Sheet";
 import { MealCard } from "@/components/week/MealCard";
 import { SwapSheet } from "@/components/week/SwapSheet";
 import { WasteCard } from "@/components/week/WasteCard";
+import { NutritionCard } from "@/components/week/NutritionCard";
 import { DAYS, SLOTS, slotOrder } from "@/data/taxonomy";
 import { addDays, greeting, shortDate } from "@/engine/dates";
 import { formatMoney } from "@/engine/units";
@@ -169,6 +170,7 @@ export default function Semana() {
             </Card>
           </Link>
 
+          <NutritionCard />
           <WasteCard />
 
           <Button variant="secondary" block size="lg" onClick={() => setConfirmNew(true)}>

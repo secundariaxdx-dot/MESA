@@ -245,6 +245,8 @@ export interface Profile {
   cheapest: boolean;
   /** Modo aprovechamiento: planificar para gastar los envases enteros y no tirar comida. */
   optimizer?: boolean;
+  /** Datos para ajustar las calorías (opcional, estilo Fitia). */
+  nutrition?: NutritionProfile;
   preferences: PreferenceId[];
   diet: DietId;
   meats: MeatType[];
@@ -272,6 +274,10 @@ export interface PlannedMeal {
   feedsMealId?: string;
   leftoverOfMealId?: string;
   status: MealStatus;
+  /** Tu ración (×1 = ración estándar) cuando ajustas calorías. */
+  myPortion?: number;
+  /** Raciones equivalentes a cocinar y comprar (incluye tu ración ajustada). */
+  portions?: number;
 }
 
 export interface WeekPlan {
@@ -423,4 +429,16 @@ export interface MyProduct {
   inList: boolean;
   note?: string;
   createdAt: string;
+}
+
+export interface NutritionProfile {
+  enabled: boolean;
+  sex: "mujer" | "hombre";
+  age: number;
+  weightKg: number;
+  heightCm: number;
+  activity: "sedentaria" | "ligera" | "moderada" | "alta" | "muy-alta";
+  goal: "perder" | "mantener" | "ganar";
+  /** Ritmo de pérdida: suave (−15 %) o normal (−20 %). */
+  pace?: "suave" | "normal";
 }

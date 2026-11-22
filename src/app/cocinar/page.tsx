@@ -99,7 +99,7 @@ function Cocinar() {
   const step = Math.min(progress.step, recipe.steps.length - 1);
   const s = recipe.steps[step];
   const last = step === recipe.steps.length - 1;
-  const pf = meal ? plan!.portionFactor : 1;
+  const pf = meal ? (meal.portions !== undefined && progress.servings === meal.servings ? meal.portions / meal.servings : plan!.portionFactor) : 1;
   const update = (p: Partial<CookingProgress>) => saveCooking({ ...progress, ...p, updatedAt: new Date().toISOString() });
   const go = (n: number) => {
     setDir(n > step ? 1 : -1);

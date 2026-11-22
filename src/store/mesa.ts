@@ -7,7 +7,8 @@ import { DEMO_PANTRY_STAPLES, DEMO_PROFILE, EMPTY_PROFILE } from "@/data/demo";
 import { DEMO_RECIPE_IDS, getRecipe } from "@/data/recipes";
 import { getCatalogSync } from "@/services/prices/provider";
 import { storageAdapter } from "@/services/storage/adapter";
-import { planFromRecipes, replaceRecipe } from "@/engine/planner";
+import { planFromRecipes, swapIn } from "@/engine/planner";
+import { withPortions } from "@/engine/nutrition";
 import { addPurchaseToPantry, consumeFromPantry, newPantryItem, uid } from "@/engine/pantry";
 import { addRecipeNeeds, type Need } from "@/engine/shopping";
 import { nextWeekStart, todayISO } from "@/engine/dates";
@@ -127,10 +128,15 @@ export const useMesa = create<MesaState>()(
           generation: null,
         })),
 
-      updateProfile: (p) => set((s) => ({ profile: { ...s.profile, ...p } })),
+      updateProfile: (p) =>
+        set((s) => {
+          const profile = { ...s.profile, ...p };
+          // Si cambian tus datos o calorías, tus raciones del plan se recalculan.
+          return { profile, plan: s.plan && "nutrition" in p ? withPortions(s.plan, profile) : s.plan };
+        }),
 
       swapMeal: (mealId, recipeId) =>
-        set((s) => (s.plan ? { plan: replaceRecipe(s.plan, mealId, recipeId) } : {})),
+        set((s) => (s.plan ? { plan: swapIn(s.plan, mealId, recipeId, s.profile) } : {})),
 
       skipMeal: (mealId) =>
         set((s) => {
@@ -159,7 +165,9 @@ export const useMesa = create<MesaState>()(
           // Las sobras ya se descontaron al cocinar la cena original.
           const consumes = !meal || meal.kind === "cook";
           const pf = portionFactor ?? (meal ? s.plan!.portionFactor : 1);
-          const pantry = consumes ? consumeFromPantry(s.pantry, needsFor(recipeId, servings, pf)) : s.pantry;
+          // Si el plato tiene ración ajustada a tus calorías, se descuenta lo que realmente se cocina.
+          const portions = meal?.portions !== undefined && servings === meal.servings ? meal.portions : servings * pf;
+          const pantry = consumes ? consumeFromPantry(s.pantry, needsFor(recipeId, portions, 1)) : s.pantry;
           const plan =
             s.plan && meal ? { ...s.plan, meals: s.plan.meals.map((m) => (m.id === mealId ? { ...m, status: "cooked" as const } : m)) } : s.plan;
           const entry: CookedEntry = { id: uid("c"), recipeId, mealId, date: todayISO(), servings };

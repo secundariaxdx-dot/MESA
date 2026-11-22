@@ -57,7 +57,8 @@ function Receta() {
   const [servings, setServings] = useState(defaultServings);
   const [swapOpen, setSwapOpen] = useState(false);
   const household = settings.householdMeasures;
-  const portionFactor = meal ? plan!.portionFactor : 1;
+  // Con ajuste de calorías, la ración de esta comida incluye tu ración personal.
+  const portionFactor = meal ? (meal.portions !== undefined && servings === meal.servings ? meal.portions / meal.servings : plan!.portionFactor) : 1;
 
   const cost = useMemo(() => (recipe ? recipeCost(recipe, servings, catalog, portionFactor) : null), [recipe, servings, catalog, portionFactor]);
   if (!recipe || !cost) {
@@ -316,9 +317,21 @@ function Receta() {
           </Card>
         </section>
 
+        {recipe.nutrition && meal?.myPortion !== undefined && (
+          <section className="mt-8 rounded-3xl bg-tomato-50 p-4" data-testid="tu-racion">
+            <h2 className="text-lg font-extrabold">🔥 Tu ración{Math.abs(meal.myPortion - 1) > 0.02 ? ` (×${meal.myPortion.toLocaleString("es-ES")})` : ""}</h2>
+            <p className="mt-1 text-sm text-ink-2">
+              {Math.round(recipe.nutrition.kcal * meal.myPortion)} kcal · {Math.round(recipe.nutrition.protein * meal.myPortion)} g proteína · {Math.round(recipe.nutrition.carbs * meal.myPortion)} g hidratos ·{" "}
+              {Math.round(recipe.nutrition.fat * meal.myPortion)} g grasa
+            </p>
+            <p className="mt-1 text-xs text-muted">
+              Ajustada a tu objetivo diario. Las cantidades de arriba ya la incluyen; el resto de la casa come la ración estándar. Al servir, tu plato lleva {meal.myPortion > 1 ? "algo más" : meal.myPortion < 1 ? "algo menos" : "lo mismo"} que una ración normal.
+            </p>
+          </section>
+        )}
         {recipe.nutrition && (
           <section className="mt-8">
-            <h2 className="mb-3 text-xl font-extrabold">Por ración (aprox.)</h2>
+            <h2 className="mb-3 text-xl font-extrabold">Por ración estándar (aprox.)</h2>
             <div className="grid grid-cols-4 gap-2 text-center">
               {[
                 ["kcal", recipe.nutrition.kcal],
