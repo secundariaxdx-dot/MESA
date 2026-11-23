@@ -1,5 +1,7 @@
 # MESA
 
+> **VERBA** — este repositorio también contiene [VERBA](verba/README.md), un entrenador personal de inglés para Cambridge C1 Advanced, como app independiente en `verba/` (`cd verba && npm install && npm run dev`).
+
 Asistente de planificación de comidas y compra semanal. Configuras tu casa (supermercado, personas, días, presupuesto, gustos, dieta, alergias y aparatos) y MESA genera la semana, calcula **lo que pagarás en caja por envases completos**, descuenta lo que tienes en la **despensa** y te guía para **cocinar paso a paso**.
 
 > MESA no está afiliada a ningún supermercado. Los precios de Mercadona se leen una vez al día de su tienda online pública; el resto de supermercados usa precios estimados (marcados como tales en la app). Son orientativos: el ticket manda.
