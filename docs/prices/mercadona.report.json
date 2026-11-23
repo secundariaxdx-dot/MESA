@@ -33,7 +33,7 @@
     "Patatas rojas · Malla · 2000g · 3.8 €"
   ],
   "brocoli": [
-    "Brócoli · Pieza · 470g · 1.27 €"
+    "Brócoli · Pieza · 470g · 0.94 €"
   ],
   "espinacas": [
     "Espinacas cortadas y lavadas · Paquete · 300g · 1.3 €",
@@ -169,8 +169,8 @@
   ],
   "queso-crema": [
     "Queso untar suave de vaca Hacendado · Tarrina · 300g · 1.4 €",
-    "Queso untar con queso azul de vaca Hacendado · Tarrina · 200g · 1.9 €",
-    "Queso untar original Philadelphia · Tarrina · 270g · 2.9 €"
+    "Queso untar original Philadelphia · Tarrina · 270g · 1.95 €",
+    "Queso untar con queso azul de vaca Hacendado · Tarrina · 200g · 1.9 €"
   ],
   "yogur": [
     "Yogur natural Hacendado · Pack-6 · 750g · 1 €",
@@ -371,10 +371,11 @@
     "Canela molida Hacendado · Bote · 52g · 1 €"
   ],
   "judias-verdes": [
-    "Judía verde plana · Paquete · 350g · 2 €"
+    "Judía verde plana · Paquete · 350g · 2 €",
+    "Judía verde redonda · Bandeja · 500g · 3.2 €"
   ],
   "coliflor": [
-    "Coliflor · Pieza · 1340g · 2.28 €"
+    "Coliflor · Pieza · 1340g · 2.75 €"
   ],
   "repollo": [
     "Repollo liso partido · 1/2 Pieza · 900g · 1.94 €"
@@ -395,12 +396,12 @@
     "Bífidus natural azucarado probióticos Hacendado con cereales y fresas deshidratadas · Tarrina · 0.17 kg · 1.25 € · Postres y yogures › Bífidus › Bífidus naturales"
   ],
   "naranja": [
-    "Naranjas · Malla · 5000g · 5.75 €",
+    "Naranjas · Malla · 5000g · 5 €",
     "Naranjas · Malla · 3000g · 4.65 €",
     "Naranja de mesa · Pieza · 310g · 0.67 €"
   ],
   "pavo": [
-    "Filetes pechuga de pavo · Bandeja · 580g · 5.07 €",
+    "Filetes pechuga de pavo · Bandeja · 580g · 4.78 €",
     "Filetes pechuga de pavo marinados extra tiernos · Bandeja · 600g · 5.4 €"
   ],
   "lomo-cerdo": [
