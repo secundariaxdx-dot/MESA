@@ -1,8 +1,8 @@
 {
   "tomate": [
-    "Tomate canario · Pieza · 170g · 0.37 €",
-    "Tomate pera · Pieza · 150g · 0.33 €",
-    "Tomate ensalada · Pieza · 210g · 0.53 €"
+    "Tomate pera · Pieza · 140g · 0.31 €",
+    "Tomate canario · Pieza · 180g · 0.4 €",
+    "Tomate ensalada ·  · 1120g · 2.91 €"
   ],
   "tomate-cherry": [
     "Tomates cherry · Bandeja · 500g · 2.2 €",
@@ -16,7 +16,7 @@
     "Pimiento rojo · Pieza · 310g · 0.9 €"
   ],
   "pepino": [
-    "Pepino · Pieza · 200g · 0.37 €",
+    "Pepino · Pieza · 190g · 0.35 €",
     "Pepino holandés · Pieza · 425g · 1.13 €"
   ],
   "cebolla": [
@@ -40,7 +40,7 @@
     "Espinacas baby lavadas · Paquete · 100g · 1.15 €"
   ],
   "calabacin": [
-    "Calabacín verde · Pieza · 390g · 0.74 €",
+    "Calabacín verde · Pieza · 380g · 0.72 €",
     "Calabacín blanco · Pieza · 320g · 0.7 €"
   ],
   "berenjena": [
@@ -70,7 +70,7 @@
   ],
   "aguacate": [
     "Aguacates ·  · 730g · 3.87 €",
-    "Aguacate · Pieza · 180g · 1.01 €"
+    "Aguacate · Pieza · 190g · 1.06 €"
   ],
   "calabaza": [
     "Media calabaza cacahuete · 1/2 Pieza · 680g · 2.04 €",
@@ -80,7 +80,7 @@
     "Puerros ·  · 450g · 2.16 €"
   ],
   "platano": [
-    "Banana · Pieza · 180g · 0.28 €",
+    "Banana · Pieza · 170g · 0.26 €",
     "Plátano de Canarias IGP · Pieza · 160g · 0.51 €"
   ],
   "tofu": [
@@ -337,9 +337,9 @@
     "Queso fresco de vaca QuesPro Hacendado · Tarrina · 300g · 2 €"
   ],
   "jamon-cocido": [
-    "Jamón cocido Hacendado finas lonchas ·  · 450g · 3.35 €",
     "Jamón cocido jugoso Hacendado lonchas · Paquete · 250g · 1.95 €",
-    "Jamón cocido extra Hacendado finas lonchas · Paquete · 200g · 2 €"
+    "Jamón cocido extra Hacendado finas lonchas · Paquete · 200g · 2 €",
+    "Jamón cocido extrafino Hacendado lonchas · Paquete · 150g · 2.4 €"
   ],
   "pan-molde": [
     "Pan de molde blanco familiar Hacendado · Paquete · 820g · 1.15 €",
@@ -375,13 +375,13 @@
     "Judía verde redonda · Bandeja · 500g · 3.2 €"
   ],
   "coliflor": [
-    "Coliflor · Pieza · 1340g · 2.75 €"
+    "Coliflor · Pieza · 1310g · 2.69 €"
   ],
   "repollo": [
     "Repollo liso partido · 1/2 Pieza · 900g · 1.94 €"
   ],
   "boniato": [
-    "Batata · Pieza · 340g · 0.87 €",
+    "Batata · Pieza · 290g · 0.74 €",
     "Batatas para microondas · Paquete · 400g · 2.5 €"
   ],
   "albahaca": [
