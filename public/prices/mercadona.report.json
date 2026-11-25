@@ -33,7 +33,7 @@
     "Patatas rojas · Malla · 2000g · 3.8 €"
   ],
   "brocoli": [
-    "Brócoli · Pieza · 470g · 0.94 €"
+    "Brócoli · Pieza · 460g · 0.92 €"
   ],
   "espinacas": [
     "Espinacas cortadas y lavadas · Paquete · 300g · 1.3 €",
@@ -44,7 +44,7 @@
     "Calabacín blanco · Pieza · 320g · 0.7 €"
   ],
   "berenjena": [
-    "Berenjena · Pieza · 390g · 0.86 €"
+    "Berenjena · Pieza · 380g · 0.84 €"
   ],
   "zanahoria": [
     "Zanahorias · Paquete · 1000g · 1.2 €",
@@ -70,7 +70,7 @@
   ],
   "aguacate": [
     "Aguacates ·  · 730g · 3.87 €",
-    "Aguacate · Pieza · 190g · 1.06 €"
+    "Aguacate · Pieza · 200g · 1.12 €"
   ],
   "calabaza": [
     "Media calabaza cacahuete · 1/2 Pieza · 680g · 2.04 €",
@@ -375,13 +375,13 @@
     "Judía verde redonda · Bandeja · 500g · 3.2 €"
   ],
   "coliflor": [
-    "Coliflor · Pieza · 1310g · 2.69 €"
+    "Coliflor · Pieza · 1330g · 2.73 €"
   ],
   "repollo": [
     "Repollo liso partido · 1/2 Pieza · 900g · 1.94 €"
   ],
   "boniato": [
-    "Batata · Pieza · 290g · 0.74 €",
+    "Batata · Pieza · 320g · 0.82 €",
     "Batatas para microondas · Paquete · 400g · 2.5 €"
   ],
   "albahaca": [
@@ -472,8 +472,7 @@
   ],
   "masa-pizza": [
     "Masa pizza fresca familiar Hacendado · Paquete · 400g · 1.5 €",
-    "Masa fresca pizza Hacendado ·  · 560g · 2.2 €",
-    "Masa fresca pizza de cereales y semillas Hacendado ·  · 520g · 2.5 €"
+    "Masa fresca pizza Hacendado ·  · 560g · 2.2 €"
   ],
   "pan-pita": [
     "Pan de pita Mission · Paquete · 4ud · 2 €"
