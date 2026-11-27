@@ -1,7 +1,7 @@
 {
   "tomate": [
-    "Tomate pera · Pieza · 140g · 0.31 €",
-    "Tomate canario · Pieza · 180g · 0.4 €",
+    "Tomate pera · Pieza · 150g · 0.33 €",
+    "Tomate canario · Pieza · 190g · 0.42 €",
     "Tomate ensalada ·  · 1120g · 2.91 €"
   ],
   "tomate-cherry": [
@@ -40,8 +40,8 @@
     "Espinacas baby lavadas · Paquete · 100g · 1.15 €"
   ],
   "calabacin": [
-    "Calabacín verde · Pieza · 390g · 0.74 €",
-    "Calabacín blanco · Pieza · 330g · 0.73 €"
+    "Calabacín verde · Pieza · 380g · 0.72 €",
+    "Calabacín blanco · Pieza · 310g · 0.68 €"
   ],
   "berenjena": [
     "Berenjena · Pieza · 380g · 0.84 €"
@@ -57,7 +57,7 @@
   ],
   "limon": [
     "Limones · Malla · 1000g · 2.2 €",
-    "Limón · Pieza · 200g · 0.5 €"
+    "Limón · Pieza · 210g · 0.53 €"
   ],
   "perejil": [
     "Perejil troceado lavado · Paquete · 40g · 0.95 €",
@@ -80,7 +80,7 @@
     "Puerros ·  · 450g · 2.16 €"
   ],
   "platano": [
-    "Banana · Pieza · 180g · 0.28 €",
+    "Banana · Pieza · 170g · 0.26 €",
     "Plátano de Canarias IGP · Pieza · 160g · 0.51 €"
   ],
   "tofu": [
@@ -219,7 +219,7 @@
     "Salsa Pesto con albahaca Hacendado · Tarro · 190g · 1.95 €"
   ],
   "lentejas": [
-    "Lenteja pardina Hacendado · Paquete · 1000g · 1.85 €"
+    "Lenteja pardina Hacendado · Paquete · 1000g · 1.75 €"
   ],
   "arroz": [
     "Arroz redondo Hacendado · Paquete · 1000g · 1.15 €"
@@ -337,7 +337,7 @@
     "Queso fresco de vaca QuesPro Hacendado · Tarrina · 300g · 2 €"
   ],
   "jamon-cocido": [
-    "Jamón cocido Hacendado finas lonchas ·  · 450g · 3.35 €",
+    "Jamón cocido 92% Hacendado lonchas ·  · 450g · 3.5 €",
     "Jamón cocido jugoso Hacendado lonchas · Paquete · 250g · 1.95 €",
     "Jamón cocido extra Hacendado finas lonchas · Paquete · 200g · 2 €"
   ],
@@ -375,13 +375,13 @@
     "Judía verde redonda · Bandeja · 500g · 3.2 €"
   ],
   "coliflor": [
-    "Coliflor · Pieza · 1310g · 2.69 €"
+    "Coliflor · Pieza · 1320g · 2.71 €"
   ],
   "repollo": [
     "Repollo liso partido · 1/2 Pieza · 900g · 1.94 €"
   ],
   "boniato": [
-    "Batata · Pieza · 290g · 0.74 €",
+    "Batata · Pieza · 310g · 0.79 €",
     "Batatas para microondas · Paquete · 400g · 2.5 €"
   ],
   "albahaca": [
