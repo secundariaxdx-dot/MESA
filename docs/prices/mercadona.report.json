@@ -1,8 +1,8 @@
 {
   "tomate": [
-    "Tomate pera · Pieza · 150g · 0.33 €",
     "Tomate canario · Pieza · 190g · 0.42 €",
-    "Tomate ensalada ·  · 1120g · 2.91 €"
+    "Tomate pera · Pieza · 140g · 0.31 €",
+    "Tomate ensalada · Pieza · 200g · 0.54 €"
   ],
   "tomate-cherry": [
     "Tomates cherry · Bandeja · 500g · 2.2 €",
@@ -13,7 +13,7 @@
     "Pimiento verde freír · Pieza · 120g · 0.3 €"
   ],
   "pimiento-rojo": [
-    "Pimiento rojo · Pieza · 310g · 0.9 €"
+    "Pimiento rojo · Pieza · 320g · 0.93 €"
   ],
   "pepino": [
     "Pepino · Pieza · 190g · 0.35 €",
@@ -41,7 +41,7 @@
   ],
   "calabacin": [
     "Calabacín verde · Pieza · 380g · 0.72 €",
-    "Calabacín blanco · Pieza · 310g · 0.68 €"
+    "Calabacín blanco · Pieza · 320g · 0.7 €"
   ],
   "berenjena": [
     "Berenjena · Pieza · 380g · 0.84 €"
@@ -70,7 +70,7 @@
   ],
   "aguacate": [
     "Aguacates ·  · 730g · 3.87 €",
-    "Aguacate · Pieza · 200g · 1.12 €"
+    "Aguacate · Pieza · 210g · 1.18 €"
   ],
   "calabaza": [
     "Media calabaza cacahuete · 1/2 Pieza · 680g · 2.04 €",
@@ -381,7 +381,7 @@
     "Repollo liso partido · 1/2 Pieza · 900g · 1.94 €"
   ],
   "boniato": [
-    "Batata · Pieza · 310g · 0.79 €",
+    "Batata · Pieza · 340g · 0.87 €",
     "Batatas para microondas · Paquete · 400g · 2.5 €"
   ],
   "albahaca": [
